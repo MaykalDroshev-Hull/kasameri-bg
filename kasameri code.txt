@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>КАСАМЕРИ ЕООД – Натурален ябълков сок</title>
+  <meta name="description" content="Семейно производство на ябълков сок от с. Александрово, Ловеч. 3 L Bag-in-Box – 10 лв. Един вкус ~80%/20%, сладко-кисел, предимно сладък." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --apple-green:#66A80F; /* основен */
+      --deep-red:#B22222;    /* акцент */
+      --warm-orange:#F2994A; /* акцент */
+      --leaf-dark:#2F5233;   /* тъмен текст */
+      --cream:#FFF7EA;       /* фон */
+      --ink:#1f2937;         /* основен текст */
+      --muted:#6b7280;       /* вторичен текст */
+      --card:#ffffff;        /* карти */
+      --radius:16px;         /* заобляне */
+      --shadow:0 10px 30px rgba(0,0,0,.08);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--ink); background:var(--cream);
+    }
+    a{color:inherit; text-decoration:none}
+    img{max-width:100%; display:block}
+    /* Контейнер */
+    .container{width:100%; max-width:1120px; margin:0 auto; padding:0 20px}
+    /* Topbar */
+    .topbar{position:sticky; top:0; z-index:50; backdrop-filter:saturate(180%) blur(8px);
+      background:rgba(255,255,255,.6); border-bottom:1px solid #e5e7eb}
+    .nav{display:flex; align-items:center; justify-content:space-between; padding:12px 0}
+    .brand{display:flex; gap:8px; align-items:center; font-weight:800; color:var(--leaf-dark)}
+    .navlinks{display:none; gap:20px}
+    .cta{display:inline-flex; align-items:center; gap:8px; padding:10px 16px; border-radius:12px; color:#fff;
+      background:linear-gradient(135deg,var(--apple-green),var(--deep-red)); box-shadow:var(--shadow); font-weight:700}
+    @media(min-width:768px){.navlinks{display:flex}}
+    .navlinks a{font-size:14px; color:#374151}
+    .navlinks a:hover{opacity:.75}
+
+    /* Hero */
+    .hero{position:relative; overflow:hidden}
+    .hero::before,.hero::after{content:""; position:absolute; inset:0; opacity:.18; pointer-events:none}
+    .hero::before{background:radial-gradient(1200px 600px at 80% -10%, var(--warm-orange) 0%, transparent 60%)}
+    .hero::after{background:radial-gradient(1200px 600px at -10% 110%, var(--apple-green) 0%, transparent 60%)}
+    .hero-inner{padding:80px 0}
+    .grid{display:grid; gap:32px}
+    @media(min-width:992px){.grid{grid-template-columns:1.1fr .9fr}}
+    .h1{font-size:42px; line-height:1.1; margin:0; color:var(--leaf-dark); font-weight:800}
+    @media(min-width:640px){.h1{font-size:56px}}
+    .lead{margin-top:12px; font-size:18px; color:#374151; max-width:60ch}
+    .btn{display:inline-block; padding:12px 18px; border-radius:12px; font-weight:700}
+    .btn-primary{color:#fff; background:linear-gradient(135deg,var(--apple-green),var(--warm-orange)); box-shadow:var(--shadow)}
+    .btn-outline{border:1px solid rgba(102,168,15,.4); color:var(--leaf-dark); background:#fff}
+    .kpis{margin-top:24px; display:grid; grid-template-columns:repeat(2,1fr); gap:16px}
+    @media(min-width:640px){.kpis{grid-template-columns:repeat(3,1fr)}}
+    .kpi{display:flex; gap:12px; align-items:center}
+    .kpi .icon{width:36px; height:36px; border-radius:12px; background:#fff; display:grid; place-items:center; box-shadow:var(--shadow)}
+    .kpi small{color:var(--muted); display:block}
+    .kpi strong{color:#111827}
+    .card{background:#fff; border:1px solid #eef0f2; border-radius:24px; padding:24px; box-shadow:0 4px 20px rgba(0,0,0,.06)}
+    .hero-img{aspect-ratio:4/3; border-radius:20px; display:grid; place-items:center; background:linear-gradient(135deg,#fff,var(--cream))}
+    .badges{display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-top:16px; font-size:14px; color:#374151}
+
+    /* Sections */
+    section{padding:72px 0}
+    .h2{font-size:32px; color:var(--leaf-dark); margin:0; font-weight:800}
+    .muted{color:var(--muted)}
+    .twocol{display:grid; gap:24px}
+    @media(min-width:992px){.twocol{grid-template-columns:3fr 2fr}}
+    .pill{display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:12px; background:#fff; border:1px solid #eef0f2}
+
+    /* Product */
+    .cards{display:grid; gap:20px}
+    @media(min-width:768px){.cards{grid-template-columns:repeat(3,1fr)}}
+    .center{text-align:center}
+
+    /* Steps */
+    .steps{display:grid; gap:20px}
+    @media(min-width:768px){.steps{grid-template-columns:repeat(3,1fr)}}
+    .step{position:relative}
+    .step .num{position:absolute; top:-14px; left:-14px; width:40px; height:40px; border-radius:14px; color:#fff; font-weight:800; display:grid; place-items:center;
+      background:linear-gradient(135deg,var(--apple-green),var(--warm-orange)); box-shadow:var(--shadow)}
+    .step h4{margin:0 0 8px; color:var(--leaf-dark)}
+
+    /* Testimonials */
+    .quotes{display:grid; gap:20px}
+    @media(min-width:768px){.quotes{grid-template-columns:repeat(3,1fr)}}
+    blockquote{margin:0; font-style:italic}
+
+    /* FAQ */
+    details{background:#fff; border:1px solid #eef0f2; border-radius:16px; padding:16px}
+    details+details{margin-top:12px}
+    summary{cursor:pointer; font-weight:600; color:#111827}
+    details p{margin:8px 0 0; color:#374151}
+
+    /* Contact */
+    form{display:grid; gap:14px}
+    label{font-size:12px; color:var(--muted)}
+    input,textarea{width:100%; padding:10px 12px; border:1px solid #d1d5db; border-radius:12px; font:inherit; outline:none}
+    input:focus,textarea:focus{border-color:var(--apple-green); box-shadow:0 0 0 3px rgba(102,168,15,.15)}
+    textarea{min-height:120px}
+    .btn-send{background:linear-gradient(135deg,var(--apple-green),var(--deep-red)); color:#fff; border:0}
+
+    /* Footer */
+    footer{background:rgba(255,255,255,.7); border-top:1px solid #e5e7eb}
+    .foot{display:flex; flex-direction:column; gap:12px}
+    @media(min-width:640px){.foot{flex-direction:row; align-items:center; justify-content:space-between}}
+  </style>
+</head>
+<body>
+  <!-- Top bar -->
+  <div class="topbar">
+    <div class="container nav">
+      <a href="#hero" class="brand">🍎 КАСАМЕРИ ЕООД</a>
+      <nav class="navlinks">
+        <a href="#za-nas">За нас</a>
+        <a href="#produkt">Сокът</a>
+        <a href="#proces">Процес</a>
+        <a href="#faq">ЧЗВ</a>
+        <a href="#kontakti">Контакти</a>
+      </nav>
+      <a href="#kontakti" class="cta">🛒 Поръчай</a>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <header id="hero" class="hero">
+    <div class="container hero-inner grid">
+      <div>
+        <h1 class="h1">Натурален ябълков сок от Александрово</h1>
+        <p class="lead">Семейно производство от 12+ години. Един вкус – ~80% сорт / ~20% други. Сладко-кисел, предимно сладък.</p>
+        <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap">
+          <a href="#produkt" class="btn btn-primary">Виж продукта</a>
+          <a href="#proces" class="btn btn-outline">Как го правим</a>
+        </div>
+        <div class="kpis">
+          <div class="kpi"><div class="icon">⏱️</div><div><small>Години опит</small><strong>12–15</strong></div></div>
+          <div class="kpi"><div class="icon">📍</div><div><small>Локация</small><strong>с. Александрово, Ловеч</strong></div></div>
+          <div class="kpi"><div class="icon">🧃</div><div><small>Разфасовка</small><strong>3 L (Bag‑in‑Box)</strong></div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="hero-img">
+          <div style="text-align:center">
+            <div style="font-size:64px">🍏</div>
+            <p class="muted" style="margin-top:8px">Добавете реални снимки от градината/кутията.</p>
+          </div>
+        </div>
+        <div class="badges">
+          <div>🛡️ Пастьоризиран</div>
+          <div>🌿 Без концентрат</div>
+          <div>💸 10 лв / 3 L</div>
+          <div>⭐ Постоянен вкус</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- За нас -->
+  <section id="za-nas">
+    <div class="container twocol">
+      <div>
+        <h2 class="h2">За нас</h2>
+        <p class="muted" style="margin-top:12px; line-height:1.7">
+          Ние сме <strong>КАСАМЕРИ ЕООД</strong> – семеен бизнес от с. Александрово, област Ловеч. Вече над десетилетие
+          отглеждаме ябълки и сезонни култури с грижа към земята и уважение към труда. Най-много се гордеем с нашия
+          ябълков сок – чист, ароматен и направен така, както го пием у дома.
+        </p>
+        <div style="display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); margin-top:18px">
+          <div class="card"><strong>Основни култури</strong><p class="muted" style="margin:8px 0 0">ябълки, череши, круши, дюли, пъпеши, дини, домати, картофи</p></div>
+          <div class="card"><strong>Произход</strong><p class="muted" style="margin:8px 0 0">с. Александрово, Ловеч</p></div>
+        </div>
+      </div>
+      <aside class="card">
+        <div class="pill">✅ Семейно производство</div>
+        <div class="pill" style="margin-top:10px">🧃 Сок от пресовани ябълки</div>
+        <div class="pill" style="margin-top:10px">ℹ️ Един вкус ~80%/20% – сладко‑кисел, предимно сладък</div>
+        <div class="pill" style="margin-top:10px">⏱️ 12–15 години опит</div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Продукт -->
+  <section id="produkt">
+    <div class="container">
+      <div class="center" style="max-width:760px; margin:0 auto">
+        <h2 class="h2">Ябълков сок 3 L – 10 лв</h2>
+        <p class="muted" style="margin-top:10px">Един вкус с ~80/20 сортов баланс за постоянен, естествен профил. Удобна Bag‑in‑Box кутия с кранче.</p>
+      </div>
+      <div class="cards" style="margin-top:20px">
+        <div class="card">
+          <h3 style="margin:0 0 8px">За кого е подходящ?</h3>
+          <ul style="margin:0; padding-left:18px; color:#374151; line-height:1.8">
+            <li>Семейни закуски и събирания</li>
+            <li>Детски рождени дни</li>
+            <li>Кафенета, офиси, магазини</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3 style="margin:0 0 8px">Ползи</h3>
+          <ul style="margin:0; padding-left:18px; color:#374151; line-height:1.8">
+            <li>Практична кутия с кранче – по‑малко окисляване</li>
+            <li>Удобно съхранение (виж „Съхранение“)</li>
+            <li>Постоянен вкус през сезона</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3 style="margin:0 0 8px">Съхранение*</h3>
+          <p class="muted">Неотворен: съгласно етикет. Отворен: обичайно 20–30 дни в хладилник.</p>
+          <p class="muted" style="font-size:12px">*Моля, потвърдете вашите реални срокове – ще ги актуализираме.</p>
+        </div>
+      </div>
+      <div class="center" style="margin-top:24px">
+        <a href="#kontakti" class="btn btn-primary">Поръчай сега</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Процес -->
+  <section id="proces">
+    <div class="container">
+      <h2 class="h2">Как приготвяме сока</h2>
+      <p class="muted" style="margin-top:8px">Прозрачен, естествен процес в 6 стъпки.</p>
+      <div class="steps" style="margin-top:20px">
+        <div class="card step"><div class="num">1</div><h4>Подбор</h4><p class="muted">Селектираме добре узрели ябълки (водещ сорт ~80% + ~20% други за баланс).</p></div>
+        <div class="card step"><div class="num">2</div><h4>Измиване</h4><p class="muted">Многократно измиване и инспекция на плодовете.</p></div>
+        <div class="card step"><div class="num">3</div><h4>Смилане и пресоване</h4><p class="muted">Извличане на сок с преса – без концентрат.</p></div>
+        <div class="card step"><div class="num">4</div><h4>Филтрация</h4><p class="muted">Прецеждане за чист вкус (леката мътност е естествена).</p></div>
+        <div class="card step"><div class="num">5</div><h4>Пастьоризация</h4><p class="muted">Щадяща топлинна обработка за безопасност и трайност.</p></div>
+        <div class="card step"><div class="num">6</div><h4>Пълнене</h4><p class="muted">Bag‑in‑Box 3 L с кранче – удобно сервиране и съхранение.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Отзиви -->
+  <section>
+    <div class="container center">
+      <h2 class="h2">Какво казват клиенти</h2>
+      <p class="muted">Добавете реални отзиви, когато имате.</p>
+      <div class="quotes" style="margin-top:20px">
+        <div class="card"><blockquote>“Сокът стои свеж до месец – децата го обожават!”</blockquote><div class="muted" style="margin-top:8px">— Мария, Ловеч</div></div>
+        <div class="card"><blockquote>“Перфектен баланс сладко‑кисело.”</blockquote><div class="muted" style="margin-top:8px">— Иван, София</div></div>
+        <div class="card"><blockquote>“Удобна кутия и страхотен аромат.”</blockquote><div class="muted" style="margin-top:8px">— Ралица, Плевен</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq">
+    <div class="container">
+      <h2 class="h2">Често задавани въпроси</h2>
+      <div style="margin-top:16px; max-width:900px">
+        <details><summary>Има ли добавена захар/вода?</summary><p>По подразбиране приемаме „не“. Моля, потвърдете и ще фиксираме текста.</p></details>
+        <details><summary>Минимално количество за поръчка?</summary><p>1 кутия (освен ако не посочите друго).</p></details>
+        <details><summary>Доставка</summary><p>Куриер/лично вземане – добавете зони, срокове и цена при потвърждение.</p></details>
+        <details><summary>Съхранение</summary><p>Неотворен: според етикет. Отворен: обичайно 20–30 дни в хладилник.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Контакти -->
+  <section id="kontakti">
+    <div class="container twocol">
+      <div>
+        <h2 class="h2">Контакти & Поръчка</h2>
+        <p class="muted" style="margin-top:8px">Свържете се с нас за поръчки и въпроси. Ще отговорим бързо.</p>
+        <div style="margin-top:16px; display:grid; gap:10px; color:#1f2937">
+          <div>📞 08xx xxx xxx</div>
+          <div>✉️ info@kasameri.bg</div>
+          <div>📍 с. Александрово, обл. Ловеч</div>
+        </div>
+      </div>
+      <div class="card">
+        <form id="orderForm">
+          <div>
+            <label>Име</label>
+            <input name="name" placeholder="Вашето име" required>
+          </div>
+          <div style="display:grid; gap:14px; grid-template-columns:1fr 1fr">
+            <div>
+              <label>Телефон</label>
+              <input name="phone" placeholder="08xx xxx xxx" required>
+            </div>
+            <div>
+              <label>Имейл</label>
+              <input type="email" name="email" placeholder="you@mail.com">
+            </div>
+          </div>
+          <div>
+            <label>Количество (бр. кутии 3 L)</label>
+            <input type="number" name="qty" min="1" value="1" required>
+          </div>
+          <div>
+            <label>Съобщение</label>
+            <textarea name="msg" placeholder="Въпроси, предпочитан начин на доставка и др."></textarea>
+          </div>
+          <button type="submit" class="btn btn-send">Изпрати запитване</button>
+          <p class="muted" style="font-size:12px; margin:8px 0 0">*Формата е демонстрационна. Свържете се директно по телефон или имейл за поръчка.</p>
+          <div id="formStatus" class="muted" style="margin-top:8px"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container foot" style="padding:24px 0">
+      <div>
+        <strong style="color:var(--leaf-dark)">КАСАМЕРИ ЕООД</strong>
+        <div class="muted">© <span id="year"></span> Всички права запазени.</div>
+      </div>
+      <nav style="display:flex; gap:16px; font-size:14px">
+        <a href="#za-nas">За нас</a>
+        <a href="#produkt">Сокът</a>
+        <a href="#proces">Процес</a>
+        <a href="#kontakti">Контакти</a>
+      </nav>
+    </div>
+  </footer>
+
+<script>
+  // Текуща година
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Гладко скролване за вътрешни котви
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click', e=>{
+      const id = a.getAttribute('href');
+      if(id.length>1){ e.preventDefault(); document.querySelector(id).scrollIntoView({behavior:'smooth'}); }
+    })
+  });
+
+  // Демонстрационен хендлър на формата – показва събраните данни в конзолата
+  const form = document.getElementById('orderForm');
+  form.addEventListener('submit', (e)=>{
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(form).entries());
+    console.log('Order data:', data);
+    const box = document.getElementById('formStatus');
+    box.textContent = 'Благодарим! Ще се свържем с вас по телефона/имейла.';
+    form.reset();
+  });
+</script>
+</body>
+</html>
