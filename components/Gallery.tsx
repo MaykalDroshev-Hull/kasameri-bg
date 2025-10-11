@@ -1,91 +1,344 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
+import { Heart } from 'lucide-react';
 
 const Gallery = () => {
   return (
-    <section className="py-20 px-4 bg-[#FFF7ED]">
+    <section className="py-20 px-4 bg-gradient-to-b from-[#FFF7ED] to-white">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="font-serif text-4xl md:text-5xl text-[#7A0B18] mb-4">Нашата история в снимки</h2>
-          <p className="text-[#6B4423] text-lg">От полето до вашата маса</p>
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <Heart className="text-[#C4312E] fill-current" size={36} />
+            <h2 className="font-serif text-4xl md:text-5xl text-[#7A0B18]">Нашата история в снимки</h2>
+            <Heart className="text-[#C4312E] fill-current" size={36} />
+          </div>
+          <p className="text-[#6B4423] text-lg">Моменти, които разказват нашата страст и грижа</p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="col-span-2 row-span-2 relative overflow-hidden rounded-2xl shadow-lg group cursor-pointer">
-            <img 
-              src="https://images.unsplash.com/photo-1560493676-04071c5f467b?w=800&h=800&fit=crop" 
-              alt="Orchard"
-              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+        {/* Asymmetric Grid Layout - Mobile */}
+        <div className="grid grid-cols-2 gap-3 md:hidden">
+          <div className="relative overflow-hidden rounded-2xl shadow-lg group cursor-pointer h-48">
+            <Image 
+              src="/images/viber_image_2025-10-08_21-16-57-793.jpg"
+              alt="Нашите градини"
+              fill
+              sizes="(max-width: 768px) 50vw"
+              className="object-cover group-hover:scale-110 transition-transform duration-500"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
-              <p className="text-white font-serif text-2xl">Нашите овощни градини</p>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+              <p className="text-white font-medium">Градините</p>
             </div>
           </div>
 
-          <div className="relative overflow-hidden rounded-2xl shadow-lg group cursor-pointer h-48">
-            <img 
-              src="https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=400&h=400&fit=crop" 
-              alt="Harvest"
-              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+          <div className="relative overflow-hidden rounded-2xl shadow-lg group cursor-pointer h-64 row-span-2">
+            <Image 
+              src="/images/viber_image_2025-10-08_21-25-57-719.jpg"
+              alt="Жътва"
+              fill
+              sizes="(max-width: 768px) 50vw"
+              className="object-cover group-hover:scale-110 transition-transform duration-500"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
               <p className="text-white font-medium">Жътва</p>
             </div>
           </div>
 
-          <div className="relative overflow-hidden rounded-2xl shadow-lg group cursor-pointer h-48">
-            <img 
-              src="https://images.unsplash.com/photo-1587049352846-4a222e784422?w=400&h=400&fit=crop" 
-              alt="Juice"
-              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+          <div className="relative overflow-hidden rounded-2xl shadow-lg group cursor-pointer h-40">
+            <Image 
+              src="/images/viber_image_2025-10-08_21-55-41-249.jpg"
+              alt="Сок"
+              fill
+              sizes="(max-width: 768px) 50vw"
+              className="object-cover group-hover:scale-110 transition-transform duration-500"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
               <p className="text-white font-medium">Сок</p>
             </div>
           </div>
 
-          <div className="relative overflow-hidden rounded-2xl shadow-lg group cursor-pointer h-48">
-            <img 
-              src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=400&h=400&fit=crop" 
-              alt="Processing"
-              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+          <div className="col-span-2 relative overflow-hidden rounded-2xl shadow-lg group cursor-pointer h-52">
+            <Image 
+              src="/images/viber_image_2025-10-08_20-48-08-928.jpg"
+              alt="Производство"
+              fill
+              sizes="(max-width: 768px) 100vw"
+              className="object-cover group-hover:scale-110 transition-transform duration-500"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
-              <p className="text-white font-medium">Производство</p>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+              <p className="text-white font-serif text-lg">Производство</p>
             </div>
           </div>
 
           <div className="relative overflow-hidden rounded-2xl shadow-lg group cursor-pointer h-48">
-            <img 
-              src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop" 
-              alt="Packaging"
-              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            <Image 
+              src="/images/viber_image_2025-10-08_21-16-58-106.jpg"
+              alt="Опаковане"
+              fill
+              sizes="(max-width: 768px) 50vw"
+              className="object-cover group-hover:scale-110 transition-transform duration-500"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
               <p className="text-white font-medium">Опаковане</p>
             </div>
           </div>
 
-          <div className="col-span-2 relative overflow-hidden rounded-2xl shadow-lg group cursor-pointer h-48">
-            <img 
-              src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=800&h=400&fit=crop" 
-              alt="Team"
-              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+          <div className="relative overflow-hidden rounded-2xl shadow-lg group cursor-pointer h-48">
+            <Image 
+              src="/images/viber_image_2025-10-08_21-25-56-788.jpg"
+              alt="Екип"
+              fill
+              sizes="(max-width: 768px) 50vw"
+              className="object-cover group-hover:scale-110 transition-transform duration-500"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
-              <p className="text-white font-serif text-xl">Нашият екип</p>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+              <p className="text-white font-medium">Екипът</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Asymmetric Grid Layout - Desktop */}
+        <div className="hidden md:grid grid-cols-6 gap-2 auto-rows-auto" style={{ gridAutoFlow: 'dense' }}>
+          {/* Row 1 - 6 columns total */}
+          <div className="col-span-2 relative overflow-hidden rounded-2xl shadow-xl group cursor-pointer aspect-square">
+            <Image 
+              src="/images/viber_image_2025-10-08_21-16-57-793.jpg"
+              alt="Нашите градини"
+              fill
+              sizes="(min-width: 768px) 33vw"
+              className="object-cover group-hover:scale-110 transition-transform duration-500"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+              <p className="text-white font-serif text-xl">Нашите градини</p>
             </div>
           </div>
 
-          <div className="relative overflow-hidden rounded-2xl shadow-lg group cursor-pointer h-48">
-            <img 
-              src="https://images.unsplash.com/photo-1586201375761-83865001e31c?w=400&h=400&fit=crop" 
-              alt="Quality"
-              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+          <div className="col-span-2 relative overflow-hidden rounded-2xl shadow-xl group cursor-pointer aspect-[4/3]">
+            <Image 
+              src="/images/viber_image_2025-10-08_21-55-41-249.jpg"
+              alt="Чист натурален сок"
+              fill
+              sizes="(min-width: 768px) 33vw"
+              className="object-cover group-hover:scale-110 transition-transform duration-500"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
-              <p className="text-white font-medium">Контрол</p>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+              <p className="text-white font-medium">Натурален сок</p>
+            </div>
+          </div>
+
+          <div className="col-span-2 relative overflow-hidden rounded-2xl shadow-xl group cursor-pointer aspect-[3/4]">
+            <Image 
+              src="/images/viber_image_2025-10-08_21-25-57-719.jpg"
+              alt="Жътва с грижа"
+              fill
+              sizes="(min-width: 768px) 33vw"
+              className="object-cover group-hover:scale-110 transition-transform duration-500"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+              <p className="text-white font-serif text-2xl">Жътва с грижа</p>
+            </div>
+          </div>
+
+          {/* Row 2 */}
+          <div className="col-span-2 relative overflow-hidden rounded-2xl shadow-xl group cursor-pointer aspect-[4/3]">
+            <Image 
+              src="/images/viber_image_2025-10-08_21-16-58-106.jpg"
+              alt="Опаковане"
+              fill
+              sizes="(min-width: 768px) 33vw"
+              className="object-cover group-hover:scale-110 transition-transform duration-500"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+              <p className="text-white font-medium">Опаковане</p>
+            </div>
+          </div>
+
+          {/* Row 3 */}
+          <div className="col-span-2 relative overflow-hidden rounded-2xl shadow-xl group cursor-pointer aspect-square">
+            <Image 
+              src="/images/viber_image_2025-10-08_20-48-08-928.jpg"
+              alt="Модерни технологии"
+              fill
+              sizes="(min-width: 768px) 33vw"
+              className="object-cover group-hover:scale-110 transition-transform duration-500"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+              <p className="text-white font-serif text-xl">Модерни технологии</p>
+            </div>
+          </div>
+
+          <div className="col-span-1 relative overflow-hidden rounded-2xl shadow-xl group cursor-pointer aspect-[3/4]">
+            <Image 
+              src="/images/viber_image_2025-10-08_21-25-56-788.jpg"
+              alt="Нашият екип"
+              fill
+              sizes="(min-width: 768px) 17vw"
+              className="object-cover group-hover:scale-110 transition-transform duration-500"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+              <p className="text-white text-sm font-medium">Екипът</p>
+            </div>
+          </div>
+
+          <div className="col-span-1 relative overflow-hidden rounded-2xl shadow-xl group cursor-pointer aspect-square">
+            <Image 
+              src="/images/viber_image_2025-10-08_21-55-41-328.jpg"
+              alt="Готов продукт"
+              fill
+              sizes="(min-width: 768px) 17vw"
+              className="object-cover group-hover:scale-110 transition-transform duration-500"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
+              <p className="text-white text-sm">Продукт</p>
+            </div>
+          </div>
+
+          {/* Row 4 */}
+          <div className="col-span-3 relative overflow-hidden rounded-2xl shadow-xl group cursor-pointer aspect-[16/9]">
+            <Image 
+              src="/images/viber_image_2025-10-08_21-25-56-040.jpg"
+              alt="Контрол на качеството"
+              fill
+              sizes="(min-width: 768px) 50vw"
+              className="object-cover group-hover:scale-110 transition-transform duration-500"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+              <p className="text-white font-serif text-xl">Контрол на качеството</p>
+            </div>
+          </div>
+
+          <div className="col-span-1 relative overflow-hidden rounded-2xl shadow-xl group cursor-pointer aspect-square">
+            <Image 
+              src="/images/viber_image_2025-10-08_20-48-07-679.jpg"
+              alt="Плодове"
+              fill
+              sizes="(min-width: 768px) 17vw"
+              className="object-cover group-hover:scale-110 transition-transform duration-500"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
+              <p className="text-white text-sm">Плодове</p>
+            </div>
+          </div>
+
+          <div className="col-span-2 relative overflow-hidden rounded-2xl shadow-xl group cursor-pointer aspect-[4/3]">
+            <Image 
+              src="/images/viber_image_2025-10-08_21-16-57-526.jpg"
+              alt="Традиция"
+              fill
+              sizes="(min-width: 768px) 33vw"
+              className="object-cover group-hover:scale-110 transition-transform duration-500"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+              <p className="text-white font-medium">Традиция</p>
+            </div>
+          </div>
+
+          {/* Row 5 */}
+          <div className="col-span-1 relative overflow-hidden rounded-2xl shadow-xl group cursor-pointer aspect-[3/4]">
+            <Image 
+              src="/images/viber_image_2025-10-08_21-16-58-267.jpg"
+              alt="Пресни ябълки"
+              fill
+              sizes="(min-width: 768px) 17vw"
+              className="object-cover group-hover:scale-110 transition-transform duration-500"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+              <p className="text-white text-sm">Ябълки</p>
+            </div>
+          </div>
+
+          <div className="col-span-2 relative overflow-hidden rounded-2xl shadow-xl group cursor-pointer aspect-square">
+            <Image 
+              src="/images/viber_image_2025-10-08_21-25-55-519.jpg"
+              alt="В градината"
+              fill
+              sizes="(min-width: 768px) 33vw"
+              className="object-cover group-hover:scale-110 transition-transform duration-500"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+              <p className="text-white font-serif text-xl">В градината</p>
+            </div>
+          </div>
+
+          {/* Row 6 */}
+          <div className="col-span-2 relative overflow-hidden rounded-2xl shadow-xl group cursor-pointer aspect-[4/3]">
+            <Image 
+              src="/images/viber_image_2025-10-08_21-55-40-988.jpg"
+              alt="Сортиране"
+              fill
+              sizes="(min-width: 768px) 33vw"
+              className="object-cover group-hover:scale-110 transition-transform duration-500"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+              <p className="text-white font-medium">Сортиране</p>
+            </div>
+          </div>
+
+          <div className="col-span-3 relative overflow-hidden rounded-2xl shadow-xl group cursor-pointer aspect-[16/9]">
+            <Image 
+              src="/images/viber_image_2025-10-08_20-48-06-556.jpg"
+              alt="Работа в градината"
+              fill
+              sizes="(min-width: 768px) 50vw"
+              className="object-cover group-hover:scale-110 transition-transform duration-500"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+              <p className="text-white font-serif text-xl">Работа с грижа</p>
+            </div>
+          </div>
+
+          {/* Row 7 */}
+          <div className="col-span-2 relative overflow-hidden rounded-2xl shadow-xl group cursor-pointer aspect-square">
+            <Image 
+              src="/images/viber_image_2025-10-08_21-39-22-222.jpg"
+              alt="Прясна реколта"
+              fill
+              sizes="(min-width: 768px) 33vw"
+              className="object-cover group-hover:scale-110 transition-transform duration-500"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+              <p className="text-white font-serif text-xl">Прясна реколта</p>
+            </div>
+          </div>
+
+          <div className="col-span-1 relative overflow-hidden rounded-2xl shadow-xl group cursor-pointer aspect-square">
+            <Image 
+              src="/images/viber_image_2025-10-08_21-25-57-328.jpg"
+              alt="Качество"
+              fill
+              sizes="(min-width: 768px) 17vw"
+              className="object-cover group-hover:scale-110 transition-transform duration-500"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
+              <p className="text-white text-sm">Качество</p>
+            </div>
+          </div>
+
+          {/* Row 8 */}
+          <div className="col-span-3 relative overflow-hidden rounded-2xl shadow-xl group cursor-pointer aspect-[16/9]">
+            <Image 
+              src="/images/viber_image_2025-10-08_20-48-09-394.jpg"
+              alt="Нашата страст"
+              fill
+              sizes="(min-width: 768px) 50vw"
+              className="object-cover group-hover:scale-110 transition-transform duration-500"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+              <p className="text-white font-serif text-xl">Нашата страст</p>
+            </div>
+          </div>
+
+          <div className="col-span-1 relative overflow-hidden rounded-2xl shadow-xl group cursor-pointer aspect-square">
+            <Image 
+              src="/images/viber_image_2025-10-08_21-55-41-454.jpg"
+              alt="От сърце"
+              fill
+              sizes="(min-width: 768px) 17vw"
+              className="object-cover group-hover:scale-110 transition-transform duration-500"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-3">
+              <p className="text-white text-sm">От сърце</p>
             </div>
           </div>
         </div>

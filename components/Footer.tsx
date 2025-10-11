@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { ShoppingCart } from 'lucide-react';
 
 const Footer = () => {
   return (
@@ -37,6 +38,15 @@ const Footer = () => {
               <li><a href="#process" className="hover:text-white transition">Нашият процес</a></li>
               <li><a href="#home" className="hover:text-white transition">Устойчивост</a></li>
               <li><a href="#contact" className="hover:text-white transition">Контакти</a></li>
+              <li>
+                <a 
+                  href="#order" 
+                  className="inline-flex items-center gap-2 bg-[#EFBF3A] text-[#7A0B18] px-4 py-2 rounded-lg font-bold hover:bg-[#FFD15C] transition mt-2"
+                >
+                  <ShoppingCart size={16} />
+                  Поръчай
+                </a>
+              </li>
             </ul>
           </div>
 
