@@ -68,12 +68,23 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-white/20 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-white/60">
+        <div className="border-t border-white/20 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-white/60 gap-4">
           <p>© 2025 Kasameri EOOD. Всички права запазени.</p>
-          <div className="flex space-x-6 mt-4 md:mt-0">
+          <div className="flex flex-wrap justify-center items-center gap-4 md:gap-6">
             <a href="#" className="hover:text-white transition">Правила и условия</a>
             <a href="#" className="hover:text-white transition">Поверителност</a>
             <a href="#" className="hover:text-white transition">GDPR</a>
+            <span className="text-xs text-white/40">
+              Изработка от{' '}
+              <a 
+                href="https://www.hmwspro.com/bg" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-white/60 hover:text-white transition font-medium underline decoration-white/30 hover:decoration-white"
+              >
+                H&M WS Pro
+              </a>
+            </span>
           </div>
         </div>
       </div>

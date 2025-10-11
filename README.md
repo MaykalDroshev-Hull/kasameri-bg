@@ -133,3 +133,5 @@ Sales: sales@kasameri.bg
 ## 📄 License
 
 © 2025 Kasameri EOOD. All rights reserved.
+
+
