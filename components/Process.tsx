@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { ArrowRight, Heart } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface ProcessStep {
   number: string;
@@ -9,7 +10,6 @@ interface ProcessStep {
   title: string;
   desc: string;
   details: string;
-}
 }
 
 const Process = () => {
@@ -111,7 +111,6 @@ const Process = () => {
                     )}
                   </div>
                 </div>
-              </div>
               </div>
 
               {/* Arrow - Hidden on last item */}

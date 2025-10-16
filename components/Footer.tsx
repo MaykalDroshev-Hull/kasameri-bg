@@ -71,7 +71,7 @@ const Footer = () => {
           </div>
         </div>
 
-<div className="border-t border-white/20 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-white/60 gap-4">
+        <div className="border-t border-white/20 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-white/60 gap-4">
   <p>{t('footer.copyright')}</p>
   <div className="flex flex-wrap justify-center items-center gap-4 md:gap-6">
     <a href="#" className="hover:text-white transition">{t('footer.terms')}</a>
@@ -89,8 +89,6 @@ const Footer = () => {
       </a>
     </span>
   </div>
-</div>
-          </div>
         </div>
       </div>
     </footer>
