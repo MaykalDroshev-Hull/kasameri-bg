@@ -1,10 +1,32 @@
 'use client';
 
-import React from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import React, { useState } from 'react';
+import { FaViber } from 'react-icons/fa';
 
 const Distributors = () => {
   const { t } = useLanguage();
+  const [formData, setFormData] = useState({
+    company: '',
+    phone: '',
+    region: '',
+    message: ''
+  });
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    const viberMessage = `ЗАПИТВАНЕ ЗА ДИСТРИБУЦИЯ
+
+Фирма: ${formData.company || 'Не е посочена'}
+Телефон: ${formData.phone || 'Не е посочен'}
+Регион: ${formData.region || 'Не е посочен'}
+Съобщение: ${formData.message || 'Няма допълнително съобщение'}`;
+
+    const encodedMessage = encodeURIComponent(viberMessage);
+    window.open(`viber://forward?text=${encodedMessage}`, '_blank');
+  };
+
   return (
     <section id="distributors" className="py-20 px-4 bg-white">
       <div className="max-w-7xl mx-auto">
@@ -69,11 +91,13 @@ const Distributors = () => {
           <div className="bg-[#FFF7ED] rounded-2xl p-8 shadow-2xl">
             <h3 className="font-serif text-2xl text-[#7A0B18] mb-6">{t('distributors.form_title')}</h3>
             
-            <form className="space-y-4">
+            <form className="space-y-4" onSubmit={handleSubmit}>
               <div>
                 <label className="block text-sm font-medium text-[#6B4423] mb-2">{t('distributors.company_name')}</label>
                 <input 
                   type="text" 
+                  value={formData.company}
+                  onChange={(e) => setFormData({...formData, company: e.target.value})}
                   className="w-full px-4 py-3 rounded-lg border-2 border-[#D4A574] focus:border-[#C4312E] outline-none transition"
                   placeholder={t('distributors.company_placeholder')}
                 />
@@ -83,6 +107,8 @@ const Distributors = () => {
                 <label className="block text-sm font-medium text-[#6B4423] mb-2">{t('distributors.phone')}</label>
                 <input 
                   type="tel" 
+                  value={formData.phone}
+                  onChange={(e) => setFormData({...formData, phone: e.target.value})}
                   className="w-full px-4 py-3 rounded-lg border-2 border-[#D4A574] focus:border-[#C4312E] outline-none transition"
                   placeholder={t('distributors.phone_placeholder')}
                 />
@@ -92,6 +118,8 @@ const Distributors = () => {
                 <label className="block text-sm font-medium text-[#6B4423] mb-2">{t('distributors.region')}</label>
                 <input 
                   type="text" 
+                  value={formData.region}
+                  onChange={(e) => setFormData({...formData, region: e.target.value})}
                   className="w-full px-4 py-3 rounded-lg border-2 border-[#D4A574] focus:border-[#C4312E] outline-none transition"
                   placeholder={t('distributors.region_placeholder')}
                 />
@@ -101,6 +129,8 @@ const Distributors = () => {
                 <label className="block text-sm font-medium text-[#6B4423] mb-2">{t('distributors.message')}</label>
                 <textarea 
                   rows={4}
+                  value={formData.message}
+                  onChange={(e) => setFormData({...formData, message: e.target.value})}
                   className="w-full px-4 py-3 rounded-lg border-2 border-[#D4A574] focus:border-[#C4312E] outline-none transition resize-none"
                   placeholder={t('distributors.message_placeholder')}
                 ></textarea>
@@ -108,10 +138,14 @@ const Distributors = () => {
 
               <button 
                 type="submit"
-                className="w-full bg-[#C4312E] text-white px-8 py-4 rounded-full hover:bg-[#A02820] transition transform hover:scale-105 font-medium shadow-xl"
+                className="w-full bg-[#7360F2] text-white px-8 py-4 rounded-full hover:bg-[#5F4FD1] transition transform hover:scale-105 font-medium shadow-xl flex items-center justify-center gap-2"
               >
+                <FaViber className="w-6 h-6" />
                 {t('distributors.submit')}
               </button>
+              <p className="text-xs text-[#8B8680] text-center">
+                Ще бъдете пренасочени към Viber за изпращане на запитването
+              </p>
             </form>
           </div>
         </div>

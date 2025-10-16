@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { ShoppingCart } from 'lucide-react';
 
 const Footer = () => {
   const { t } = useLanguage();
@@ -40,6 +41,15 @@ const Footer = () => {
               <li><a href="#process" className="hover:text-white transition">{t('footer.our_process')}</a></li>
               <li><a href="#home" className="hover:text-white transition">{t('footer.sustainability')}</a></li>
               <li><a href="#contact" className="hover:text-white transition">{t('footer.contact')}</a></li>
+              <li>
+                <a 
+                  href="#order" 
+                  className="inline-flex items-center gap-2 bg-[#EFBF3A] text-[#7A0B18] px-4 py-2 rounded-lg font-bold hover:bg-[#FFD15C] transition mt-2"
+                >
+                  <ShoppingCart size={16} />
+                  {t('footer.order')}
+                </a>
+              </li>
             </ul>
           </div>
 
@@ -61,12 +71,25 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-white/20 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-white/60">
-          <p>{t('footer.copyright')}</p>
-          <div className="flex space-x-6 mt-4 md:mt-0">
-            <a href="#" className="hover:text-white transition">{t('footer.terms')}</a>
-            <a href="#" className="hover:text-white transition">{t('footer.privacy')}</a>
-            <a href="#" className="hover:text-white transition">{t('footer.gdpr')}</a>
+<div className="border-t border-white/20 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-white/60 gap-4">
+  <p>{t('footer.copyright')}</p>
+  <div className="flex flex-wrap justify-center items-center gap-4 md:gap-6">
+    <a href="#" className="hover:text-white transition">{t('footer.terms')}</a>
+    <a href="#" className="hover:text-white transition">{t('footer.privacy')}</a>
+    <a href="#" className="hover:text-white transition">{t('footer.gdpr')}</a>
+    <span className="text-xs text-white/40">
+      {t('footer.built_by')}{' '}
+      <a 
+        href="https://www.hmwspro.com/bg" 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        className="text-white/60 hover:text-white transition font-medium underline decoration-white/30 hover:decoration-white"
+      >
+        H&M WS Pro
+      </a>
+    </span>
+  </div>
+</div>
           </div>
         </div>
       </div>
