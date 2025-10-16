@@ -3,8 +3,10 @@
 import React, { useState } from 'react';
 import { MapPin, Phone, Mail, Facebook, Instagram } from 'lucide-react';
 import { FaViber } from 'react-icons/fa';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Contact = () => {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     name: '',
     email: '',

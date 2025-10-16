@@ -74,8 +74,6 @@ const Hero = () => {
           <ChevronDown className="text-white" size={32} />
         </div>
       </div>
-        </div>
-      </div>
     </section>
   );
 };

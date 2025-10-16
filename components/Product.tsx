@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { Calendar, ShoppingCart, Star, Heart } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { products } from '@/data/products';
 import { Product as ProductType } from '@/types/product';
 import AddToCartModal from './AddToCartModal';
 
@@ -103,14 +102,25 @@ const Product = () => {
     }
   ];
 
-  const handleBuyClick = (e: React.MouseEvent, product: ProductType) => {
+  const handleBuyClick = (e: React.MouseEvent, product: ProductItem) => {
     e.stopPropagation(); // Prevent card click
-    setActiveProduct(product);
+    // Convert ProductItem to ProductType for the modal
+    const productForModal: ProductType = {
+      id: product.id.toString(),
+      nameKey: `product.${product.nameEn.toLowerCase()}.name`,
+      descriptionKey: `product.${product.nameEn.toLowerCase()}.desc`,
+      seasonKey: 'season.year_round',
+      category: product.category === 'ПЛОДОВЕ' ? 'fruits' : product.category === 'ЗЕЛЕНЧУЦИ' ? 'vegetables' : 'drinks',
+      imageUrl: product.image,
+      pricePerUnit: 0,
+      unit: 'kg',
+      featured: product.featured
+    };
+    setActiveProduct(productForModal);
     setShowAddToCartModal(true);
   };
 
-  const handleCardClick = (product: ProductType) => {
-    setActiveProduct(product);
+  const handleCardClick = (product: ProductItem) => {
     // Navigate to product detail page
     router.push(`/product/${product.id}`);
   };
@@ -138,82 +148,75 @@ const Product = () => {
             </p>
           </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {products.map((product) => {
-            const isPremium = product.id === 1 || product.id === 2; // Apples and Cherries
-            const isJuice = product.id === 8;
-            
-            return (
-              <div 
-                key={product.id}
-                className={`
-                  ${isPremium ? 'md:col-span-2 lg:col-span-1' : 'md:col-span-1'}
-                  bg-[#FFF7ED] rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer
-                  ${isPremium ? 'ring-4 ring-[#EFBF3A] ring-offset-2' : ''}
-                `}
-                onClick={() => setActiveProduct(product)}
-              >
-                <div className={`relative ${isPremium ? 'h-80' : 'h-64'} overflow-hidden`}>
-                  <img 
-                    src={product.image} 
-                    alt={product.name}
-                    className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute top-4 right-4 bg-[#4C8F3A] text-white text-xs px-3 py-1 rounded-full font-medium">
-                    {product.category}
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {products.map((product) => {
+              const isPremium = product.id === 1 || product.id === 2; // Apples and Cherries
+              const isJuice = product.id === 8;
+              
+              return (
+                <div 
+                  key={product.id}
+                  className={`
+                    ${isPremium ? 'md:col-span-2 lg:col-span-1' : 'md:col-span-1'}
+                    bg-[#FFF7ED] rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer
+                    ${isPremium ? 'ring-4 ring-[#EFBF3A] ring-offset-2' : ''}
+                  `}
+                  onClick={() => handleCardClick(product)}
+                >
+                  <div className={`relative ${isPremium ? 'h-80' : 'h-64'} overflow-hidden`}>
+                    <img 
+                      src={product.image} 
+                      alt={product.name}
+                      className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
+                    />
+                    <div className="absolute top-4 right-4 bg-[#4C8F3A] text-white text-xs px-3 py-1 rounded-full font-medium">
+                      {product.category}
+                    </div>
+                    {isPremium && (
+                      <>
+                        <div className="absolute top-4 left-4 bg-gradient-to-r from-[#EFBF3A] to-[#FFD15C] text-[#7A0B18] text-sm px-4 py-2 rounded-full font-bold shadow-lg flex items-center gap-2">
+                          <Star className="fill-current" size={18} />
+                          <span>ВИСОКА НАЛИЧНОСТ</span>
+                        </div>
+                        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#7A0B18] to-transparent p-4">
+                          <p className="text-white font-bold text-lg text-center">Поръчайте сега!</p>
+                        </div>
+                      </>
+                    )}
+                    {isJuice && (
+                      <div className="absolute top-4 left-4 bg-[#EFBF3A] text-[#7A0B18] text-xs px-3 py-1 rounded-full font-bold">
+                        ПРЕПОРЪЧАНО
+                      </div>
+                    )}
                   </div>
-                  {isPremium && (
-                    <>
-                      <div className="absolute top-4 left-4 bg-gradient-to-r from-[#EFBF3A] to-[#FFD15C] text-[#7A0B18] text-sm px-4 py-2 rounded-full font-bold shadow-lg flex items-center gap-2">
-                        <Star className="fill-current" size={18} />
-                        <span>ВИСОКА НАЛИЧНОСТ</span>
+                  
+                  <div className={`${isPremium ? 'p-8' : 'p-6'}`}>
+                    <h4 className={`font-serif ${isPremium ? 'text-3xl' : 'text-2xl'} text-[#7A0B18] mb-2`}>
+                      {product.name}
+                    </h4>
+                    <p className={`text-[#6B4423] ${isPremium ? 'text-base' : 'text-sm'} mb-3`}>
+                      {product.description}
+                    </p>
+                    {isPremium && (
+                      <div className="mb-3 p-3 bg-[#4C8F3A]/10 rounded-lg border-l-4 border-[#4C8F3A]">
+                        <p className="text-[#4C8F3A] font-bold text-sm flex items-center gap-2">
+                          <Heart className="fill-current" size={16} />
+                          <span>Основен продукт - винаги в наличност</span>
+                        </p>
                       </div>
-                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#7A0B18] to-transparent p-4">
-                        <p className="text-white font-bold text-lg text-center">Поръчайте сега!</p>
-                      </div>
-                    </>
-                  )}
-                  {isJuice && (
-                    <div className="absolute top-4 left-4 bg-[#EFBF3A] text-[#7A0B18] text-xs px-3 py-1 rounded-full font-bold">
-                      ПРЕПОРЪЧАНО
+                    )}
+                    <div className="flex items-center justify-between text-xs text-[#8B8680]">
+                      <span className="flex items-center space-x-1">
+                        <Calendar size={14} />
+                        <span>{product.season}</span>
+                      </span>
+                      <span className="text-[#C4312E] font-medium hover:underline">Научи повече →</span>
                     </div>
-                  )}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-                    </div>
-                  )}
-                </div>
-                
-                <div className={`${isPremium ? 'p-8' : 'p-6'}`}>
-                  <h4 className={`font-serif ${isPremium ? 'text-3xl' : 'text-2xl'} text-[#7A0B18] mb-2`}>
-                    {product.name}
-                  </h4>
-                  <p className={`text-[#6B4423] ${isPremium ? 'text-base' : 'text-sm'} mb-3`}>
-                    {product.description}
-                  </p>
-                  {isPremium && (
-                    <div className="mb-3 p-3 bg-[#4C8F3A]/10 rounded-lg border-l-4 border-[#4C8F3A]">
-                      <p className="text-[#4C8F3A] font-bold text-sm flex items-center gap-2">
-                        <Heart className="fill-current" size={16} />
-                        <span>Основен продукт - винаги в наличност</span>
-                      </p>
-                    </div>
-                  )}
-                  <div className="flex items-center justify-between text-xs text-[#8B8680]">
-                    <span className="flex items-center space-x-1">
-                      <Calendar size={14} />
-                      <span>{product.season}</span>
-                    </span>
-                    <span className="text-[#C4312E] font-medium hover:underline">Научи повече →</span>
                   </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
 
           {/* Coming Soon Badge */}
           <div className="mt-12 text-center">
