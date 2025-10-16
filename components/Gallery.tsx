@@ -1,14 +1,16 @@
 'use client';
 
 import React from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Gallery = () => {
+  const { t } = useLanguage();
   return (
     <section className="py-20 px-4 bg-[#FFF7ED]">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="font-serif text-4xl md:text-5xl text-[#7A0B18] mb-4">Нашата история в снимки</h2>
-          <p className="text-[#6B4423] text-lg">От полето до вашата маса</p>
+          <h2 className="font-serif text-4xl md:text-5xl text-[#7A0B18] mb-4">{t('gallery.title')}</h2>
+          <p className="text-[#6B4423] text-lg">{t('gallery.subtitle')}</p>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -95,4 +97,5 @@ const Gallery = () => {
 };
 
 export default Gallery;
+
 

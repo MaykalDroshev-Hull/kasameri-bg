@@ -1,21 +1,22 @@
 'use client';
 
 import React from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Distributors = () => {
+  const { t } = useLanguage();
   return (
     <section id="distributors" className="py-20 px-4 bg-white">
       <div className="max-w-7xl mx-auto">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div>
-            <div className="text-[#C4312E] text-sm font-bold tracking-wider mb-3">ПАРТНЬОРСТВО</div>
+            <div className="text-[#C4312E] text-sm font-bold tracking-wider mb-3">{t('distributors.title')}</div>
             <h2 className="font-serif text-4xl md:text-5xl text-[#7A0B18] mb-6">
-              Станете наш дистрибутор
+              {t('distributors.subtitle')}
             </h2>
             
             <p className="text-[#6B4423] text-lg mb-6 leading-relaxed">
-              Търсим надеждни партньори, които споделят нашата страст за качество и искат да предложат 
-              на своите клиенти истински натурални продукти.
+              {t('distributors.description')}
             </p>
 
             <div className="space-y-4 mb-8">
@@ -24,8 +25,8 @@ const Distributors = () => {
                   <span className="text-white text-xs">✓</span>
                 </div>
                 <div>
-                  <h4 className="font-bold text-[#7A0B18] mb-1">Конкурентни цени</h4>
-                  <p className="text-[#6B4423] text-sm">Атрактивни търговски условия и маржове</p>
+                  <h4 className="font-bold text-[#7A0B18] mb-1">{t('distributors.prices')}</h4>
+                  <p className="text-[#6B4423] text-sm">{t('distributors.prices_desc')}</p>
                 </div>
               </div>
 
@@ -34,8 +35,8 @@ const Distributors = () => {
                   <span className="text-white text-xs">✓</span>
                 </div>
                 <div>
-                  <h4 className="font-bold text-[#7A0B18] mb-1">Гарантирана доставка</h4>
-                  <p className="text-[#6B4423] text-sm">Редовни доставки и гъвкави количества</p>
+                  <h4 className="font-bold text-[#7A0B18] mb-1">{t('distributors.delivery')}</h4>
+                  <p className="text-[#6B4423] text-sm">{t('distributors.delivery_desc')}</p>
                 </div>
               </div>
 
@@ -44,8 +45,8 @@ const Distributors = () => {
                   <span className="text-white text-xs">✓</span>
                 </div>
                 <div>
-                  <h4 className="font-bold text-[#7A0B18] mb-1">Маркетингова подкрепа</h4>
-                  <p className="text-[#6B4423] text-sm">Материали, обучения и промоционална помощ</p>
+                  <h4 className="font-bold text-[#7A0B18] mb-1">{t('distributors.marketing')}</h4>
+                  <p className="text-[#6B4423] text-sm">{t('distributors.marketing_desc')}</p>
                 </div>
               </div>
 
@@ -54,54 +55,54 @@ const Distributors = () => {
                   <span className="text-white text-xs">✓</span>
                 </div>
                 <div>
-                  <h4 className="font-bold text-[#7A0B18] mb-1">Регионална ексклузивност</h4>
-                  <p className="text-[#6B4423] text-sm">Възможност за защитена територия</p>
+                  <h4 className="font-bold text-[#7A0B18] mb-1">{t('distributors.exclusivity')}</h4>
+                  <p className="text-[#6B4423] text-sm">{t('distributors.exclusivity_desc')}</p>
                 </div>
               </div>
             </div>
 
             <a href="#contact" className="inline-block bg-[#C4312E] text-white px-8 py-4 rounded-full hover:bg-[#A02820] transition transform hover:scale-105 font-medium shadow-xl">
-              Свържете се с нас
+              {t('distributors.contact_title')}
             </a>
           </div>
 
           <div className="bg-[#FFF7ED] rounded-2xl p-8 shadow-2xl">
-            <h3 className="font-serif text-2xl text-[#7A0B18] mb-6">Форма за дистрибутори</h3>
+            <h3 className="font-serif text-2xl text-[#7A0B18] mb-6">{t('distributors.form_title')}</h3>
             
             <form className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-[#6B4423] mb-2">Име на фирма *</label>
+                <label className="block text-sm font-medium text-[#6B4423] mb-2">{t('distributors.company_name')}</label>
                 <input 
                   type="text" 
                   className="w-full px-4 py-3 rounded-lg border-2 border-[#D4A574] focus:border-[#C4312E] outline-none transition"
-                  placeholder="Вашата фирма ООД"
+                  placeholder={t('distributors.company_placeholder')}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-[#6B4423] mb-2">Телефон *</label>
+                <label className="block text-sm font-medium text-[#6B4423] mb-2">{t('distributors.phone')}</label>
                 <input 
                   type="tel" 
                   className="w-full px-4 py-3 rounded-lg border-2 border-[#D4A574] focus:border-[#C4312E] outline-none transition"
-                  placeholder="+359 888 123 456"
+                  placeholder={t('distributors.phone_placeholder')}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-[#6B4423] mb-2">Регион на дейност *</label>
+                <label className="block text-sm font-medium text-[#6B4423] mb-2">{t('distributors.region')}</label>
                 <input 
                   type="text" 
                   className="w-full px-4 py-3 rounded-lg border-2 border-[#D4A574] focus:border-[#C4312E] outline-none transition"
-                  placeholder="София, Пловдив..."
+                  placeholder={t('distributors.region_placeholder')}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-[#6B4423] mb-2">Съобщение</label>
+                <label className="block text-sm font-medium text-[#6B4423] mb-2">{t('distributors.message')}</label>
                 <textarea 
                   rows={4}
                   className="w-full px-4 py-3 rounded-lg border-2 border-[#D4A574] focus:border-[#C4312E] outline-none transition resize-none"
-                  placeholder="Разкажете ни за вашия бизнес..."
+                  placeholder={t('distributors.message_placeholder')}
                 ></textarea>
               </div>
 
@@ -109,7 +110,7 @@ const Distributors = () => {
                 type="submit"
                 className="w-full bg-[#C4312E] text-white px-8 py-4 rounded-full hover:bg-[#A02820] transition transform hover:scale-105 font-medium shadow-xl"
               >
-                Изпрати запитване
+                {t('distributors.submit')}
               </button>
             </form>
           </div>
@@ -120,4 +121,5 @@ const Distributors = () => {
 };
 
 export default Distributors;
+
 

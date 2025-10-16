@@ -1,32 +1,34 @@
 'use client';
 
 import React from 'react';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 interface ProcessStep {
   number: string;
-  title: string;
-  titleEn: string;
-  desc: string;
+  titleKey: string;
+  descKey: string;
 }
 
 const Process = () => {
+  const { t } = useLanguage();
+  
   const processSteps: ProcessStep[] = [
-    { number: '01', title: 'Жътва', titleEn: 'Harvest', desc: 'Ръчно берем плодовете в оптимална зрялост' },
-    { number: '02', title: 'Сортиране', titleEn: 'Sorting', desc: 'Внимателна селекция за качество' },
-    { number: '03', title: 'Измиване', titleEn: 'Washing', desc: 'Почистване с природна вода' },
-    { number: '04', title: 'Пресоване', titleEn: 'Pressing', desc: 'Студено пресоване за максимален вкус' },
-    { number: '05', title: 'Пастьоризация', titleEn: 'Pasteurization', desc: 'Запазване на свежестта' },
-    { number: '06', title: 'Бутилиране', titleEn: 'Bottling', desc: 'Опаковане и етикетиране' }
+    { number: '01', titleKey: 'process.harvest', descKey: 'process.harvest_desc' },
+    { number: '02', titleKey: 'process.sorting', descKey: 'process.sorting_desc' },
+    { number: '03', titleKey: 'process.washing', descKey: 'process.washing_desc' },
+    { number: '04', titleKey: 'process.pressing', descKey: 'process.pressing_desc' },
+    { number: '05', titleKey: 'process.pasteurization', descKey: 'process.pasteurization_desc' },
+    { number: '06', titleKey: 'process.bottling', descKey: 'process.bottling_desc' }
   ];
 
   return (
     <section id="process" className="py-20 px-4 bg-[#FFF7ED]">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <div className="text-[#4C8F3A] text-sm font-bold tracking-wider mb-3">ОТ ПЛОДА ДО БУТИЛКАТА</div>
-          <h2 className="font-serif text-4xl md:text-5xl text-[#7A0B18] mb-4">Нашият процес</h2>
+          <div className="text-[#4C8F3A] text-sm font-bold tracking-wider mb-3">{t('process.title')}</div>
+          <h2 className="font-serif text-4xl md:text-5xl text-[#7A0B18] mb-4">{t('process.subtitle')}</h2>
           <p className="text-[#6B4423] text-lg max-w-2xl mx-auto">
-            Всяка стъпка е проектирана да запази свежестта, вкуса и хранителните стойности на плодовете.
+            {t('process.description')}
           </p>
         </div>
 
@@ -44,9 +46,8 @@ const Process = () => {
               
               <div className="relative">
                 <div className="text-[#C4312E] font-bold text-sm mb-2">{step.number}</div>
-                <h4 className="font-serif text-2xl text-[#7A0B18] mb-2">{step.title}</h4>
-                <p className="text-[#8B8680] text-xs mb-3">{step.titleEn}</p>
-                <p className="text-[#6B4423]">{step.desc}</p>
+                <h4 className="font-serif text-2xl text-[#7A0B18] mb-2">{t(step.titleKey)}</h4>
+                <p className="text-[#6B4423]">{t(step.descKey)}</p>
               </div>
             </div>
           ))}

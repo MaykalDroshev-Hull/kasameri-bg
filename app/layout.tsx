@@ -1,5 +1,6 @@
 import './globals.css'
 import type { Metadata } from 'next'
+import { LanguageProvider } from '@/contexts/LanguageContext'
 
 export const metadata: Metadata = {
   title: 'Kasameri EOOD - Натурални Плодове и Зеленчуци от Ловешко',
@@ -19,7 +20,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="bg">
-      <body>{children}</body>
+      <body>
+        <LanguageProvider>
+          {children}
+        </LanguageProvider>
+      </body>
     </html>
   )
 }
