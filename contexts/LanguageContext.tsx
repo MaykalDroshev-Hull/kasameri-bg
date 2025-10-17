@@ -28,6 +28,7 @@ const translations = {
     'nav.process': 'Процес',
     'nav.distributors': 'Дистрибутори',
     'nav.contact': 'Контакти',
+    'nav.orderNow': 'Поръчай сега',
     
     // Hero Section
     'hero.title': 'От градината в бутилката',
@@ -180,6 +181,8 @@ const translations = {
     'footer.terms': 'Правила и условия',
     'footer.privacy': 'Поверителност',
     'footer.gdpr': 'GDPR',
+    'footer.order': 'Поръчай',
+    'footer.built_by': 'Изработено от',
     
     // Contact Form
     'contact.form_title': 'Изпратете ни съобщение',
@@ -328,6 +331,7 @@ const translations = {
     'nav.process': 'Process',
     'nav.distributors': 'Distributors',
     'nav.contact': 'Contact',
+    'nav.orderNow': 'Order Now',
     
     // Hero Section
     'hero.title': 'From Our Orchard to Your Table',
@@ -480,6 +484,8 @@ const translations = {
     'footer.terms': 'Terms and Conditions',
     'footer.privacy': 'Privacy',
     'footer.gdpr': 'GDPR',
+    'footer.order': 'Order Now',
+    'footer.built_by': 'Built by',
     
     // Contact Form
     'contact.form_title': 'Send Us a Message',

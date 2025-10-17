@@ -5,6 +5,7 @@ import React from 'react';
 import { CheckCircle, Download, Printer, ShoppingCart, X } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useCheckoutStore } from '@/store/checkoutStore';
+import { getEurConversion } from '@/utils/currency';
 
 interface SuccessSheetProps {
   isOpen: boolean;
@@ -92,7 +93,8 @@ const SuccessSheet: React.FC<SuccessSheetProps> = ({ isOpen, onClose, orderResul
                 <div className="flex justify-between">
                   <span className="text-[#6B4423]">Обща сума:</span>
                   <span className="font-bold text-[#7A0B18]">
-                    {formatPrice(lastOrder.total)}
+                    {formatPrice(lastOrder.total)}{' '}
+                    <span className="text-sm font-normal">{getEurConversion(lastOrder.total)}</span>
                   </span>
                 </div>
                 
@@ -138,11 +140,13 @@ const SuccessSheet: React.FC<SuccessSheetProps> = ({ isOpen, onClose, orderResul
                         )}
                       </p>
                       <p className="text-sm text-[#6B4423]">
-                        {item.qty} {item.unit} × {formatPrice(item.pricePerUnit)}
+                        {item.qty} {item.unit} × {formatPrice(item.pricePerUnit)}{' '}
+                        <span className="text-xs">{getEurConversion(item.pricePerUnit)}</span>
                       </p>
                     </div>
                     <p className="font-bold text-[#7A0B18]">
-                      {formatPrice(item.lineTotal)}
+                      {formatPrice(item.lineTotal)}{' '}
+                      <span className="text-xs font-normal">{getEurConversion(item.lineTotal)}</span>
                     </p>
                   </div>
                 ))}

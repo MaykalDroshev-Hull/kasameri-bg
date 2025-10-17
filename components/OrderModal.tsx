@@ -7,6 +7,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useCartStore } from '@/store/cartStore';
 import { useCheckoutStore, CheckoutForm, OrderRequest, OrderItem } from '@/store/checkoutStore';
 import SuccessSheet from './SuccessSheet';
+import { getEurConversion } from '@/utils/currency';
 
 interface OrderModalProps {
   isOpen: boolean;
@@ -640,11 +641,13 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
                               )}
                             </p>
                             <p className="text-sm text-[#6B4423]">
-                              {item.qty} {item.unit} × {formatPrice(item.pricePerUnit)}
+                              {item.qty} {item.unit} × {formatPrice(item.pricePerUnit)}{' '}
+                              <span className="text-xs">{getEurConversion(item.pricePerUnit)}</span>
                             </p>
                           </div>
                           <p className="font-bold text-[#7A0B18]">
-                            {formatPrice(item.qty * item.pricePerUnit)}
+                            {formatPrice(item.qty * item.pricePerUnit)}{' '}
+                            <span className="text-xs font-normal">{getEurConversion(item.qty * item.pricePerUnit)}</span>
                           </p>
                         </div>
                       ))}
@@ -654,13 +657,19 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
                     <div className="bg-gray-50 rounded-lg p-4 space-y-2">
                       <div className="flex justify-between">
                         <span className="text-[#6B4423]">{t('checkout.subtotal')}:</span>
-                        <span className="font-medium">{formatPrice(totals.subtotal)}</span>
+                        <span className="font-medium">
+                          {formatPrice(totals.subtotal)}{' '}
+                          <span className="text-xs">{getEurConversion(totals.subtotal)}</span>
+                        </span>
                       </div>
                       
                       {totals.discount > 0 && (
                         <div className="flex justify-between text-green-600">
                           <span>{t('checkout.discount')}:</span>
-                          <span>-{formatPrice(totals.discount)}</span>
+                          <span>
+                            -{formatPrice(totals.discount)}{' '}
+                            <span className="text-xs">{getEurConversion(totals.discount)}</span>
+                          </span>
                         </div>
                       )}
                       
@@ -674,7 +683,10 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
                       <div className="border-t border-gray-300 pt-2">
                         <div className="flex justify-between text-lg font-bold text-[#7A0B18]">
                           <span>{t('checkout.total')}:</span>
-                          <span>{formatPrice(totals.total)}</span>
+                          <span>
+                            {formatPrice(totals.total)}{' '}
+                            <span className="text-sm font-normal">{getEurConversion(totals.total)}</span>
+                          </span>
                         </div>
                       </div>
                     </div>

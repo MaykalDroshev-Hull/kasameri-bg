@@ -34,7 +34,13 @@ const Topbar = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
             <div className="flex items-center space-x-2">
-              <div className="w-12 h-12 bg-[#C4312E] rounded-full flex items-center justify-center text-white font-bold text-xl">K</div>
+              <Image 
+                src="/logo.svg" 
+                alt="Kasameri Logo" 
+                width={48} 
+                height={48} 
+                className="object-contain"
+              />
               <div className="text-white">
                 <div className="font-serif text-xl font-bold">Kasameri</div>
                 <div className="text-xs opacity-80">EOOD</div>
@@ -96,72 +102,51 @@ const Topbar = () => {
       {/* Mobile Menu */}
       {isMenuOpen && (
         <div
-          className={`md:hidden border-t border-white/20 transition-all duration-500 ${
-            scrolled ? "bg-[#7A0B18]" : "bg-white/10 backdrop-blur-md"
-          }`}
+          className="fixed top-20 left-0 right-0 z-40 md:hidden border-t border-white/20 transition-all duration-500 bg-[#7A0B18]"
         >
           <div className="px-4 py-4 space-y-3">
             <a
               href="#home"
               className="block text-white hover:text-[#EFBF3A] py-2"
-              style={{
-                textShadow: scrolled
-                  ? "none"
-                  : "0 2px 6px rgba(0,0,0,0.8)",
-              }}
+              onClick={() => setIsMenuOpen(false)}
             >
               {t('nav.home')}
             </a>
             <a
               href="#products"
               className="block text-white hover:text-[#EFBF3A] py-2"
-              style={{
-                textShadow: scrolled
-                  ? "none"
-                  : "0 2px 6px rgba(0,0,0,0.8)",
-              }}
+              onClick={() => setIsMenuOpen(false)}
             >
               {t('nav.products')}
             </a>
             <a
               href="#process"
               className="block text-white hover:text-[#EFBF3A] py-2"
-              style={{
-                textShadow: scrolled
-                  ? "none"
-                  : "0 2px 6px rgba(0,0,0,0.8)",
-              }}
+              onClick={() => setIsMenuOpen(false)}
             >
               {t('nav.process')}
             </a>
             <a
               href="#distributors"
               className="block text-white hover:text-[#EFBF3A] py-2"
-              style={{
-                textShadow: scrolled
-                  ? "none"
-                  : "0 2px 6px rgba(0,0,0,0.8)",
-              }}
+              onClick={() => setIsMenuOpen(false)}
             >
               {t('nav.distributors')}
             </a>
             <a
               href="#contact"
               className="block text-white hover:text-[#EFBF3A] py-2"
-              style={{
-                textShadow: scrolled
-                  ? "none"
-                  : "0 2px 6px rgba(0,0,0,0.8)",
-              }}
+              onClick={() => setIsMenuOpen(false)}
             >
               {t('nav.contact')}
             </a>
             <a
               href="#order"
               className="flex items-center justify-center gap-2 bg-[#EFBF3A] text-[#7A0B18] py-3 px-4 rounded-lg font-bold text-center mt-4"
+              onClick={() => setIsMenuOpen(false)}
             >
               <ShoppingCart size={18} />
-              {t('nav.orderNow') ?? 'Поръчай сега'}
+              {t('nav.orderNow')}
             </a>
             <button
               onClick={toggleLanguage}

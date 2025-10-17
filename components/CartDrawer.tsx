@@ -7,6 +7,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useCartStore } from '@/store/cartStore';
 import { CartItem } from '@/types/product';
 import OrderModal from './OrderModal';
+import { getEurConversion } from '@/utils/currency';
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -102,7 +103,8 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                           </p>
                         )}
                         <p className="text-sm text-[#6B4423]">
-                          {formatPrice(item.pricePerUnit)}{getUnitLabel(item.unit)}
+                          {formatPrice(item.pricePerUnit)}{getUnitLabel(item.unit)}{' '}
+                          <span className="text-xs">{getEurConversion(item.pricePerUnit)}</span>
                         </p>
                         {item.notes && (
                           <p className="text-xs text-gray-500 mt-1 italic">
@@ -134,14 +136,14 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                         <button
                           onClick={() => handleQuantityChange(item, item.qty + 0.5)}
                           className="p-1 hover:bg-gray-200 rounded transition"
-                          disabled={item.qty >= 25}
                         >
                           <Plus size={16} />
                         </button>
                       </div>
                       <div className="text-right">
                         <p className="font-bold text-[#7A0B18]">
-                          {formatPrice(item.qty * item.pricePerUnit)}
+                          {formatPrice(item.qty * item.pricePerUnit)}{' '}
+                          <span className="text-xs font-normal">{getEurConversion(item.qty * item.pricePerUnit)}</span>
                         </p>
                         <p className="text-xs text-gray-500">{t('cart.lineTotal')}</p>
                       </div>
@@ -158,7 +160,8 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
               <div className="flex justify-between items-center">
                 <span className="text-lg font-medium">{t('common.subtotal')}:</span>
                 <span className="text-xl font-bold text-[#7A0B18]">
-                  {formatPrice(subtotal())}
+                  {formatPrice(subtotal())}{' '}
+                  <span className="text-sm font-normal">{getEurConversion(subtotal())}</span>
                 </span>
               </div>
               

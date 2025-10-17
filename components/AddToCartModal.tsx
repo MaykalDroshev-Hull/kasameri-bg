@@ -6,6 +6,7 @@ import { X, Plus, Minus, ShoppingCart } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useCartStore } from '@/store/cartStore';
 import { Product, Variety } from '@/types/product';
+import { getEurConversion } from '@/utils/currency';
 
 interface AddToCartModalProps {
   isOpen: boolean;
@@ -51,10 +52,6 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({ isOpen, onClose, produc
       newErrors.quantity = t('cart.validation.qtyMin');
     }
     
-    if (quantity > 25) {
-      newErrors.quantity = t('cart.validation.qtyMax');
-    }
-    
     if (notes.length > 140) {
       newErrors.notes = t('cart.validation.notesMax');
     }
@@ -64,7 +61,7 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({ isOpen, onClose, produc
   };
 
   const handleQuantityChange = (delta: number) => {
-    const newQty = Math.max(0.2, Math.min(25, quantity + delta));
+    const newQty = Math.max(0.2, quantity + delta);
     setQuantity(newQty);
   };
 
@@ -180,16 +177,14 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({ isOpen, onClose, produc
                 <input
                   type="number"
                   value={quantity}
-                  onChange={(e) => setQuantity(Math.max(0.2, Math.min(25, parseFloat(e.target.value) || 0.5)))}
+                  onChange={(e) => setQuantity(Math.max(0.2, parseFloat(e.target.value) || 0.5))}
                   step="0.5"
                   min="0.2"
-                  max="25"
                   className="w-20 text-center border border-gray-300 rounded-lg px-3 py-2 focus:border-[#C4312E] focus:outline-none"
                 />
                 <button
                   onClick={() => handleQuantityChange(0.5)}
                   className="p-2 hover:bg-gray-100 rounded-lg transition"
-                  disabled={quantity >= 25}
                 >
                   <Plus size={16} />
                 </button>
@@ -229,10 +224,12 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({ isOpen, onClose, produc
             <div className="bg-[#FFF7ED] rounded-lg p-4">
               <div className="flex justify-between items-center">
                 <span className="text-[#6B4423]">
-                  {quantity} {product.unit} × {formatPrice(product.pricePerUnit)}
+                  {quantity} {product.unit} × {formatPrice(product.pricePerUnit)}{' '}
+                  <span className="text-xs">{getEurConversion(product.pricePerUnit)}</span>
                 </span>
                 <span className="text-lg font-bold text-[#7A0B18]">
-                  {formatPrice(quantity * product.pricePerUnit)}
+                  {formatPrice(quantity * product.pricePerUnit)}{' '}
+                  <span className="text-sm font-normal">{getEurConversion(quantity * product.pricePerUnit)}</span>
                 </span>
               </div>
             </div>

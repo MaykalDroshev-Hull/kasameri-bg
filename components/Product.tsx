@@ -2,139 +2,28 @@
 
 import React, { useState } from 'react';
 import { Calendar, ShoppingCart, Star, Heart } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Product as ProductType } from '@/types/product';
-import AddToCartModal from './AddToCartModal';
-
-interface ProductItem {
-  id: number;
-  name: string;
-  nameEn: string;
-  category: string;
-  image: string;
-  description: string;
-  season: string;
-  featured?: boolean;
-}
+import { products as productsData } from '@/data/products';
+import ProductDetailModal from './ProductDetailModal';
 
 const Product = () => {
-  const [activeProduct, setActiveProduct] = useState<ProductType | null>(null);
-  const [showAddToCartModal, setShowAddToCartModal] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(null);
+  const [showDetailModal, setShowDetailModal] = useState(false);
   const { t } = useLanguage();
-  const router = useRouter();
 
-  const products: ProductItem[] = [
-    {
-      id: 1,
-      name: 'Ябълки',
-      nameEn: 'Apples',
-      category: 'ПЛОДОВЕ',
-      image: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=800&h=600&fit=crop',
-      description: 'Отглеждаме сортове Айдаред, Златна Превъзходна и Гренни Смит.',
-      season: 'Септември - Ноември',
-      featured: true
-    },
-    {
-      id: 2,
-      name: 'Череши',
-      nameEn: 'Cherries',
-      category: 'ПЛОДОВЕ',
-      image: 'https://images.unsplash.com/photo-1528821128474-27f963b062bf?w=800&h=600&fit=crop',
-      description: 'Сладки и сочни череши, берени на ръка в пика на зрялост.',
-      season: 'Юни - Юли',
-      featured: true
-    },
-    {
-      id: 3,
-      name: 'Круши',
-      nameEn: 'Pears',
-      category: 'ПЛОДОВЕ',
-      image: 'https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=800&h=600&fit=crop',
-      description: 'Ароматни круши с перфектна текстура и естествена сладост.',
-      season: 'Август - Октомври'
-    },
-    {
-      id: 4,
-      name: 'Пъпеши',
-      nameEn: 'Melons',
-      category: 'ПЛОДОВЕ',
-      image: 'https://images.unsplash.com/photo-1571575173700-afb9492e6a50?w=800&h=600&fit=crop',
-      description: 'Сочни пъпеши, отгледани под слънцето на Ловешко.',
-      season: 'Юли - Август'
-    },
-    {
-      id: 5,
-      name: 'Домати',
-      nameEn: 'Tomatoes',
-      category: 'ЗЕЛЕНЧУЦИ',
-      image: 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=800&h=600&fit=crop',
-      description: 'Пресни домати с богат вкус за салати и консерви.',
-      season: 'Юни - Септември'
-    },
-    {
-      id: 6,
-      name: 'Картофи',
-      nameEn: 'Potatoes',
-      category: 'ЗЕЛЕНЧУЦИ',
-      image: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=800&h=600&fit=crop',
-      description: 'Качествени картофи, отгледани в плодородна почва.',
-      season: 'Май - Октомври'
-    },
-    {
-      id: 7,
-      name: 'Дюли',
-      nameEn: 'Quinces',
-      category: 'ПЛОДОВЕ',
-      image: 'https://images.unsplash.com/photo-1609501676725-7186f017a4b7?w=800&h=600&fit=crop',
-      description: 'Ароматни дюли за сладка, конфитюр и традиционни рецепти.',
-      season: 'Октомври - Ноември'
-    },
-    {
-      id: 8,
-      name: '100% Ябълков Сок',
-      nameEn: 'Apple Juice',
-      category: 'НАПИТКИ',
-      image: 'https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=800&h=600&fit=crop',
-      description: 'Натурален сок без добавена захар, консерванти или оцветители.',
-      season: 'Целогодишно',
-      featured: true
-    }
-  ];
-
-  const handleBuyClick = (e: React.MouseEvent, product: ProductItem) => {
-    e.stopPropagation(); // Prevent card click
-    // Convert ProductItem to ProductType for the modal
-    const productForModal: ProductType = {
-      id: product.id.toString(),
-      nameKey: `product.${product.nameEn.toLowerCase()}.name`,
-      descriptionKey: `product.${product.nameEn.toLowerCase()}.desc`,
-      seasonKey: 'season.year_round',
-      category: product.category === 'ПЛОДОВЕ' ? 'fruits' : product.category === 'ЗЕЛЕНЧУЦИ' ? 'vegetables' : 'drinks',
-      imageUrl: product.image,
-      pricePerUnit: 0,
-      unit: 'kg',
-      featured: product.featured
-    };
-    setActiveProduct(productForModal);
-    setShowAddToCartModal(true);
-  };
-
-  const handleCardClick = (product: ProductItem) => {
-    // Navigate to product detail page
-    router.push(`/product/${product.id}`);
-  };
-
-  const formatPrice = (price: number) => {
-    return `${price.toFixed(2)} ${t('common.currency')}`;
-  };
-
-  const getUnitLabel = (unit: string) => {
-    return unit === 'kg' ? t('common.perKg') : t('common.perL');
+  const handleCardClick = (product: ProductType) => {
+    setSelectedProduct(product);
+    setShowDetailModal(true);
   };
 
   const getCategoryLabel = (category: string) => {
     return t(`common.categories.${category}`);
+  };
+
+  // Determine premium/featured products
+  const isPremiumProduct = (productId: string) => {
+    return productId === 'apples' || productId === 'cherries';
   };
 
   return (
@@ -149,9 +38,9 @@ const Product = () => {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {products.map((product) => {
-              const isPremium = product.id === 1 || product.id === 2; // Apples and Cherries
-              const isJuice = product.id === 8;
+            {productsData.map((product) => {
+              const isPremium = isPremiumProduct(product.id);
+              const isJuice = product.id === 'apple_juice';
               
               return (
                 <div 
@@ -165,52 +54,52 @@ const Product = () => {
                 >
                   <div className={`relative ${isPremium ? 'h-80' : 'h-64'} overflow-hidden`}>
                     <img 
-                      src={product.image} 
-                      alt={product.name}
+                      src={product.imageUrl} 
+                      alt={t(product.nameKey)}
                       className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
                     />
                     <div className="absolute top-4 right-4 bg-[#4C8F3A] text-white text-xs px-3 py-1 rounded-full font-medium">
-                      {product.category}
+                      {getCategoryLabel(product.category)}
                     </div>
                     {isPremium && (
                       <>
                         <div className="absolute top-4 left-4 bg-gradient-to-r from-[#EFBF3A] to-[#FFD15C] text-[#7A0B18] text-sm px-4 py-2 rounded-full font-bold shadow-lg flex items-center gap-2">
                           <Star className="fill-current" size={18} />
-                          <span>ВИСОКА НАЛИЧНОСТ</span>
+                          <span>{t('common.recommended')}</span>
                         </div>
                         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#7A0B18] to-transparent p-4">
-                          <p className="text-white font-bold text-lg text-center">Поръчайте сега!</p>
+                          <p className="text-white font-bold text-lg text-center">{t('nav.orderNow')}</p>
                         </div>
                       </>
                     )}
                     {isJuice && (
                       <div className="absolute top-4 left-4 bg-[#EFBF3A] text-[#7A0B18] text-xs px-3 py-1 rounded-full font-bold">
-                        ПРЕПОРЪЧАНО
+                        {t('common.recommended')}
                       </div>
                     )}
                   </div>
                   
                   <div className={`${isPremium ? 'p-8' : 'p-6'}`}>
                     <h4 className={`font-serif ${isPremium ? 'text-3xl' : 'text-2xl'} text-[#7A0B18] mb-2`}>
-                      {product.name}
+                      {t(product.nameKey)}
                     </h4>
                     <p className={`text-[#6B4423] ${isPremium ? 'text-base' : 'text-sm'} mb-3`}>
-                      {product.description}
+                      {t(product.descriptionKey)}
                     </p>
                     {isPremium && (
                       <div className="mb-3 p-3 bg-[#4C8F3A]/10 rounded-lg border-l-4 border-[#4C8F3A]">
                         <p className="text-[#4C8F3A] font-bold text-sm flex items-center gap-2">
                           <Heart className="fill-current" size={16} />
-                          <span>Основен продукт - винаги в наличност</span>
+                          <span>{t('common.recommended')}</span>
                         </p>
                       </div>
                     )}
                     <div className="flex items-center justify-between text-xs text-[#8B8680]">
                       <span className="flex items-center space-x-1">
                         <Calendar size={14} />
-                        <span>{product.season}</span>
+                        <span>{t(product.seasonKey)}</span>
                       </span>
-                      <span className="text-[#C4312E] font-medium hover:underline">Научи повече →</span>
+                      <span className="text-[#C4312E] font-medium hover:underline">{t('products.learn_more')}</span>
                     </div>
                   </div>
                 </div>
@@ -227,12 +116,12 @@ const Product = () => {
         </div>
       </section>
 
-      {/* Add to Cart Modal */}
-      {activeProduct && (
-        <AddToCartModal
-          isOpen={showAddToCartModal}
-          onClose={() => setShowAddToCartModal(false)}
-          product={activeProduct}
+      {/* Product Detail Modal */}
+      {selectedProduct && (
+        <ProductDetailModal
+          isOpen={showDetailModal}
+          onClose={() => setShowDetailModal(false)}
+          product={selectedProduct}
         />
       )}
     </>
