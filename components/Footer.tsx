@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { ShoppingCart } from 'lucide-react';
 
@@ -13,7 +14,13 @@ const Footer = () => {
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           <div>
             <div className="flex items-center space-x-2 mb-4">
-              <div className="w-10 h-10 bg-[#C4312E] rounded-full flex items-center justify-center text-white font-bold">K</div>
+              <Image 
+                src="/logo.svg" 
+                alt="Kasameri Logo" 
+                width={40} 
+                height={40} 
+                className="object-contain"
+              />
               <div>
                 <div className="font-serif text-lg font-bold">Kasameri</div>
                 <div className="text-xs opacity-80">EOOD</div>

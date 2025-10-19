@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { Calendar, ShoppingCart, Star, Heart } from 'lucide-react';
-import { useRouter } from 'next/navigation';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Product as ProductType } from '@/types/product';
 import AddToCartModal from './AddToCartModal';
@@ -136,6 +135,11 @@ const Product = () => {
     return t(`common.categories.${category}`);
   };
 
+  // Determine premium/featured products
+  const isPremiumProduct = (productId: string) => {
+    return productId === 'apples' || productId === 'cherries';
+  };
+
   return (
     <>
       <section id="products" className="py-20 px-4 bg-white">
@@ -148,9 +152,9 @@ const Product = () => {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {products.map((product) => {
-              const isPremium = product.id === 1 || product.id === 2; // Apples and Cherries
-              const isJuice = product.id === 8;
+            {productsData.map((product) => {
+              const isPremium = isPremiumProduct(product.id);
+              const isJuice = product.id === 'apple_juice';
               
               return (
                 <div 
@@ -164,12 +168,12 @@ const Product = () => {
                 >
                   <div className={`relative ${isPremium ? 'h-80' : 'h-64'} overflow-hidden`}>
                     <img 
-                      src={product.image} 
-                      alt={product.name}
+                      src={product.imageUrl} 
+                      alt={t(product.nameKey)}
                       className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
                     />
                     <div className="absolute top-4 right-4 bg-[#4C8F3A] text-white text-xs px-3 py-1 rounded-full font-medium">
-                      {product.category}
+                      {getCategoryLabel(product.category)}
                     </div>
                     {isPremium && (
                       <>
@@ -191,10 +195,10 @@ const Product = () => {
                   
                   <div className={`${isPremium ? 'p-8' : 'p-6'}`}>
                     <h4 className={`font-serif ${isPremium ? 'text-3xl' : 'text-2xl'} text-[#7A0B18] mb-2`}>
-                      {product.name}
+                      {t(product.nameKey)}
                     </h4>
                     <p className={`text-[#6B4423] ${isPremium ? 'text-base' : 'text-sm'} mb-3`}>
-                      {product.description}
+                      {t(product.descriptionKey)}
                     </p>
                     {isPremium && (
                       <div className="mb-3 p-3 bg-[#4C8F3A]/10 rounded-lg border-l-4 border-[#4C8F3A]">
@@ -207,7 +211,7 @@ const Product = () => {
                     <div className="flex items-center justify-between text-xs text-[#8B8680] mb-3">
                       <span className="flex items-center space-x-1">
                         <Calendar size={14} />
-                        <span>{product.season}</span>
+                        <span>{t(product.seasonKey)}</span>
                       </span>
                       <span className="text-[#C4312E] font-medium hover:underline">{t('badges.learnMore')}</span>
                     </div>

@@ -22,9 +22,9 @@ export default function Home() {
       <AboutUs />
       <Product />
       <Process />
+      <Gallery />
       <Sustainability />
       <Distributors />
-      <Gallery />
       <Testimonials />
       <Contact />
       <Footer />

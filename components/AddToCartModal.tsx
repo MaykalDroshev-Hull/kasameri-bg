@@ -6,6 +6,7 @@ import { X, Plus, Minus, ShoppingCart } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useCartStore } from '@/store/cartStore';
 import { Product, Variety } from '@/types/product';
+import { getEurConversion } from '@/utils/currency';
 
 interface AddToCartModalProps {
   isOpen: boolean;
@@ -68,10 +69,6 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({ isOpen, onClose, produc
     
     if (quantity < quantityConfig.min) {
       newErrors.quantity = `${t('cart.validation.qtyMin')}: ${quantityConfig.min}`;
-    }
-    
-    if (quantity > quantityConfig.max) {
-      newErrors.quantity = `${t('cart.validation.qtyMax')}: ${quantityConfig.max}`;
     }
     
     if (notes.length > 140) {
@@ -208,7 +205,6 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({ isOpen, onClose, produc
                 <button
                   onClick={() => handleQuantityChange(quantityConfig.step)}
                   className="p-2 hover:bg-gray-100 rounded-lg transition"
-                  disabled={quantity >= quantityConfig.max}
                 >
                   <Plus size={16} />
                 </button>
@@ -248,10 +244,12 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({ isOpen, onClose, produc
             <div className="bg-[#FFF7ED] rounded-lg p-4">
               <div className="flex justify-between items-center">
                 <span className="text-[#6B4423]">
-                  {quantity} {product.unit} × {formatPrice(product.pricePerUnit)}
+                  {quantity} {product.unit} × {formatPrice(product.pricePerUnit)}{' '}
+                  <span className="text-xs">{getEurConversion(product.pricePerUnit)}</span>
                 </span>
                 <span className="text-lg font-bold text-[#7A0B18]">
-                  {formatPrice(quantity * product.pricePerUnit)}
+                  {formatPrice(quantity * product.pricePerUnit)}{' '}
+                  <span className="text-sm font-normal">{getEurConversion(quantity * product.pricePerUnit)}</span>
                 </span>
               </div>
             </div>
