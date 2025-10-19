@@ -352,8 +352,6 @@ const translations = {
     'success.messengerProfile': 'Messenger: @BlameH1M',
     
     // Gallery Section
-    'gallery.title': 'Нашата история в снимки',
-    'gallery.subtitle': 'От полето до вашата маса',
     'gallery.caption.ourGardens': 'Нашите градини',
     'gallery.caption.harvest': 'Жътва',
     'gallery.caption.naturalJuice': 'Натурален сок',
@@ -403,7 +401,6 @@ const translations = {
     
     // Badges
     'badges.highAvailability': 'ВИСОКА НАЛИЧНОСТ',
-    'badges.orderNow': 'Поръчайте сега!',
     'badges.recommended': 'ПРЕПОРЪЧАНО',
     'badges.coreProduct': 'Основен продукт - винаги в наличност',
     'badges.learnMore': 'Научи повече →',
@@ -739,8 +736,6 @@ const translations = {
     'success.messengerProfile': 'Messenger: @BlameH1M',
     
     // Gallery Section
-    'gallery.title': 'Our Story in Pictures',
-    'gallery.subtitle': 'From the field to your table',
     'gallery.caption.ourGardens': 'Our Gardens',
     'gallery.caption.harvest': 'Harvest',
     'gallery.caption.naturalJuice': 'Natural Juice',
@@ -790,7 +785,6 @@ const translations = {
     
     // Badges
     'badges.highAvailability': 'HIGH AVAILABILITY',
-    'badges.orderNow': 'Order Now!',
     'badges.recommended': 'RECOMMENDED',
     'badges.coreProduct': 'Core product - always in stock',
     'badges.learnMore': 'Learn more →',

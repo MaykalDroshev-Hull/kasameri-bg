@@ -557,8 +557,8 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
                         <input
                           type="radio"
                           name="payment"
-                          value="card"
-                          checked={form.payment === 'card'}
+                          value="card_stub"
+                          checked={form.payment === 'card_stub'}
                           onChange={(e) => handleFieldChange('payment', e.target.value)}
                           className="text-[#C4312E] focus:ring-[#C4312E]"
                         />

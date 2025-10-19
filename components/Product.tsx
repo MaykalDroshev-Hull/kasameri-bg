@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Calendar, ShoppingCart, Star, Heart } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Product as ProductType } from '@/types/product';
@@ -104,13 +105,10 @@ const Product = () => {
     }
   ];
 
-  const handleBuyClick = (e: React.MouseEvent, productId: string) => {
+  const handleBuyClick = (e: React.MouseEvent, product: ProductType) => {
     e.stopPropagation(); // Prevent card click
-    const product = realProducts.find(p => p.id === productId);
-    if (product) {
-      setActiveProduct(product);
-      setShowAddToCartModal(true);
-    }
+    setActiveProduct(product);
+    setShowAddToCartModal(true);
   };
   
   const handleAddToCartClose = () => {
@@ -118,7 +116,7 @@ const Product = () => {
     setActiveProduct(null);
   };
 
-  const handleCardClick = (product: ProductItem) => {
+  const handleCardClick = (product: ProductType) => {
     // Navigate to product detail page
     router.push(`/product/${product.id}`);
   };
@@ -152,7 +150,7 @@ const Product = () => {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {productsData.map((product) => {
+            {realProducts.map((product) => {
               const isPremium = isPremiumProduct(product.id);
               const isJuice = product.id === 'apple_juice';
               
@@ -218,7 +216,7 @@ const Product = () => {
                     
                     {/* Buy Button */}
                     <button
-                      onClick={(e) => handleBuyClick(e, product.nameEn.toLowerCase().replace(' ', '_'))}
+                      onClick={(e) => handleBuyClick(e, product)}
                       className="w-full mt-2 px-4 py-2 bg-[#C4312E] text-white rounded-lg hover:bg-[#A02820] transition flex items-center justify-center space-x-2 font-medium"
                     >
                       <ShoppingCart size={16} />

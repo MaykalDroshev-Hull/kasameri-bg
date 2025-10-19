@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Heart } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import DomeGallery from './DomeGallery';

@@ -67,6 +67,12 @@ const SuccessSheet: React.FC<SuccessSheetProps> = ({ isOpen, onClose, orderResul
     return `${price.toFixed(2)} ${t('common.currency')}`;
   };
 
+  const getEurConversion = (priceBGN: number) => {
+    // Simple conversion rate: 1 BGN ≈ 0.51 EUR (approximate)
+    const eurAmount = priceBGN * 0.51;
+    return `(≈ €${eurAmount.toFixed(2)})`;
+  };
+
   // Automatically open Viber when success sheet opens
   useEffect(() => {
     if (isOpen && orderText) {
