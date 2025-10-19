@@ -2,8 +2,8 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 
-export type PaymentMethod = 'cod' | 'card';
-export type DeliveryMethod = 'delivery' | 'pickup';
+export type DeliveryMethod = 'econt_cod' | 'our_transport' | 'pickup';
+export type PaymentMethod = 'cod' | 'card_stub';
 
 export type CheckoutForm = {
   fullName: string;
@@ -91,7 +91,7 @@ const initialForm: CheckoutForm = {
   fullName: '',
   phone: '',
   email: '',
-  deliveryMethod: 'delivery',
+  deliveryMethod: 'econt_cod',
   address: {
     street: '',
     city: 'София',
@@ -173,7 +173,7 @@ export const useCheckoutStore = create<CheckoutState>()(
       },
 
       resetForm: () => {
-        set({ form: initialForm, errors: {} });
+        set({ form: { ...initialForm }, errors: {} });
       },
 
       normalizePhone: (phone) => {
@@ -201,13 +201,12 @@ export const useCheckoutStore = create<CheckoutState>()(
           discount = subtotal * 0.05; // 5% discount
         }
         
-        // Calculate delivery fee
-        let deliveryFee = 0;
-        if (form.deliveryMethod === 'delivery') {
-          const freeDeliveryThreshold = 40.00;
-          if (subtotal < freeDeliveryThreshold) {
-            deliveryFee = 4.90; // BGN
-          }
+        // Calculate delivery fee based on method
+        const FREE_THRESHOLD = 40.00;
+        const fees = { econt_cod: 6.90, our_transport: 4.90, pickup: 0 };
+        let deliveryFee = fees[form.deliveryMethod];
+        if (subtotal >= FREE_THRESHOLD && form.deliveryMethod !== 'pickup') {
+          deliveryFee = 0;
         }
         
         const total = subtotal - discount + deliveryFee;
@@ -257,8 +256,8 @@ export const useCheckoutStore = create<CheckoutState>()(
           }
         }
 
-        // Address validation (only if delivery)
-        if (form.deliveryMethod === 'delivery') {
+        // Address validation (only if delivery - not pickup)
+        if (form.deliveryMethod !== 'pickup') {
           if (!form.address?.street?.trim()) {
             setError('street', 'required');
             isValid = false;

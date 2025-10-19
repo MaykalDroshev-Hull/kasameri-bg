@@ -153,7 +153,7 @@ Email: ${formData.email || 'Не е посочен'}
                 {t('contact.submit')}
               </button>
               <p className="text-xs text-white/60 text-center">
-                Ще бъдете пренасочени към Viber за изпращане на запитването
+                {t('form.viberRedirect')}
               </p>
             </form>
           </div>

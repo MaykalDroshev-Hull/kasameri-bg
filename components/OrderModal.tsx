@@ -146,7 +146,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
         },
         delivery: {
           method: form.deliveryMethod,
-          address: form.deliveryMethod === 'delivery' ? form.address : undefined,
+          address: form.deliveryMethod !== 'pickup' ? form.address : undefined,
           preferred: form.preferred,
           fee: totals.deliveryFee
         },
@@ -206,10 +206,21 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
 
   const handleSuccessClose = () => {
     setShowSuccess(false);
+    setOrderResult(null);
     onClose();
   };
 
+  // Hide OrderModal when success is showing
   if (!isOpen) return null;
+  if (showSuccess) {
+    return (
+      <SuccessSheet
+        isOpen={showSuccess}
+        onClose={handleSuccessClose}
+        orderResult={orderResult}
+      />
+    );
+  }
 
   const totals = getTotals();
 
@@ -351,34 +362,54 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
                       <span>{t('checkout.deliveryMethod')}</span>
                     </h3>
                     
-                    <div className="grid md:grid-cols-2 gap-4">
-                      <label className="flex items-center space-x-3 cursor-pointer">
+                    <div className="space-y-3">
+                      <label className="flex items-start space-x-3 cursor-pointer p-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
                         <input
                           type="radio"
                           name="deliveryMethod"
-                          value="delivery"
-                          checked={form.deliveryMethod === 'delivery'}
-                          onChange={(e) => handleFieldChange('deliveryMethod', e.target.value)}
-                          className="text-[#C4312E] focus:ring-[#C4312E]"
+                          value="econt_cod"
+                          checked={form.deliveryMethod === 'econt_cod'}
+                          onChange={(e) => handleFieldChange('deliveryMethod', e.target.value as any)}
+                          className="mt-1 text-[#C4312E] focus:ring-[#C4312E]"
                         />
-                        <span className="text-[#6B4423]">{t('checkout.delivery')}</span>
+                        <div className="flex-1">
+                          <span className="font-medium text-[#7A0B18]">{t('checkout.econt_cod')}</span>
+                          <p className="text-xs text-gray-500 mt-1">Доставка с куриер Еконт (6.90 лв.)</p>
+                        </div>
                       </label>
-                      <label className="flex items-center space-x-3 cursor-pointer">
+                      <label className="flex items-start space-x-3 cursor-pointer p-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
+                        <input
+                          type="radio"
+                          name="deliveryMethod"
+                          value="our_transport"
+                          checked={form.deliveryMethod === 'our_transport'}
+                          onChange={(e) => handleFieldChange('deliveryMethod', e.target.value as any)}
+                          className="mt-1 text-[#C4312E] focus:ring-[#C4312E]"
+                        />
+                        <div className="flex-1">
+                          <span className="font-medium text-[#7A0B18]">{t('checkout.our_transport')}</span>
+                          <p className="text-xs text-gray-500 mt-1">Доставка с наш транспорт (4.90 лв.)</p>
+                        </div>
+                      </label>
+                      <label className="flex items-start space-x-3 cursor-pointer p-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
                         <input
                           type="radio"
                           name="deliveryMethod"
                           value="pickup"
                           checked={form.deliveryMethod === 'pickup'}
-                          onChange={(e) => handleFieldChange('deliveryMethod', e.target.value)}
-                          className="text-[#C4312E] focus:ring-[#C4312E]"
+                          onChange={(e) => handleFieldChange('deliveryMethod', e.target.value as any)}
+                          className="mt-1 text-[#C4312E] focus:ring-[#C4312E]"
                         />
-                        <span className="text-[#6B4423]">{t('checkout.pickup')}</span>
+                        <div className="flex-1">
+                          <span className="font-medium text-[#7A0B18]">{t('checkout.pickup')}</span>
+                          <p className="text-xs text-gray-500 mt-1">Лично вземане от с. Александрово (Безплатно)</p>
+                        </div>
                       </label>
                     </div>
                   </div>
 
                   {/* Address (only if delivery) */}
-                  {form.deliveryMethod === 'delivery' && (
+                  {form.deliveryMethod !== 'pickup' && (
                     <div className="space-y-4">
                       <h3 className="text-lg font-semibold text-[#7A0B18]">
                         Адрес за доставка
@@ -727,14 +758,6 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
         </div>
       </div>
 
-      {/* Success Sheet */}
-      {showSuccess && orderResult && (
-        <SuccessSheet
-          isOpen={showSuccess}
-          onClose={handleSuccessClose}
-          orderResult={orderResult}
-        />
-      )}
     </>
   );
 };

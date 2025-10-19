@@ -25,6 +25,7 @@ export const products: Product[] = [
     pricePerUnit: 2.80,
     unit: 'kg',
     rating: 5,
+    premium: true,
     varieties: varieties.apples
   },
   {
@@ -37,6 +38,7 @@ export const products: Product[] = [
     pricePerUnit: 5.90,
     unit: 'kg',
     rating: 5,
+    premium: true,
     varieties: varieties.cherries
   },
   {

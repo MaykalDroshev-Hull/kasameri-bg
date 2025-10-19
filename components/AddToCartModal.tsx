@@ -22,11 +22,30 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({ isOpen, onClose, produc
   const [notes, setNotes] = useState<string>('');
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  useEffect(() => {
-    if (isOpen && product.varieties && product.varieties.length > 0) {
-      setSelectedVariety(product.varieties[0].id);
+  // Get min/max/step based on product type
+  const getQuantityConfig = () => {
+    if (product.unit === 'l') {
+      // Juice: start at 3, step 3, max 30
+      return { min: 3, max: 30, step: 3, initial: 3 };
+    } else {
+      // Fruits/vegetables: start at 1, step 1, max 25
+      return { min: 1, max: 25, step: 1, initial: 1 };
     }
-  }, [isOpen, product]);
+  };
+
+  const quantityConfig = getQuantityConfig();
+
+  useEffect(() => {
+    if (isOpen) {
+      if (product.varieties && product.varieties.length > 0) {
+        setSelectedVariety(product.varieties[0].id);
+      }
+      // Reset form when opening
+      setQuantity(quantityConfig.initial);
+      setNotes('');
+      setErrors({});
+    }
+  }, [isOpen, product, quantityConfig.initial]);
 
   const formatPrice = (price: number) => {
     return `${price.toFixed(2)} ${t('common.currency')}`;
@@ -47,12 +66,12 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({ isOpen, onClose, produc
       newErrors.variety = t('cart.validation.varietyRequired');
     }
     
-    if (quantity < 0.2) {
-      newErrors.quantity = t('cart.validation.qtyMin');
+    if (quantity < quantityConfig.min) {
+      newErrors.quantity = `${t('cart.validation.qtyMin')}: ${quantityConfig.min}`;
     }
     
-    if (quantity > 25) {
-      newErrors.quantity = t('cart.validation.qtyMax');
+    if (quantity > quantityConfig.max) {
+      newErrors.quantity = `${t('cart.validation.qtyMax')}: ${quantityConfig.max}`;
     }
     
     if (notes.length > 140) {
@@ -64,7 +83,8 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({ isOpen, onClose, produc
   };
 
   const handleQuantityChange = (delta: number) => {
-    const newQty = Math.max(0.2, Math.min(25, quantity + delta));
+    const step = quantityConfig.step;
+    const newQty = Math.max(quantityConfig.min, Math.min(quantityConfig.max, quantity + delta));
     setQuantity(newQty);
   };
 
@@ -84,9 +104,8 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({ isOpen, onClose, produc
       imageUrl: product.imageUrl
     });
     
-    // Show success message
-    alert(t('common.addedToCart'));
-    onClose();
+    // Reset and close
+    handleClose();
   };
 
   const handleClose = () => {
@@ -171,31 +190,31 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({ isOpen, onClose, produc
               </label>
               <div className="flex items-center space-x-3">
                 <button
-                  onClick={() => handleQuantityChange(-0.5)}
+                  onClick={() => handleQuantityChange(-quantityConfig.step)}
                   className="p-2 hover:bg-gray-100 rounded-lg transition"
-                  disabled={quantity <= 0.5}
+                  disabled={quantity <= quantityConfig.min}
                 >
                   <Minus size={16} />
                 </button>
                 <input
                   type="number"
                   value={quantity}
-                  onChange={(e) => setQuantity(Math.max(0.2, Math.min(25, parseFloat(e.target.value) || 0.5)))}
-                  step="0.5"
-                  min="0.2"
-                  max="25"
+                  onChange={(e) => setQuantity(Math.max(quantityConfig.min, Math.min(quantityConfig.max, parseFloat(e.target.value) || quantityConfig.min)))}
+                  step={quantityConfig.step}
+                  min={quantityConfig.min}
+                  max={quantityConfig.max}
                   className="w-20 text-center border border-gray-300 rounded-lg px-3 py-2 focus:border-[#C4312E] focus:outline-none"
                 />
                 <button
-                  onClick={() => handleQuantityChange(0.5)}
+                  onClick={() => handleQuantityChange(quantityConfig.step)}
                   className="p-2 hover:bg-gray-100 rounded-lg transition"
-                  disabled={quantity >= 25}
+                  disabled={quantity >= quantityConfig.max}
                 >
                   <Plus size={16} />
                 </button>
               </div>
               <p className="text-xs text-gray-500 mt-1">
-                {t('common.minQty')}: 0.2, {t('common.step')}: 0.5
+                {t('common.minQty')}: {quantityConfig.min}, {t('common.step')}: {quantityConfig.step}
               </p>
               {errors.quantity && (
                 <p className="text-red-500 text-sm mt-1">{errors.quantity}</p>

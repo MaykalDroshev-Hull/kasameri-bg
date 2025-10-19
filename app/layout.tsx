@@ -20,6 +20,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="bg">
+      <head>
+        <link rel="icon" href="/logo.svg" type="image/svg+xml" />
+        <link rel="icon" href="/logo.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/logo.png" />
+      </head>
       <body>
         <LanguageProvider>
           {children}

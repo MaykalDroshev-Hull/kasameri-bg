@@ -141,14 +141,18 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ productId }) => {
                 </div>
               )}
 
-              {/* Buy Button */}
+              {/* Add to Cart Button */}
               <button
                 onClick={handleBuyClick}
-                className="w-full bg-[#C4312E] text-white px-8 py-4 rounded-lg hover:bg-[#A02820] transition transform hover:scale-105 font-medium text-lg flex items-center justify-center space-x-3"
+                className="w-full bg-[#C4312E] text-white px-8 py-4 rounded-lg hover:bg-[#A02820] transition transform hover:scale-105 font-medium text-lg flex items-center justify-center space-x-3 shadow-lg"
               >
                 <ShoppingCart size={24} />
-                <span>{t('common.buy')}</span>
+                <span>{t('common.addToCart')}</span>
               </button>
+              
+              <p className="text-sm text-center text-[#6B4423]">
+                💡 {t('common.orderFlow')}
+              </p>
 
               {/* Additional Info */}
               <div className="bg-gray-50 rounded-lg p-6">

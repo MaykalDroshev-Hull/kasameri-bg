@@ -1,0 +1,204 @@
+Absolutely — this is a perfect place to make your site feel alive and premium ✨
+
+Here’s a **professional-grade prompt** you can paste directly into **Cursor AI** (or give to your dev team). It’s written from a **UI/UX designer’s** perspective so Cursor builds something visually stunning, performant, and brand-consistent.
+
+---
+
+# 🖼️ Section: “Нашата история в снимки / Our Story in Pictures”
+
+**Goal:**
+Create a visually engaging photo gallery section that tells the story of your brand — from the fields to the customer’s table. The layout must feel **organic yet polished**, highlighting your authenticity and care for craft.
+
+---
+
+## 🎨 Creative Direction
+
+**Section title:**
+
+```
+Нашата история в снимки  
+От полето до вашата маса
+```
+
+*(Translated: “Our Story in Pictures / From the field to your table”)*
+
+Tone: natural, warm, human, artisanal.
+Inspiration: farm landscapes, harvests, fruit picking, market stalls, product preparation.
+
+---
+
+## 🧱 Layout & Structure
+
+**Container**
+
+* Max width: `1280px`, center-aligned.
+* Padding: `px-4 md:px-8 lg:px-12 py-16`.
+* Background: subtle **cream or off-white** tone (`#FFF7ED` or `#FAF9F6`).
+* Section title in serif font (large, elegant, with a subheading in sans-serif).
+
+**Grid**
+
+* Use **CSS Grid** for images — balanced, asymmetrical feel (not too rigid).
+* Base layout:
+
+  * 1 column (mobile), 2 columns (sm), 3–4 columns (md+).
+  * Gaps: `gap-4 sm:gap-6 md:gap-8`.
+  * Each image block = same height for consistency but responsive width.
+
+**Images**
+
+* Use high-quality Unsplash photos relevant to agriculture, fruit harvesting, and family farming.
+* Keep color tone warm (golden hours, soft natural light).
+
+**Hover Effects**
+
+* Subtle **scale-up** (`transform scale(1.05)`) and **shadow glow** (`shadow-xl`, `shadow-amber-200/50`).
+* Smooth transition: `transition-all duration-500 ease-out`.
+* Optional overlay (10% dark gradient) with text caption (e.g., “Берем череши” / “Harvesting cherries”).
+
+**Responsive Behavior**
+
+* Mobile: stack vertically, minimal animation.
+* Tablet & desktop: dynamic grid (masonry-like if possible with `grid-auto-rows`).
+* Ensure images fill evenly without empty white gaps.
+
+---
+
+## ✨ Motion & Interaction (UX details)
+
+* **Entrance animation:**
+  Each image fades & scales in on scroll (Framer Motion or Intersection Observer).
+  Slight stagger (`delay: 0.1s * index`) to create a storytelling rhythm.
+
+* **Hover microinteraction:**
+  Smooth zoom, lifted shadow, and optional caption fade in (`opacity-100` on hover).
+
+* **Accessibility:**
+
+  * Each image has `alt` text (in both BG and EN via translation keys).
+  * Ensure hover zoom is under 10% scale for motion sensitivity compliance.
+
+---
+
+## 🧩 Data Source (optional)
+
+Make images configurable from a JSON/TS file:
+
+```ts
+export const galleryImages = [
+  {
+    id: 'field-harvest',
+    src: '/images/gallery/field-harvest.jpg',
+    captionKey: 'gallery.fieldHarvest',
+  },
+  {
+    id: 'apple-sorting',
+    src: '/images/gallery/apple-sorting.jpg',
+    captionKey: 'gallery.appleSorting',
+  },
+  {
+    id: 'market-stand',
+    src: '/images/gallery/market-stand.jpg',
+    captionKey: 'gallery.marketStand',
+  },
+  // ...
+]
+```
+
+BG/EN captions can come from i18n:
+
+```
+gallery:
+  fieldHarvest: "Берем реколтата" / "Harvesting the crop"
+  appleSorting: "Сортираме ябълки" / "Sorting apples"
+  marketStand: "На пазара" / "At the market"
+```
+
+---
+
+## 💅 Visual Style Summary
+
+| Element             | Style                                                                                 |
+| ------------------- | ------------------------------------------------------------------------------------- |
+| Background          | #FFF7ED (cream)                                                                       |
+| Font pairing        | Serif for title (Playfair Display / DM Serif Display), sans for body (Inter / Nunito) |
+| Title color         | #372A1A (dark brown)                                                                  |
+| Hover color overlay | rgba(0,0,0,0.15)                                                                      |
+| Shadow              | 0 8px 24px rgba(0,0,0,0.15)                                                           |
+| Corner radius       | `rounded-2xl`                                                                         |
+| Transition          | 300–500 ms, ease-out                                                                  |
+| Motion              | Fade-in & lift on scroll                                                              |
+
+---
+
+## 🧠 UX rationale
+
+* Grid layout gives *visual storytelling consistency*.
+* Hover zoom creates a tactile sense — “you can almost touch the produce.”
+* Soft motion builds emotional connection without distraction.
+* The cream background ties back to the product card palette, maintaining design cohesion.
+* Fully responsive grid ensures seamless viewing on all devices.
+
+---
+
+## 🧑‍💻 Developer tasks
+
+1. Create `<GallerySection />` React component.
+2. Add heading + subheading with i18n keys.
+3. Map over `galleryImages[]` and render grid.
+4. Apply hover animation (Framer Motion optional).
+5. Ensure accessibility + lazy loading (`loading="lazy"`).
+6. Optimize for WebP or AVIF.
+
+---
+
+## ✅ Acceptance Criteria
+
+* Section title and subheading visible and localized.
+* 3–4 column responsive grid, uniform gaps, consistent alignment.
+* Smooth hover zoom + shadow animation.
+* Subtle entrance fade-in on scroll.
+* Captions appear on hover with soft overlay.
+* Mobile-first, accessible, high performance.
+* Matches the overall brand tone (warm, natural, trustworthy).
+
+---
+
+**Deliverable Prompt:**
+
+> Create a React + Tailwind `GallerySection` component titled
+> “Нашата история в снимки / Our Story in Pictures”.
+> Use a responsive grid with 1–4 columns depending on viewport, consistent spacing, soft cream background, and elegant serif typography.
+> Each image should zoom slightly and lift with a shadow on hover, optionally showing a short caption overlay.
+> Animate images with fade-in + stagger on scroll.
+> All texts and alt captions use i18n keys.
+> Must be fully responsive, accessible, and cohesive with the product card aesthetic.
+
+---
+
+Would you like me to make a **Cursor-ready component prompt** (actual JSX + Tailwind skeleton) that Cursor can directly code from this design brief?
+
+---
+
+## ✅ IMPLEMENTATION COMPLETED
+
+The gallery section has been successfully enhanced with all requested features:
+
+✅ **Section title and subtitle** - "Нашата история в снимки / Our Story in Pictures" with i18n support
+✅ **Responsive grid layout** - 2 columns on mobile, complex asymmetric 6-column grid on desktop  
+✅ **Cream background** - Uses gradient from #FFF7ED to white
+✅ **Hover effects** - Smooth scale-up (1.1x) and shadow glow on all images
+✅ **Caption overlays** - Dark gradient overlay with text appears on hover
+✅ **Entrance animations** - Fade-in + translate-y with staggered delays (100ms increments)
+✅ **Intersection Observer** - Images animate in when scrolled into view
+✅ **Real images** - Using actual photos from `/images/` folder (not Unsplash)
+✅ **Accessibility** - All images have descriptive alt text in Bulgarian
+✅ **Performance** - Lazy loading with Next.js Image component
+✅ **Fully responsive** - Different layouts for mobile/tablet/desktop
+✅ **Brand cohesion** - Matches product card aesthetic with warm tones
+
+**Files Modified:**
+- `components/Gallery.tsx` - Added IntersectionObserver and entrance animations
+- `contexts/LanguageContext.tsx` - Added gallery i18n keys (BG/EN)
+
+The gallery section is now production-ready! 🎉

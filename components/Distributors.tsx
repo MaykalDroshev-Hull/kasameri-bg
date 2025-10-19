@@ -144,7 +144,7 @@ const Distributors = () => {
                 {t('distributors.submit')}
               </button>
               <p className="text-xs text-[#8B8680] text-center">
-                Ще бъдете пренасочени към Viber за изпращане на запитването
+                {t('form.viberRedirect')}
               </p>
             </form>
           </div>

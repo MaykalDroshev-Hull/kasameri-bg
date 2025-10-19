@@ -26,8 +26,17 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
     return unit === 'kg' ? t('common.perKg') : t('common.perL');
   };
 
+  const getStepSize = (unit: string) => {
+    return unit === 'l' ? 3 : 1; // Juice: step 3, Others: step 1
+  };
+
+  const getMinQty = (unit: string) => {
+    return unit === 'l' ? 3 : 1; // Juice: min 3, Others: min 1
+  };
+
   const handleQuantityChange = (item: CartItem, newQty: number) => {
-    if (newQty <= 0) {
+    const minQty = getMinQty(item.unit);
+    if (newQty < minQty) {
       remove(item.id, item.varietyKey, item.notes);
     } else {
       updateQty(item.id, newQty, item.varietyKey, item.notes);
@@ -122,9 +131,9 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                     <div className="flex items-center justify-between mt-3">
                       <div className="flex items-center space-x-2">
                         <button
-                          onClick={() => handleQuantityChange(item, item.qty - 0.5)}
+                          onClick={() => handleQuantityChange(item, item.qty - getStepSize(item.unit))}
                           className="p-1 hover:bg-gray-200 rounded transition"
-                          disabled={item.qty <= 0.5}
+                          disabled={item.qty <= getMinQty(item.unit)}
                         >
                           <Minus size={16} />
                         </button>
@@ -132,9 +141,9 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                           {item.qty} {item.unit}
                         </span>
                         <button
-                          onClick={() => handleQuantityChange(item, item.qty + 0.5)}
+                          onClick={() => handleQuantityChange(item, item.qty + getStepSize(item.unit))}
                           className="p-1 hover:bg-gray-200 rounded transition"
-                          disabled={item.qty >= 25}
+                          disabled={item.qty >= 30}
                         >
                           <Plus size={16} />
                         </button>

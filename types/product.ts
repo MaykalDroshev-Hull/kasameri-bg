@@ -17,8 +17,10 @@ export type Product = {
   pricePerUnit: number;     // number only; currency via i18n
   unit: Unit;               // kg for produce, l for apple juice
   featured?: boolean;       // apple juice 'RECOMMENDED'
+  premium?: boolean;        // apples & cherries
   rating?: number;         // default 5
   varieties?: Variety[];    // only for apples, cherries
+  comingSoon?: boolean;     // vinegar
 };
 
 export type CartItem = {

@@ -19,37 +19,37 @@ const Process = () => {
     { 
       number: '01', 
       emoji: '🌳',
-      title: 'Нашите градини', 
-      desc: 'Всичко започва в нашите екологични градини, където природата и грижата се срещат.',
-      details: 'Отглеждаме плодовете си в плодородни почви, богати на минерали и хранителни вещества. Всяко дърво получава индивидуално внимание и грижа през целия сезон.'
+      title: t('process.step1.title'), 
+      desc: t('process.step1.desc'),
+      details: t('process.step1.details')
     },
     { 
       number: '02', 
       emoji: '👐',
-      title: 'Ръчно бране', 
-      desc: 'Всеки плод е внимателно избран на ръка в момента на перфектна зрялост.',
-      details: 'Нашият екип от опитни работници познава всяко дърво и бере само най-качествените плодове. Това гарантира, че само най-добрите стигат до вас.'
+      title: t('process.step2.title'), 
+      desc: t('process.step2.desc'),
+      details: t('process.step2.details')
     },
     { 
       number: '03', 
       emoji: '⚙️',
-      title: 'Модерни машини', 
-      desc: 'Използваме съвременно оборудване за преработка, което запазва качеството.',
-      details: 'Най-новите технологии за измиване, сортиране и пресоване осигуряват максимална хигиена и ефективност, като същевременно запазват всички полезни вещества.'
+      title: t('process.step3.title'), 
+      desc: t('process.step3.desc'),
+      details: t('process.step3.details')
     },
     { 
       number: '04', 
       emoji: '🔬',
-      title: 'Контрол на качеството', 
-      desc: 'Всяка партида преминава през строг контрол и тестване за качество.',
-      details: 'Проверяваме всеки етап от процеса - от pH нивата до бактериологичните тестове. Нищо не минава без нашето одобрение.'
+      title: t('process.step4.title'), 
+      desc: t('process.step4.desc'),
+      details: t('process.step4.details')
     },
     { 
       number: '05', 
       emoji: '❤️',
-      title: 'Любов към процеса', 
-      desc: 'В края на краищата, най-важната съставка е любовта към това, което правим.',
-      details: 'Всеки член от нашето семейство Касамери влага сърце и душа в производството. Това е нашата страст, не просто работа.'
+      title: t('process.step5.title'), 
+      desc: t('process.step5.desc'),
+      details: t('process.step5.details')
     }
   ];
 
@@ -57,10 +57,10 @@ const Process = () => {
     <section id="process" className="py-20 px-4 bg-gradient-to-b from-white to-[#FFF7ED]">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <div className="text-[#4C8F3A] text-sm font-bold tracking-wider mb-3">ОТ ГРАДИНАТА ДО ВАШАТА МАСА</div>
-          <h2 className="font-serif text-4xl md:text-5xl text-[#7A0B18] mb-4">Нашият процес на работа</h2>
+          <div className="text-[#4C8F3A] text-sm font-bold tracking-wider mb-3">{t('process.sectionTitle')}</div>
+          <h2 className="font-serif text-4xl md:text-5xl text-[#7A0B18] mb-4">{t('process.heading')}</h2>
           <p className="text-[#6B4423] text-lg max-w-2xl mx-auto">
-            Всяка стъпка е изпълнена с грижа, внимание и страст към качеството. Така създаваме продукти, на които можете да се доверите.
+            {t('process.intro')}
           </p>
         </div>
 
@@ -106,7 +106,7 @@ const Process = () => {
                     {step.number === '05' && (
                       <div className="mt-6 flex items-center gap-2 text-[#C4312E]">
                         <Heart className="fill-current" size={20} />
-                        <span className="text-sm font-medium">Направено с любов</span>
+                        <span className="text-sm font-medium">{t('process.madeWithLove')}</span>
                       </div>
                     )}
                   </div>
@@ -133,15 +133,15 @@ const Process = () => {
         {/* Call to Action */}
         <div className="mt-16 text-center">
           <div className="bg-gradient-to-r from-[#7A0B18] to-[#C4312E] rounded-3xl p-8 md:p-12 text-white shadow-2xl">
-            <h3 className="font-serif text-3xl md:text-4xl mb-4">Вкусете разликата</h3>
+            <h3 className="font-serif text-3xl md:text-4xl mb-4">{t('process.tasteDifference')}</h3>
             <p className="text-white/90 text-lg mb-6 max-w-2xl mx-auto">
-              Нашата грижа и внимание към детайлите правят продуктите ни специални. Всяка глътка разказва история за традиция и качество.
+              {t('process.careDescription')}
             </p>
             <a 
               href="#order"
               className="inline-flex items-center gap-2 bg-white text-[#7A0B18] px-8 py-4 rounded-full font-bold text-lg hover:bg-[#EFBF3A] transition-all duration-300 transform hover:scale-105 shadow-lg"
             >
-              Поръчайте сега
+              {t('process.orderNow')}
               <ArrowRight size={20} />
             </a>
           </div>

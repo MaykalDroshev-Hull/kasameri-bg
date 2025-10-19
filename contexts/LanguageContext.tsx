@@ -224,6 +224,7 @@ const translations = {
     'common.continueShopping': 'Продължи пазаруването',
     'common.remove': 'Премахни',
     'common.edit': 'Редактирай',
+    'common.orderFlow': 'Добави в количката → Поръчка → Изпрати по Viber или Messenger',
     
     // Seasons
     'season.sep_nov': 'Септември – Ноември',
@@ -260,6 +261,13 @@ const translations = {
     'variety.bing': 'Бинг',
     'variety.van': 'Ван',
     'variety.kordia': 'Кордия',
+    
+    // Badges
+    'badges.premium': 'ВИСОКА НАЛИЧНОСТ',
+    'badges.core': 'Основен продукт - винаги в наличност',
+    'badges.featured': 'ПРЕПОРЪЧАНО',
+    'badges.comingSoon': 'Скоро',
+    'badges.orderNow': 'Поръчайте сега!',
     
     // Cart
     'cart.empty': 'Количката е празна',
@@ -320,6 +328,82 @@ const translations = {
     'checkout.timeSlots.12-15': '12:00 - 15:00',
     'checkout.timeSlots.15-18': '15:00 - 18:00',
     'checkout.gdpr': 'Данните се използват само за изпълнение на поръчката.',
+    'checkout.econt_cod': 'Наложен платеж с Еконт',
+    'checkout.our_transport': 'Доставка с наш транспорт',
+    'checkout.extra': 'Вход/Етаж/Ап.',
+    
+    // Viber & Success
+    'viber.sendOrder': 'Изпрати по Viber',
+    'viber.copyOrder': 'Копирай поръчката',
+    'viber.copied': 'Поръчката е копирана!',
+    'viber.instruction': 'Ако съобщението не се попълни автоматично, просто го поставете (Paste) в чата.',
+    'viber.openingViber': 'Отваряне на Viber...',
+    'success.title': 'Благодарим!',
+    'success.message': 'Вашата поръчка беше подготвена. Изберете как искате да я изпратите:',
+    'success.orderNumber': 'Номер на поръчка',
+    'success.sendViber': 'Изпрати по Viber',
+    'success.sendMessenger': 'Изпрати по Messenger',
+    'success.copyText': 'Копирай текста',
+    'success.sendTo': 'Изпратете на:',
+    'success.viberNumber': 'Viber: +447471887453',
+    'success.messengerProfile': 'Messenger: @BlameH1M',
+    
+    // Gallery Section
+    'gallery.title': 'Нашата история в снимки',
+    'gallery.subtitle': 'От полето до вашата маса',
+    'gallery.caption.ourGardens': 'Нашите градини',
+    'gallery.caption.harvest': 'Жътва',
+    'gallery.caption.naturalJuice': 'Натурален сок',
+    'gallery.caption.harvestWithCare': 'Жътва с грижа',
+    'gallery.caption.packaging': 'Опаковане',
+    'gallery.caption.modernTech': 'Модерни технологии',
+    'gallery.caption.team': 'Екипът',
+    'gallery.caption.product': 'Продукт',
+    'gallery.caption.qualityControl': 'Контрол на качеството',
+    'gallery.caption.fruits': 'Плодове',
+    'gallery.caption.tradition': 'Традиция',
+    'gallery.caption.apples': 'Ябълки',
+    'gallery.caption.inGarden': 'В градината',
+    'gallery.caption.sorting': 'Сортиране',
+    'gallery.caption.workWithCare': 'Работа с грижа',
+    'gallery.caption.freshHarvest': 'Прясна реколта',
+    'gallery.caption.quality': 'Качество',
+    'gallery.caption.ourPassion': 'Нашата страст',
+    'gallery.caption.fromHeart': 'От сърце',
+    
+    // Process Steps  
+    'process.step1.title': 'Нашите градини',
+    'process.step1.desc': 'Всичко започва в нашите екологични градини, където природата и грижата се срещат.',
+    'process.step1.details': 'Отглеждаме плодовете си в плодородни почви, богати на минерали и хранителни вещества. Всяко дърво получава индивидуално внимание и грижа през целия сезон.',
+    'process.step2.title': 'Ръчно бране',
+    'process.step2.desc': 'Всеки плод е внимателно избран на ръка в момента на перфектна зрялост.',
+    'process.step2.details': 'Нашият екип от опитни работници познава всяко дърво и бере само най-качествените плодове. Това гарантира, че само най-добрите стигат до вас.',
+    'process.step3.title': 'Модерни машини',
+    'process.step3.desc': 'Използваме съвременно оборудване за преработка, което запазва качеството.',
+    'process.step3.details': 'Най-новите технологии за измиване, сортиране и пресоване осигуряват максимална хигиена и ефективност, като същевременно запазват всички полезни вещества.',
+    'process.step4.title': 'Контрол на качеството',
+    'process.step4.desc': 'Всяка партида преминава през строг контрол и тестване за качество.',
+    'process.step4.details': 'Проверяваме всеки етап от процеса - от pH нивата до бактериологичните тестове. Нищо не минава без нашето одобрение.',
+    'process.step5.title': 'Любов към процеса',
+    'process.step5.desc': 'В края на краищата, най-важната съставка е любовта към това, което правим.',
+    'process.step5.details': 'Всеки член от нашето семейство Касамери влага сърце и душа в производството. Това е нашата страст, не просто работа.',
+    'process.sectionTitle': 'ОТ ГРАДИНАТА ДО ВАШАТА МАСА',
+    'process.heading': 'Нашият процес на работа',
+    'process.intro': 'Всяка стъпка е изпълнена с грижа, внимание и страст към качеството. Така създаваме продукти, на които можете да се доверите.',
+    'process.madeWithLove': 'Направено с любов',
+    'process.tasteDifference': 'Вкусете разликата',
+    'process.careDescription': 'Нашата грижа и внимание към детайлите правят продуктите ни специални. Всяка глътка разказва история за традиция и качество.',
+    'process.orderNow': 'Поръчайте сега',
+    
+    // Forms
+    'form.viberRedirect': 'Ще бъдете пренасочени към Viber за изпращане на запитването',
+    
+    // Badges
+    'badges.highAvailability': 'ВИСОКА НАЛИЧНОСТ',
+    'badges.orderNow': 'Поръчайте сега!',
+    'badges.recommended': 'ПРЕПОРЪЧАНО',
+    'badges.coreProduct': 'Основен продукт - винаги в наличност',
+    'badges.learnMore': 'Научи повече →',
   },
   en: {
     // Navigation
@@ -524,6 +608,7 @@ const translations = {
     'common.continueShopping': 'Continue shopping',
     'common.remove': 'Remove',
     'common.edit': 'Edit',
+    'common.orderFlow': 'Add to cart → Checkout → Send via Viber or Messenger',
     
     // Seasons
     'season.sep_nov': 'September – November',
@@ -560,6 +645,13 @@ const translations = {
     'variety.bing': 'Bing',
     'variety.van': 'Van',
     'variety.kordia': 'Kordia',
+    
+    // Badges
+    'badges.premium': 'HIGH AVAILABILITY',
+    'badges.core': 'Core product - always in stock',
+    'badges.featured': 'RECOMMENDED',
+    'badges.comingSoon': 'Coming soon',
+    'badges.orderNow': 'Order now!',
     
     // Cart
     'cart.empty': 'Your cart is empty',
@@ -620,6 +712,82 @@ const translations = {
     'checkout.timeSlots.12-15': '12:00 - 15:00',
     'checkout.timeSlots.15-18': '15:00 - 18:00',
     'checkout.gdpr': 'Data is used solely for order fulfillment.',
+    'checkout.econt_cod': 'Econt cash on delivery',
+    'checkout.our_transport': 'Delivery with our transport',
+    'checkout.extra': 'Entrance/Floor/Apt',
+    
+    // Viber & Success
+    'viber.sendOrder': 'Send via Viber',
+    'viber.copyOrder': 'Copy order',
+    'viber.copied': 'Order copied!',
+    'viber.instruction': 'If the message is not pre-filled automatically, simply paste it in the chat.',
+    'viber.openingViber': 'Opening Viber...',
+    'success.title': 'Thank you!',
+    'success.message': 'Your order is ready. Choose how you want to send it:',
+    'success.orderNumber': 'Order number',
+    'success.sendViber': 'Send via Viber',
+    'success.sendMessenger': 'Send via Messenger',
+    'success.copyText': 'Copy text',
+    'success.sendTo': 'Send to:',
+    'success.viberNumber': 'Viber: +447471887453',
+    'success.messengerProfile': 'Messenger: @BlameH1M',
+    
+    // Gallery Section
+    'gallery.title': 'Our Story in Pictures',
+    'gallery.subtitle': 'From the field to your table',
+    'gallery.caption.ourGardens': 'Our Gardens',
+    'gallery.caption.harvest': 'Harvest',
+    'gallery.caption.naturalJuice': 'Natural Juice',
+    'gallery.caption.harvestWithCare': 'Harvesting with Care',
+    'gallery.caption.packaging': 'Packaging',
+    'gallery.caption.modernTech': 'Modern Technology',
+    'gallery.caption.team': 'The Team',
+    'gallery.caption.product': 'Product',
+    'gallery.caption.qualityControl': 'Quality Control',
+    'gallery.caption.fruits': 'Fruits',
+    'gallery.caption.tradition': 'Tradition',
+    'gallery.caption.apples': 'Apples',
+    'gallery.caption.inGarden': 'In the Garden',
+    'gallery.caption.sorting': 'Sorting',
+    'gallery.caption.workWithCare': 'Working with Care',
+    'gallery.caption.freshHarvest': 'Fresh Harvest',
+    'gallery.caption.quality': 'Quality',
+    'gallery.caption.ourPassion': 'Our Passion',
+    'gallery.caption.fromHeart': 'From the Heart',
+    
+    // Process Steps
+    'process.step1.title': 'Our Orchards',
+    'process.step1.desc': 'Everything starts in our organic orchards, where nature and care meet.',
+    'process.step1.details': 'We grow our fruits in fertile soils rich in minerals and nutrients. Every tree receives individual attention and care throughout the season.',
+    'process.step2.title': 'Hand Picking',
+    'process.step2.desc': 'Every fruit is carefully hand-picked at the moment of perfect ripeness.',
+    'process.step2.details': 'Our team of experienced workers knows every tree and picks only the highest quality fruits. This ensures that only the best reach you.',
+    'process.step3.title': 'Modern Machinery',
+    'process.step3.desc': 'We use modern equipment for processing that preserves quality.',
+    'process.step3.details': 'The latest technologies for washing, sorting and pressing ensure maximum hygiene and efficiency while preserving all beneficial substances.',
+    'process.step4.title': 'Quality Control',
+    'process.step4.desc': 'Every batch goes through strict quality control and testing.',
+    'process.step4.details': 'We check every stage of the process - from pH levels to bacteriological tests. Nothing passes without our approval.',
+    'process.step5.title': 'Love for the Process',
+    'process.step5.desc': 'In the end, the most important ingredient is the love for what we do.',
+    'process.step5.details': 'Every member of our Kasameri family puts heart and soul into production. This is our passion, not just work.',
+    'process.sectionTitle': 'FROM ORCHARD TO YOUR TABLE',
+    'process.heading': 'Our Work Process',
+    'process.intro': 'Every step is filled with care, attention and passion for quality. This is how we create products you can trust.',
+    'process.madeWithLove': 'Made with Love',
+    'process.tasteDifference': 'Taste the Difference',
+    'process.careDescription': 'Our care and attention to detail make our products special. Every sip tells a story of tradition and quality.',
+    'process.orderNow': 'Order Now',
+    
+    // Forms
+    'form.viberRedirect': 'You will be redirected to Viber to send the inquiry',
+    
+    // Badges
+    'badges.highAvailability': 'HIGH AVAILABILITY',
+    'badges.orderNow': 'Order Now!',
+    'badges.recommended': 'RECOMMENDED',
+    'badges.coreProduct': 'Core product - always in stock',
+    'badges.learnMore': 'Learn more →',
   }
 };
 

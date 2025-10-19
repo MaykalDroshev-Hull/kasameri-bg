@@ -4,7 +4,6 @@ import Hero from '@/components/Hero';
 import TrustBar from '@/components/TrustBar';
 import AboutUs from '@/components/AboutUs';
 import Product from '@/components/Product';
-import Order from '@/components/Order';
 import Process from '@/components/Process';
 import Sustainability from '@/components/Sustainability';
 import Distributors from '@/components/Distributors';
@@ -22,7 +21,6 @@ export default function Home() {
       <TrustBar />
       <AboutUs />
       <Product />
-      <Order />
       <Process />
       <Sustainability />
       <Distributors />

@@ -33,8 +33,15 @@ const Topbar = () => {
       <nav className="fixed w-full z-50 bg-[#7A0B18] shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
-            <div className="flex items-center space-x-2">
-              <div className="w-12 h-12 bg-[#C4312E] rounded-full flex items-center justify-center text-white font-bold text-xl">K</div>
+            <div className="flex items-center space-x-3">
+              <Image 
+                src="/logo.svg" 
+                alt="Kasameri EOOD Logo" 
+                width={48} 
+                height={48}
+                className="w-12 h-12"
+                priority
+              />
               <div className="text-white">
                 <div className="font-serif text-xl font-bold">Kasameri</div>
                 <div className="text-xs opacity-80">EOOD</div>
