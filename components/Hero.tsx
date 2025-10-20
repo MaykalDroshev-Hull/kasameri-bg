@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const Hero = () => {
@@ -21,8 +22,10 @@ const Hero = () => {
   ];
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
     const interval = setInterval(() => {
       setCurrentImageIndex((prevIndex) => 
         prevIndex === images.length - 1 ? 0 : prevIndex + 1
@@ -39,12 +42,16 @@ const Hero = () => {
       {/* Image slider container */}
       <div className="absolute inset-0 w-full h-full">
         {images.map((image, index) => (
-          <img 
+          <Image
             key={index}
-            src={image} 
-            alt={`Orchard ${index + 1}`} 
-            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${
-              index === currentImageIndex ? 'opacity-100' : 'opacity-0'
+            src={image}
+            alt={`Orchard ${index + 1}`}
+            fill
+            priority={index === 0} // Load first image with priority
+            quality={95} // High quality for better appearance
+            sizes="100vw"
+            className={`absolute inset-0 object-cover transition-opacity duration-1000 ease-in-out ${
+              isMounted && index === currentImageIndex ? 'opacity-100' : index === 0 ? 'opacity-100' : 'opacity-0'
             }`}
           />
         ))}

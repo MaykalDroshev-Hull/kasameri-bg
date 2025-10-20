@@ -4,6 +4,7 @@
 import React, { useState } from 'react';
 import { Calendar, ShoppingCart, ArrowLeft, Star } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { getProductById } from '@/data/products';
 import { Product } from '@/types/product';
@@ -69,10 +70,14 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ productId }) => {
             {/* Product Image */}
             <div className="space-y-4">
               <div className="relative h-96 lg:h-[500px] overflow-hidden rounded-2xl">
-                <img
+                <Image
                   src={product.imageUrl}
                   alt={t(product.nameKey)}
-                  className="w-full h-full object-cover"
+                  fill
+                  priority
+                  quality={95}
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover"
                 />
                 <div className="absolute top-4 right-4 bg-[#4C8F3A] text-white text-sm px-4 py-2 rounded-full font-medium">
                   {getCategoryLabel(product.category)}

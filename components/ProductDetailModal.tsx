@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { X, Calendar, ShoppingCart, Star } from 'lucide-react';
+import Image from 'next/image';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Product } from '@/types/product';
 import AddToCartModal from './AddToCartModal';
@@ -65,10 +66,13 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ isOpen, onClose
             {/* Product Image */}
             <div className="space-y-4">
               <div className="relative h-64 lg:h-96 overflow-hidden rounded-xl">
-                <img
+                <Image
                   src={product.imageUrl}
                   alt={t(product.nameKey)}
-                  className="w-full h-full object-cover"
+                  fill
+                  quality={95}
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover"
                 />
                 <div className="absolute top-4 right-4 bg-[#4C8F3A] text-white text-sm px-4 py-2 rounded-full font-medium">
                   {getCategoryLabel(product.category)}

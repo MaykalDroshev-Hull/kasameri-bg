@@ -3,6 +3,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { X, Plus, Minus, ShoppingCart } from 'lucide-react';
+import Image from 'next/image';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useCartStore } from '@/store/cartStore';
 import { Product, Variety } from '@/types/product';
@@ -129,11 +130,16 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({ isOpen, onClose, produc
           {/* Header */}
           <div className="flex items-center justify-between p-6 border-b border-gray-200">
             <div className="flex items-center space-x-3">
-              <img
-                src={product.imageUrl}
-                alt={t(product.nameKey)}
-                className="w-12 h-12 object-cover rounded-lg"
-              />
+              <div className="relative w-12 h-12 rounded-lg overflow-hidden">
+                <Image
+                  src={product.imageUrl}
+                  alt={t(product.nameKey)}
+                  fill
+                  quality={90}
+                  sizes="48px"
+                  className="object-cover"
+                />
+              </div>
               <div>
                 <h2 className="text-lg font-bold text-[#7A0B18]">
                   {t(product.nameKey)}

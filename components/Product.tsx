@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { Calendar, ShoppingCart, Star, Heart } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Product as ProductType } from '@/types/product';
@@ -165,10 +166,13 @@ const Product = () => {
                   onClick={() => handleCardClick(product)}
                 >
                   <div className={`relative ${isPremium ? 'h-80' : 'h-64'} overflow-hidden`}>
-                    <img 
-                      src={product.imageUrl} 
+                    <Image
+                      src={product.imageUrl}
                       alt={t(product.nameKey)}
-                      className="w-full h-full object-cover hover:scale-110 transition-transform duration-500"
+                      fill
+                      quality={95}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-cover hover:scale-110 transition-transform duration-500"
                     />
                     <div className="absolute top-4 right-4 bg-[#4C8F3A] text-white text-xs px-3 py-1 rounded-full font-medium">
                       {getCategoryLabel(product.category)}

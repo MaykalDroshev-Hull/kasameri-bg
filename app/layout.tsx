@@ -25,7 +25,7 @@ export default function RootLayout({
         <link rel="icon" href="/logo.png" type="image/png" />
         <link rel="apple-touch-icon" href="/logo.png" />
       </head>
-      <body>
+      <body suppressHydrationWarning={true}>
         <LanguageProvider>
           {children}
         </LanguageProvider>

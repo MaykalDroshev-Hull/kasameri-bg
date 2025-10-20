@@ -356,7 +356,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
     console.log('Full order text being sent to Messenger:', orderText);
     console.log('Order text length:', orderText.length);
     
-    // Copy full message to clipboard as backup
+    // Copy full message to clipboard as backup (same as Viber)
     await copyToClipboard(orderText);
     
     // Create compact version for Messenger URL limits (same format as Viber)
@@ -374,16 +374,31 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
     console.log('=== MESSENGER URL DEBUGGING ===');
     console.log('Compact URI length:', compactUri.length);
     console.log('Target Facebook page:', facebookPageId);
+    console.log('Compact message:', compactMessage);
+    console.log('Full URI to test:', compactUri);
     
-    // Messenger has more lenient URL limits than Viber, but we'll still use compact for better UX
-    console.log('🚀 Attempting to send Messenger message');
+    // Always try to pre-fill the message first (like Viber does)
+    console.log('🚀 Attempting to send Messenger message with pre-filled text');
     
-    if (compactUri.length <= 2000) { // Messenger allows longer URLs than Viber
-      console.log('✅ Using compact message for Messenger');
+    try {
+      // Try to open with pre-filled message first
+      console.log('✅ Attempting Messenger with pre-filled message');
+      
+      // Test if the URI is valid
+      const testLink = document.createElement('a');
+      testLink.href = compactUri;
+      console.log('Generated link href:', testLink.href);
+      
+      // Open Messenger with pre-filled message
       window.open(compactUri, '_blank');
-    } else {
-      console.log(`⚠️ Even compact message is ${compactUri.length} chars - using fallback`);
-      // Fallback: open Messenger without pre-filled text, user can paste from clipboard
+      
+      console.log('🎯 Messenger opened with pre-filled message - user should see the message ready to send');
+      
+    } catch (error) {
+      console.error('❌ window.open failed for Messenger:', error);
+      console.log('🔄 Falling back to Messenger without pre-filled text');
+      
+      // Fallback: open Messenger without pre-filled text (user can paste from clipboard)
       window.open(`https://m.me/${facebookPageId}`, '_blank');
     }
   };

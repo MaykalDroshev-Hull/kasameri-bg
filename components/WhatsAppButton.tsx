@@ -9,7 +9,7 @@ const WhatsAppButton = () => {
   const { t } = useLanguage();
   
   return (
-    <div className="fixed bottom-6 right-6 z-50 relative">
+    <div className="fixed bottom-6 right-6 z-50">
       {/* Tooltip on the left side - always visible with blinking animation */}
       <span className="absolute right-20 top-1/2 transform -translate-y-1/2 bg-[#7A0B18] text-white text-sm px-4 py-2 rounded-full opacity-100 whitespace-nowrap shadow-lg animate-pulse">
         {t('common.startChat')}

@@ -3,6 +3,7 @@
 
 import React from 'react';
 import { X, Plus, Minus, ShoppingCart, Trash2 } from 'lucide-react';
+import Image from 'next/image';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useCartStore } from '@/store/cartStore';
 import { CartItem } from '@/types/product';
@@ -97,11 +98,16 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                 {items.map((item, index) => (
                   <div key={`${item.id}-${item.varietyKey}-${item.notes}-${index}`} className="bg-[#FFF7ED] rounded-lg p-4">
                     <div className="flex items-start space-x-3">
-                      <img
-                        src={item.imageUrl}
-                        alt={t(item.nameKey)}
-                        className="w-16 h-16 object-cover rounded-lg"
-                      />
+                      <div className="relative w-16 h-16 rounded-lg overflow-hidden">
+                        <Image
+                          src={item.imageUrl}
+                          alt={t(item.nameKey)}
+                          fill
+                          quality={90}
+                          sizes="64px"
+                          className="object-cover"
+                        />
+                      </div>
                       <div className="flex-1 min-w-0">
                         <h3 className="font-medium text-[#7A0B18] truncate">
                           {t(item.nameKey)}
