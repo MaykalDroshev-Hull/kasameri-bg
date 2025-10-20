@@ -108,7 +108,7 @@ const SuccessSheet: React.FC<SuccessSheetProps> = ({ isOpen, onClose, orderResul
 
   const handleSendMessenger = () => {
     const encodedMessage = encodeURIComponent(orderText);
-    window.open(`https://m.me/BlameH1M?text=${encodedMessage}`, '_blank');
+    window.open(`https://m.me/61581801093204?text=${encodedMessage}`, '_blank');
     
     setToastMessage(language === 'bg' 
       ? '✅ Отваря се Messenger...' 

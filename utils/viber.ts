@@ -153,7 +153,7 @@ export async function sendViaViber(
  */
 export async function sendViaMessenger(
   orderText: string,
-  facebookUsername: string = 'BlameH1M'
+  facebookUsername: string = '61581801093204'
 ): Promise<boolean> {
   try {
     // Copy to clipboard

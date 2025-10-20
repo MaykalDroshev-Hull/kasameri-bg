@@ -228,6 +228,7 @@ const translations = {
     'common.remove': 'Премахни',
     'common.edit': 'Редактирай',
     'common.orderFlow': 'Добави в количката → Поръчка → Изпрати по Viber или Messenger',
+    'common.startChat': 'Започни чат с нас',
     
     // Seasons
     'season.sep_nov': 'Септември – Ноември',
@@ -403,7 +404,7 @@ const translations = {
     'badges.highAvailability': 'ВИСОКА НАЛИЧНОСТ',
     'badges.recommended': 'ПРЕПОРЪЧАНО',
     'badges.coreProduct': 'Основен продукт - винаги в наличност',
-    'badges.learnMore': 'Научи повече →',
+    'badges.learnMore': 'Научи повече',
   },
   en: {
     // Navigation
@@ -612,6 +613,7 @@ const translations = {
     'common.remove': 'Remove',
     'common.edit': 'Edit',
     'common.orderFlow': 'Add to cart → Checkout → Send via Viber or Messenger',
+    'common.startChat': 'Start chat with us',
     
     // Seasons
     'season.sep_nov': 'September – November',
@@ -787,7 +789,7 @@ const translations = {
     'badges.highAvailability': 'HIGH AVAILABILITY',
     'badges.recommended': 'RECOMMENDED',
     'badges.coreProduct': 'Core product - always in stock',
-    'badges.learnMore': 'Learn more →',
+    'badges.learnMore': 'Learn more',
   }
 };
 

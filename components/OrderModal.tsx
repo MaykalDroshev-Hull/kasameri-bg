@@ -2,12 +2,13 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { X, Calendar, Clock, MapPin, CreditCard, User, Phone, Mail, FileText, Tag, CheckCircle } from 'lucide-react';
+import { X, Calendar, Clock, MapPin, CreditCard, User, Phone, Mail, Facebook } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useCartStore } from '@/store/cartStore';
 import { useCheckoutStore, CheckoutForm, OrderRequest, OrderItem } from '@/store/checkoutStore';
 import SuccessSheet from './SuccessSheet';
 import { getEurConversion } from '@/utils/currency';
+import { copyToClipboard } from '@/utils/viber';
 
 interface OrderModalProps {
   isOpen: boolean;
@@ -35,8 +36,6 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
   } = useCheckoutStore();
 
   const [activeTab, setActiveTab] = useState<'contact' | 'review'>('contact');
-  const [promoCode, setPromoCode] = useState(form.promoCode || '');
-  const [promoApplied, setPromoApplied] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [orderResult, setOrderResult] = useState<any>(null);
   
@@ -88,24 +87,8 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
     updatePreferred(field as any, value);
   };
 
-  const handlePromoCode = () => {
-    if (promoCode === 'WELCOME5') {
-      setPromoApplied(true);
-      updateField('promoCode', promoCode);
-    } else {
-      setPromoApplied(false);
-      updateField('promoCode', '');
-    }
-  };
-
-  const removePromoCode = () => {
-    setPromoCode('');
-    setPromoApplied(false);
-    updateField('promoCode', '');
-  };
-
   const getTotals = () => {
-    return calculateTotals(subtotal(), promoApplied ? promoCode : undefined);
+    return calculateTotals(subtotal());
   };
 
   const convertCartItemsToOrderItems = (): OrderItem[] => {
@@ -122,6 +105,287 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
 
   const generateIdempotencyKey = () => {
     return `order_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  };
+
+  const buildOrderSummaryForViber = () => {
+    const totals = getTotals();
+    const orderItems = convertCartItemsToOrderItems();
+
+    // Enhanced debug logging to see what we have
+    console.log('=== BUILDING VIBER MESSAGE ===');
+    console.log('🔍 DEBUGGING CART STATE:');
+    console.log('- items from useCartStore:', items);
+    console.log('- items type:', typeof items);
+    console.log('- items length:', items ? items.length : 'undefined');
+    console.log('- items is array:', Array.isArray(items));
+    
+    if (items && items.length > 0) {
+      console.log('- First cart item:', items[0]);
+      console.log('- All cart items:', items);
+    } else {
+      console.log('❌ NO CART ITEMS FOUND!');
+    }
+    
+    console.log('🔍 ORDER ITEMS:');
+    console.log('- orderItems:', orderItems);
+    console.log('- orderItems length:', orderItems ? orderItems.length : 'undefined');
+    console.log('🔍 TOTALS:', totals);
+    console.log('🔍 FORM:', form);
+
+    let orderText = `ПОРЪЧКА ОТ УЕБСАЙТА\n\n`;
+    
+    console.log('=== FORCING PRODUCTS INCLUSION ===');
+    console.log('Cart items (items):', items);
+    console.log('Cart items length:', items?.length);
+    console.log('Order items:', orderItems);
+    console.log('Order items length:', orderItems?.length);
+    // Customer info
+    orderText += `Клиент: ${form.fullName || 'Не е посочено'}\n`;
+    orderText += `Телефон: ${form.phone || 'Не е посочен'}\n`;
+    if (form.email) {
+      orderText += `Email: ${form.email}\n`;
+    }
+    orderText += `\n`;
+
+    // Delivery info
+    const deliveryMethodText = form.deliveryMethod === 'pickup' ? 'Лично вземане' : 
+                              form.deliveryMethod === 'econt_cod' ? 'Econt (наложен платеж)' : 
+                              'Наша доставка';
+    orderText += `Доставка: ${deliveryMethodText}\n`;
+    
+    if (form.deliveryMethod !== 'pickup' && form.address) {
+      orderText += `Адрес: ${form.address.street || ''}, ${form.address.city || ''} ${form.address.postcode || ''}\n`;
+      if (form.address.extra) {
+        orderText += `Допълнения: ${form.address.extra}\n`;
+      }
+    }
+    
+    if (form.preferred?.dateISO) {
+      const date = new Date(form.preferred.dateISO).toLocaleDateString('bg-BG');
+      orderText += `Предпочитан ден: ${date}\n`;
+    }
+    
+    if (form.preferred?.slot) {
+      orderText += `Часов интервал: ${form.preferred.slot}\n`;
+    }
+    
+    orderText += `\n`;
+
+    // Order items - FORCE INCLUDE this section
+    orderText += `ПОРЪЧКИ:\n`;
+    console.log('=== FORCING PRODUCTS INCLUSION ===');
+    console.log('Cart items (items):', items);
+    console.log('Cart items length:', items?.length);
+    console.log('Order items:', orderItems);
+    console.log('Order items length:', orderItems?.length);
+    
+    // ALWAYS try to add products from cart items first (most reliable)
+    console.log('🚨 CHECKING CART BEFORE ADDING PRODUCTS:');
+    console.log('- items exists:', !!items);
+    console.log('- items.length:', items?.length);
+    console.log('- items array check:', Array.isArray(items));
+    
+    if (items && items.length > 0) {
+      console.log('✅ FORCING: Using cart items directly - found', items.length, 'items');
+      items.forEach((item, index) => {
+        console.log(`🛒 FORCING: Processing cart item ${index}:`, {
+          id: item.id,
+          nameKey: item.nameKey,
+          varietyKey: item.varietyKey,
+          qty: item.qty,
+          unit: item.unit,
+          pricePerUnit: item.pricePerUnit
+        });
+        
+        const itemName = t(item.nameKey) || item.nameKey || `Продукт ${index + 1}`;
+        const itemVariety = item.varietyKey ? t(item.varietyKey) || item.varietyKey : undefined;
+        
+        console.log(`📝 Added to message: ${itemName} (${itemVariety || 'no variety'})`);
+        
+        orderText += `${index + 1}. ${itemName}`;
+        if (itemVariety) {
+          orderText += ` (${itemVariety})`;
+        }
+        const lineTotal = (item.qty || 0) * (item.pricePerUnit || 0);
+        orderText += ` - ${item.qty || 0} ${item.unit || ''} × ${formatPrice(item.pricePerUnit || 0)} = ${formatPrice(lineTotal)}\n`;
+      });
+    } else if (orderItems && orderItems.length > 0) {
+      console.log('FORCING: Using converted order items');
+      orderItems.forEach((item, index) => {
+        console.log(`FORCING: Adding order item ${index}:`, item);
+        orderText += `${index + 1}. ${item.name || `Продукт ${index + 1}`}`;
+        if (item.variety) {
+          orderText += ` (${item.variety})`;
+        }
+        orderText += ` - ${item.qty || 0} ${item.unit || ''} × ${formatPrice(item.pricePerUnit || 0)} = ${formatPrice(item.lineTotal || 0)}\n`;
+      });
+    } else {
+      console.log('FORCING: NO PRODUCTS FOUND - This is a problem!');
+      orderText += `ВНИМАНИЕ: Няма продукти в количката!\n`;
+      orderText += `Моля проверете количката и опитайте отново.\n`;
+    }
+    
+    orderText += `\n`;
+
+    // Debug: Show what the message looks like so far
+    console.log('💬 MESSAGE AFTER ADDING PRODUCTS:');
+    console.log('Current message length:', orderText.length);
+    console.log('Message contains "ПОРЪЧКИ":', orderText.includes('ПОРЪЧКИ'));
+    console.log('Message so far:', orderText);
+
+    // Totals - ensure this section is always included
+    console.log('About to add totals:', totals);
+    orderText += `Междинна сума: ${formatPrice(totals.subtotal || 0)}\n`;
+    if (totals.discount > 0) {
+      orderText += `Отстъпка: -${formatPrice(totals.discount)}\n`;
+    }
+    orderText += `Доставка: ${(totals.deliveryFee || 0) === 0 ? 'Безплатно' : formatPrice(totals.deliveryFee || 0)}\n`;
+    orderText += `ОБЩО: ${formatPrice(totals.total || 0)}\n`;
+
+    console.log('=== COMPLETE MESSAGE ===');
+    console.log('Final order text length:', orderText.length);
+    console.log('Final order text:');
+    console.log(orderText);
+    console.log('=== END MESSAGE ===');
+    
+    return orderText;
+  };
+
+  // Create a compact version of the message for Viber limits
+  const createCompactViberMessage = () => {
+    const totals = getTotals();
+    
+    // Define delivery method text
+    const deliveryMethodText = form.deliveryMethod === 'pickup' ? 'Лично вземане' : 
+                              form.deliveryMethod === 'econt_cod' ? 'Econt (наложен платеж)' : 
+                              'Наша доставка';
+    
+    // New format: Customer info, email, delivery method, products, total
+    let compactText = `Клиент: ${form.fullName || 'Не е посочено'}\n`;
+    compactText += `Тел: ${form.phone || 'Не е посочен'}\n`;
+    
+    // Add email if available
+    if (form.email) {
+      compactText += `Имейл: ${form.email}\n`;
+    }
+    
+    // Add delivery method
+    compactText += `Доставка: ${deliveryMethodText}\n`;
+    
+    // Products list (simple format: name + quantity)
+    if (items && items.length > 0) {
+      items.forEach((item) => {
+        const itemName = t(item.nameKey) || item.nameKey || 'Продукт';
+        compactText += `${itemName} ${item.qty}${item.unit}\n`;
+      });
+    }
+    
+    // Total
+    compactText += `ОБЩО: ${formatPrice(totals.total || 0)} лв.`;
+    
+    return compactText;
+  };
+
+  const handleSendViaViber = async () => {
+    const orderText = buildOrderSummaryForViber();
+    
+    console.log('Full order text being sent:', orderText);
+    console.log('Order text length:', orderText.length);
+    
+    // Copy full message to clipboard as backup
+    await copyToClipboard(orderText);
+    
+    // Create compact version for Viber URL limits
+    const compactMessage = createCompactViberMessage();
+    console.log('Compact message:', compactMessage);
+    console.log('Compact message length:', compactMessage.length);
+    
+    // Try compact version first, then full version
+    const compactEncoded = encodeURIComponent(compactMessage);
+    const compactUri = `viber://forward?text=${compactEncoded}`;
+    const fullEncoded = encodeURIComponent(orderText);
+    const fullUri = `viber://forward?text=${fullEncoded}`;
+    
+    console.log('=== URL DEBUGGING ===');
+    console.log('Compact URI length:', compactUri.length);
+    console.log('Full URI length:', fullUri.length);
+    
+    // Smart approach: Use compact message if possible, otherwise clipboard
+    console.log('🚀 Attempting to send Viber message');
+    console.log('📏 DETECTED LIMIT: Viber limits to ~11 lines or 800-1000 chars');
+    
+    // Debug: Show what we're actually sending
+    console.log('🔍 DEBUG INFO:');
+    console.log('- Compact message:', compactMessage);
+    console.log('- Compact URI:', compactUri);
+    console.log('- URI length:', compactUri.length);
+    
+    // Try to use viber://forward with better error handling
+    if (compactUri.length <= 800) {
+      console.log('✅ Using compact message with viber://forward');
+      
+      // Use the same pattern as Contact.tsx which works
+      try {
+        console.log('🚀 Opening viber://forward URI...');
+        console.log('Full URI to test:', compactUri);
+        
+        // Test if the URI is valid by checking if it can be opened
+        const testLink = document.createElement('a');
+        testLink.href = compactUri;
+        console.log('Generated link href:', testLink.href);
+        
+        // Try to open
+        window.open(compactUri, '_blank');
+      } catch (error) {
+        console.error('❌ window.open failed:', error);
+        console.log('🔄 Trying window.location.href fallback');
+        // Don't use location.href for viber://, it might cause issues
+        // Just fall back to clipboard approach
+        console.log('Using clipboard approach instead');
+      }
+    } else {
+      console.log(`⚠️ Compact message is ${compactUri.length} chars - too long, using clipboard`);
+      console.log('📋 Complete message copied to clipboard');
+      window.location.href = 'viber://chat?number=%2B359876522974';
+    }
+  };
+
+  const handleSendViaMessenger = async () => {
+    const orderText = buildOrderSummaryForViber();
+    
+    console.log('Full order text being sent to Messenger:', orderText);
+    console.log('Order text length:', orderText.length);
+    
+    // Copy full message to clipboard as backup
+    await copyToClipboard(orderText);
+    
+    // Create compact version for Messenger URL limits (same format as Viber)
+    const compactMessage = createCompactViberMessage();
+    console.log('Compact message for Messenger:', compactMessage);
+    console.log('Compact message length:', compactMessage.length);
+    
+    // Facebook profile ID from: https://www.facebook.com/profile.php?id=61581801093204
+    const facebookPageId = '61581801093204';
+    
+    // Encode compact message for Messenger URI
+    const compactEncoded = encodeURIComponent(compactMessage);
+    const compactUri = `https://m.me/${facebookPageId}?text=${compactEncoded}`;
+    
+    console.log('=== MESSENGER URL DEBUGGING ===');
+    console.log('Compact URI length:', compactUri.length);
+    console.log('Target Facebook page:', facebookPageId);
+    
+    // Messenger has more lenient URL limits than Viber, but we'll still use compact for better UX
+    console.log('🚀 Attempting to send Messenger message');
+    
+    if (compactUri.length <= 2000) { // Messenger allows longer URLs than Viber
+      console.log('✅ Using compact message for Messenger');
+      window.open(compactUri, '_blank');
+    } else {
+      console.log(`⚠️ Even compact message is ${compactUri.length} chars - using fallback`);
+      // Fallback: open Messenger without pre-filled text, user can paste from clipboard
+      window.open(`https://m.me/${facebookPageId}`, '_blank');
+    }
   };
 
   const handleSubmit = async () => {
@@ -156,7 +420,6 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
         subtotal: totals.subtotal,
         discount: totals.discount > 0 ? totals.discount : undefined,
         total: totals.total,
-        notes: form.notes || undefined,
         createdAtISO: new Date().toISOString()
       };
 
@@ -567,64 +830,6 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
                     </div>
                   </div>
 
-                  {/* Promo Code */}
-                  <div className="space-y-4">
-                    <h3 className="text-lg font-semibold text-[#7A0B18] flex items-center space-x-2">
-                      <Tag size={20} />
-                      <span>{t('checkout.promo')}</span>
-                    </h3>
-                    
-                    <div className="flex space-x-2">
-                      <input
-                        type="text"
-                        value={promoCode}
-                        onChange={(e) => setPromoCode(e.target.value)}
-                        className="flex-1 border border-gray-300 rounded-lg px-3 py-2 focus:border-[#C4312E] focus:outline-none"
-                        placeholder="WELCOME5"
-                      />
-                      {promoApplied ? (
-                        <button
-                          onClick={removePromoCode}
-                          className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
-                        >
-                          {t('checkout.remove')}
-                        </button>
-                      ) : (
-                        <button
-                          onClick={handlePromoCode}
-                          className="px-4 py-2 bg-[#C4312E] text-white rounded-lg hover:bg-[#A02820] transition"
-                        >
-                          {t('checkout.apply')}
-                        </button>
-                      )}
-                    </div>
-                    {promoApplied && (
-                      <p className="text-green-600 text-sm flex items-center space-x-1">
-                        <CheckCircle size={16} />
-                        <span>5% отстъпка приложена</span>
-                      </p>
-                    )}
-                  </div>
-
-                  {/* Order Notes */}
-                  <div className="space-y-4">
-                    <h3 className="text-lg font-semibold text-[#7A0B18] flex items-center space-x-2">
-                      <FileText size={20} />
-                      <span>{t('checkout.notes')}</span>
-                    </h3>
-                    
-                    <textarea
-                      value={form.notes || ''}
-                      onChange={(e) => handleFieldChange('notes', e.target.value)}
-                      rows={3}
-                      maxLength={280}
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:border-[#C4312E] focus:outline-none resize-none"
-                      placeholder="Допълнителни инструкции за доставката..."
-                    />
-                    <p className="text-xs text-gray-500">
-                      {(form.notes || '').length}/280 символа
-                    </p>
-                  </div>
 
                   {/* Consent */}
                   <div className="space-y-4">
@@ -728,6 +933,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
                       </p>
                     )}
                   </div>
+
                 </div>
               )}
             </div>
@@ -750,20 +956,22 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
                   {t('checkout.review')} →
                 </button>
               ) : (
-                <button
-                  onClick={handleSubmit}
-                  disabled={isSubmitting}
-                  className="flex-1 px-4 py-3 bg-[#C4312E] text-white rounded-lg hover:bg-[#A02820] transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                      <span>Обработка...</span>
-                    </>
-                  ) : (
-                    <span>{t('checkout.placeOrder')}</span>
-                  )}
-                </button>
+                <div className="flex space-x-2 flex-1">
+                  <button
+                    onClick={handleSendViaViber}
+                    className="flex-1 px-4 py-3 bg-[#7360F2] text-white rounded-lg hover:bg-[#5A4DC2] transition flex items-center justify-center space-x-2"
+                  >
+                    <Phone size={18} />
+                    <span>{t('viber.sendOrder')}</span>
+                  </button>
+                  <button
+                    onClick={handleSendViaMessenger}
+                    className="flex-1 px-4 py-3 bg-[#0084FF] text-white rounded-lg hover:bg-[#0073E6] transition flex items-center justify-center space-x-2"
+                  >
+                    <Facebook size={18} />
+                    <span>Messenger</span>
+                  </button>
+                </div>
               )}
             </div>
           </div>
