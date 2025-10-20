@@ -30,8 +30,8 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({ isOpen, onClose, produc
       // Juice: start at 3, step 3, max 30
       return { min: 3, max: 30, step: 3, initial: 3 };
     } else {
-      // Fruits/vegetables: start at 1, step 1, max 25
-      return { min: 1, max: 25, step: 1, initial: 1 };
+      // Fruits/vegetables: start at 1, step 1, max 100
+      return { min: 1, max: 100, step: 1, initial: 1 };
     }
   };
 
