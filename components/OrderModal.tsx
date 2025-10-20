@@ -346,7 +346,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
     } else {
       console.log(`⚠️ Compact message is ${compactUri.length} chars - too long, using clipboard`);
       console.log('📋 Complete message copied to clipboard');
-      window.location.href = 'viber://chat?number=%2B359876522974';
+      window.location.href = 'viber://chat?number=%2B359878115494';
     }
   };
 

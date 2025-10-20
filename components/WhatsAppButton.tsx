@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { FaViber } from 'react-icons/fa';
-import { Facebook } from 'lucide-react';
+import { Facebook, Phone } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const WhatsAppButton = () => {
@@ -19,9 +19,17 @@ const WhatsAppButton = () => {
       
       {/* Buttons Container */}
       <div className="flex flex-col space-y-3">
+        {/* Phone Call Button */}
+        <a 
+          href="tel:+359878115494" 
+          className="w-16 h-16 bg-green-600 rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform group"
+        >
+          <Phone className="w-8 h-8 text-white" />
+        </a>
+        
         {/* Viber Button */}
         <a 
-          href="viber://chat?number=%2B359876522974" 
+          href="viber://chat?number=%2B359878115494" 
           target="_blank"
           rel="noopener noreferrer"
           className="w-16 h-16 bg-[#7360F2] rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform group"
