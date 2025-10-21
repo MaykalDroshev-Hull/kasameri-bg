@@ -3,9 +3,9 @@ import { Product, Variety } from '@/types/product';
 
 export const varieties: Record<string, Variety[]> = {
   apples: [
-    { id: 'idared', nameKey: 'variety.idared' },
-    { id: 'golden', nameKey: 'variety.golden' },
-    { id: 'granny', nameKey: 'variety.granny' }
+    { id: 'idared', nameKey: 'variety.idared', imageUrl: '/images/plc1.jpg' },
+    { id: 'golden', nameKey: 'variety.golden', imageUrl: '/images/plc2.jpg' },
+    { id: 'granny', nameKey: 'variety.granny', imageUrl: '/images/plc3.jpg' }
   ],
   cherries: [
     { id: 'bing', nameKey: 'variety.bing' },

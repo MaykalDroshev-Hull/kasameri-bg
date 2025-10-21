@@ -13,6 +13,7 @@ const nextConfig = {
     minimumCacheTTL: 31536000, // 1 year
     dangerouslyAllowSVG: false,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    qualities: [90, 95, 100],
   },
   reactStrictMode: true,
   compiler: {

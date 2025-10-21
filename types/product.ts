@@ -5,6 +5,7 @@ export type Category = 'fruits' | 'vegetables' | 'drinks';
 export type Variety = {
   id: string;
   nameKey: string; // e.g., 'variety.idared'
+  imageUrl?: string; // Optional image for the variety
 };
 
 export type Product = {

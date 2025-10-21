@@ -9,16 +9,16 @@ const Hero = () => {
   
   // Selected diverse images from different time periods
   const images = [
-    '/images/viber_image_2025-10-08_20-47-50-758.jpg',
-    '/images/viber_image_2025-10-08_20-48-05-160.jpg',
-    '/images/viber_image_2025-10-08_20-48-05-466.jpg',
-    '/images/viber_image_2025-10-08_20-48-06-048.jpg',
-    '/images/viber_image_2025-10-08_20-48-06-306.jpg',
-    '/images/viber_image_2025-10-08_20-48-07-135.jpg',
-    '/images/viber_image_2025-10-08_20-48-08-204.jpg',
-    '/images/viber_image_2025-10-08_20-48-09-148.jpg',
-    '/images/viber_image_2025-10-08_21-15-26-512.jpg',
-    '/images/viber_image_2025-10-08_21-25-23-282.jpg'
+    '/images2/viber_image_2025-10-08_20-47-50-758.jpg',
+    '/images2/viber_image_2025-10-08_20-48-05-160.jpg',
+    '/images2/viber_image_2025-10-08_20-48-05-466.jpg',
+    '/images2/viber_image_2025-10-08_20-48-06-048.jpg',
+    '/images2/viber_image_2025-10-08_20-48-06-306.jpg',
+    '/images2/viber_image_2025-10-08_20-48-07-135.jpg',
+    '/images2/viber_image_2025-10-08_20-48-08-204.jpg',
+    '/images2/viber_image_2025-10-08_20-48-09-148.jpg',
+    '/images2/viber_image_2025-10-08_21-15-26-512.jpg',
+    '/images2/viber_image_2025-10-08_21-25-23-282.jpg'
   ];
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -48,7 +48,7 @@ const Hero = () => {
             alt={`Orchard ${index + 1}`}
             fill
             priority={index === 0} // Load first image with priority
-            quality={95} // High quality for better appearance
+            quality={100} // Maximum quality for better appearance
             sizes="100vw"
             className={`absolute inset-0 object-cover transition-opacity duration-1000 ease-in-out ${
               isMounted && index === currentImageIndex ? 'opacity-100' : index === 0 ? 'opacity-100' : 'opacity-0'

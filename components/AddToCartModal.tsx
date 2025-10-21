@@ -41,6 +41,7 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({ isOpen, onClose, produc
     if (isOpen) {
       if (product.varieties && product.varieties.length > 0) {
         setSelectedVariety(product.varieties[0].id);
+        console.log('Varieties with images:', product.varieties);
       }
       // Reset form when opening
       setQuantity(quantityConfig.initial);
@@ -132,7 +133,11 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({ isOpen, onClose, produc
             <div className="flex items-center space-x-3">
               <div className="relative w-12 h-12 rounded-lg overflow-hidden">
                 <Image
-                  src={product.imageUrl}
+                  src={
+                    selectedVariety && product.varieties
+                      ? product.varieties.find(v => v.id === selectedVariety)?.imageUrl || product.imageUrl
+                      : product.imageUrl
+                  }
                   alt={t(product.nameKey)}
                   fill
                   quality={90}
@@ -167,7 +172,14 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({ isOpen, onClose, produc
                 </label>
                 <div className="space-y-2">
                   {product.varieties.map((variety) => (
-                    <label key={variety.id} className="flex items-center space-x-3 cursor-pointer">
+                    <label 
+                      key={variety.id} 
+                      className={`flex items-center space-x-3 cursor-pointer p-3 rounded-lg border-2 transition ${
+                        selectedVariety === variety.id 
+                          ? 'border-[#C4312E] bg-[#FFF7ED]' 
+                          : 'border-gray-200 hover:border-[#C4312E]/50'
+                      }`}
+                    >
                       <input
                         type="radio"
                         name="variety"
@@ -176,7 +188,19 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({ isOpen, onClose, produc
                         onChange={(e) => setSelectedVariety(e.target.value)}
                         className="text-[#C4312E] focus:ring-[#C4312E]"
                       />
-                      <span className="text-[#6B4423]">{t(variety.nameKey)}</span>
+                      {variety.imageUrl && (
+                        <div className="relative w-10 h-10 rounded overflow-hidden flex-shrink-0">
+                          <Image
+                            src={variety.imageUrl}
+                            alt={t(variety.nameKey)}
+                            fill
+                            quality={90}
+                            sizes="40px"
+                            className="object-cover"
+                          />
+                        </div>
+                      )}
+                      <span className="text-[#6B4423] font-medium">{t(variety.nameKey)}</span>
                     </label>
                   ))}
                 </div>
