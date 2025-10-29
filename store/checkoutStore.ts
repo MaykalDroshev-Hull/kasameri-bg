@@ -31,7 +31,7 @@ export type OrderItem = {
   name: string;
   variety?: string;
   qty: number;          // decimals allowed
-  unit: 'kg' | 'l';
+  unit: 'kg' | 'l' | 'pack';
   pricePerUnit: number;
   lineTotal: number;
 };

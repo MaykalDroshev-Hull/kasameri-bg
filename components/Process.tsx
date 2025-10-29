@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { ArrowRight, Heart } from 'lucide-react';
+import { Heart } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 interface ProcessStep {
@@ -18,40 +18,66 @@ const Process = () => {
   
   // Images for the "Our Orchards" step
   const orchardImages = [
-    '/images/viber_image_2025-10-08_20-48-05-466.jpg',
-    '/images/viber_image_2025-10-08_20-48-09-665.jpg',
-    '/images/viber_image_2025-10-08_21-25-56-611.jpg',
-    '/images/viber_image_2025-10-08_21-25-57-328.jpg'
+    '/our-gardens/viber_image_2025-10-26_10-51-05-312.jpg',
+    '/our-gardens/viber_image_2025-10-26_10-51-17-814.jpg',
+    '/our-gardens/viber_image_2025-10-26_10-51-27-262.jpg',
+    '/our-gardens/viber_image_2025-10-26_10-51-27-492.jpg',
+    '/our-gardens/viber_image_2025-10-26_10-51-27-712.jpg',
+    '/our-gardens/viber_image_2025-10-26_10-51-27-921.jpg',
+    '/our-gardens/viber_image_2025-10-26_10-51-28-142.jpg',
+    '/our-gardens/viber_image_2025-10-26_10-51-28-371.jpg',
+    '/our-gardens/viber_image_2025-10-26_10-51-28-603.jpg',
+    '/our-gardens/viber_image_2025-10-26_10-51-28-887.jpg',
+    '/our-gardens/viber_image_2025-10-26_10-51-29-121.jpg'
   ];
 
   // Images for the "Hand Picking" step
   const handPickingImages = [
-    '/images/viber_image_2025-10-08_21-16-57-707.jpg',
-    '/images/viber_image_2025-10-08_21-16-57-675.jpg',
-    '/images/viber_image_2025-10-08_21-16-57-643.jpg',
-    '/images/viber_image_2025-10-08_21-16-57-526.jpg',
-    '/images/viber_image_2025-10-08_21-16-57-287.jpg',
-    '/images/viber_image_2025-10-08_20-48-08-484.jpg'
+    '/hand-picking/viber_image_2025-10-26_10-51-29-121.jpg',
+    '/hand-picking/viber_image_2025-10-26_10-53-40-899.jpg',
+    '/hand-picking/viber_image_2025-10-26_10-53-59-151.jpg',
+    '/hand-picking/viber_image_2025-10-26_10-53-59-688.jpg',
+    '/hand-picking/viber_image_2025-10-26_10-53-59-917.jpg',
+    '/hand-picking/viber_image_2025-10-26_10-54-00-199.jpg',
+    '/hand-picking/viber_image_2025-10-26_10-54-00-423.jpg',
+    '/hand-picking/viber_image_2025-10-26_10-54-00-665.jpg',
+    '/hand-picking/viber_image_2025-10-26_10-54-00-905.jpg',
+    '/hand-picking/viber_image_2025-10-26_10-54-01-123.jpg',
+    '/hand-picking/viber_image_2025-10-26_10-54-01-348.jpg',
+    '/hand-picking/viber_image_2025-10-26_10-54-01-584.jpg',
+    '/hand-picking/viber_image_2025-10-26_10-54-01-835.jpg',
+    '/hand-picking/viber_image_2025-10-26_10-54-02-066.jpg',
+    '/hand-picking/viber_image_2025-10-26_10-54-02-300.jpg'
   ];
 
   // Images for the "Modern Machinery" step
   const machineryImages = [
-    '/images/viber_image_2025-10-13_13-14-44-875.jpg',
-    '/images/viber_image_2025-10-13_13-14-45-099.jpg',
-    '/images/viber_image_2025-10-13_13-14-41-898.jpg'
+    '/modern-machines/viber_image_2025-10-26_10-54-26-809.jpg',
+    '/modern-machines/viber_image_2025-10-26_10-54-30-195.jpg',
+    '/modern-machines/viber_image_2025-10-26_10-54-30-440.jpg',
+    '/modern-machines/viber_image_2025-10-26_10-54-30-689.jpg',
+    '/modern-machines/viber_image_2025-10-26_10-54-30-895.jpg',
+    '/modern-machines/viber_image_2025-10-26_10-54-31-103.jpg',
+    '/modern-machines/viber_image_2025-10-26_10-54-31-362.jpg',
+    '/modern-machines/viber_image_2025-10-26_10-54-31-594.jpg'
   ];
 
   // Images for the "Love for the Process" step
   const loveProcessImages = [
-    '/images/viber_image_2025-10-08_21-39-22-222.jpg',
-    '/images/viber_image_2025-10-08_21-55-41-987.jpg',
-    '/images/viber_image_2025-10-08_21-25-57-328.jpg'
+    '/love-to-the-process/viber_image_2025-10-26_11-16-54-615.jpg',
+    '/love-to-the-process/viber_image_2025-10-26_11-16-54-863.jpg',
+    '/love-to-the-process/viber_image_2025-10-26_11-16-55-082.jpg',
+    '/love-to-the-process/viber_image_2025-10-26_11-16-55-399.jpg',
+    '/love-to-the-process/viber_image_2025-10-26_11-16-55-733.jpg',
+    '/love-to-the-process/viber_image_2025-10-26_11-16-56-122.jpg',
+    '/love-to-the-process/viber_image_2025-10-26_11-16-56-366.jpg',
+    '/love-to-the-process/viber_image_2025-10-26_11-16-56-590.jpg'
   ];
 
   // Images for the "Quality Control" step
   const qualityControlImages = [
-    '/images/viber_image_2025-10-08_21-16-57-847.jpg',
-    '/images/viber_image_2025-10-08_21-16-57-793.jpg'
+    '/quality-control/viber_image_2025-10-26_10-55-29-411.jpg',
+    '/quality-control/viber_image_2025-10-26_11-16-54-863.jpg'
   ];
 
   const [currentOrchardImageIndex, setCurrentOrchardImageIndex] = useState(0);
@@ -331,38 +357,8 @@ const Process = () => {
                 </div>
               </div>
 
-              {/* Arrow - Hidden on last item */}
-              {index < processSteps.length - 1 && (
-                <div className="flex justify-center my-8">
-                  <div className="flex flex-col items-center">
-                    <div className="w-0.5 h-8 bg-gradient-to-b from-[#C4312E] to-[#4C8F3A]"></div>
-                    <ArrowRight 
-                      className="text-[#C4312E] transform rotate-90 animate-bounce" 
-                      size={32} 
-                      strokeWidth={3}
-                    />
-                  </div>
-                </div>
-              )}
             </div>
           ))}
-        </div>
-
-        {/* Call to Action */}
-        <div className="mt-16 text-center">
-          <div className="bg-gradient-to-r from-[#7A0B18] to-[#C4312E] rounded-3xl p-8 md:p-12 text-white shadow-2xl">
-            <h3 className="font-serif text-3xl md:text-4xl mb-4">{t('process.tasteDifference')}</h3>
-            <p className="text-white/90 text-lg mb-6 max-w-2xl mx-auto">
-              {t('process.careDescription')}
-            </p>
-            <a 
-              href="#order"
-              className="inline-flex items-center gap-2 bg-white text-[#7A0B18] px-8 py-4 rounded-full font-bold text-lg hover:bg-[#EFBF3A] transition-all duration-300 transform hover:scale-105 shadow-lg"
-            >
-              {t('process.orderNow')}
-              <ArrowRight size={20} />
-            </a>
-          </div>
         </div>
       </div>
     </section>

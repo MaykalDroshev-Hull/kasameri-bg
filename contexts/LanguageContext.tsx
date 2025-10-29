@@ -41,12 +41,15 @@ const translations = {
     'trust.location': 'Александрово, Ловеч • Локално производство',
     'trust.family': 'Семеен бизнес • Честност и качество',
     
+    // Experience Section
+    'experience.text': 'Занимаваме се със земеделие от 17 години (от 2008).',
+    
     // About Us
     'about.title': 'НАШАТА ЗЕМЯ',
     'about.heading': 'Александрово: Перфектното място за плодове',
     'about.description1': 'Разположени в сърцето на Ловешка област, нашите земи се ползват от уникален микроклимат - топли дни, хладни нощи и богата почва, идеална за ябълки, череши и круши.',
     'about.description2': 'Водата, която използваме, идва от естествени подпочвени извори, а всяко дърво получава внимание както в дядовите градини.',
-    'about.description3': 'Това не е просто ферма - това е наследство, което пазим и развиваме от 2013 година.',
+    'about.description3': 'Това не е просто ферма - това е наследство, което пазим и развиваме от 2008 година.',
     'about.visit': 'Посетете ни: Александрово 5572, Ловеч',
     'about.hours': 'Работно време: Пон-Съб 8:00-17:00',
     
@@ -235,16 +238,19 @@ const translations = {
     'season.may_jul': 'Май – Юли',
     'season.aug_oct': 'Август – Октомври',
     'season.jul_aug': 'Юли – Август',
+    'season.jul_sep': 'Юли – Септември',
     'season.jun_sep': 'Юни – Септември',
     'season.may_oct': 'Май – Октомври',
+    'season.sep_mar': 'Септември – Март',
+    'season.sep_oct': 'Септември – Октомври',
     'season.oct_nov': 'Октомври – Ноември',
     'season.year_round': 'Целогодишно',
     
     // Product Details
     'product.apples.name': 'Ябълки',
-    'product.apples.desc': 'Отглеждаме сортове Айдаред, Златна Превъзходна и Гренни Смит.',
+    'product.apples.desc': 'Отглеждаме сортове Златна превъзходна, Флорина, Джонаголд и Мелроуз.',
     'product.cherries.name': 'Череши',
-    'product.cherries.desc': 'Сладки и сочни череши, берени на ръка в пика на зрялост.',
+    'product.cherries.desc': 'Сладки и сочни череши хрущялка, брани на ръка в пика на зрялост.',
     'product.pears.name': 'Круши',
     'product.pears.desc': 'Ароматни круши с перфектна текстура и естествена сладост.',
     'product.melons.name': 'Пъпеши',
@@ -256,15 +262,18 @@ const translations = {
     'product.quinces.name': 'Дюли',
     'product.quinces.desc': 'Ароматни дюли за сладка, конфитюр и традиционни рецепти.',
     'product.appleJuice.name': '100% Ябълков Сок',
-    'product.appleJuice.desc': 'Натурален сок без добавена захар, консерванти или оцветители.',
+    'product.appleJuice.desc': 'Натурален ябълков сок – 100% истински, без добавена захар и без консерванти. Пакет от 3 литра.',
     
     // Varieties
-    'variety.idared': 'Айдаред',
-    'variety.golden': 'Златна Превъзходна',
-    'variety.granny': 'Гренни Смит',
-    'variety.bing': 'Бинг',
-    'variety.van': 'Ван',
-    'variety.kordia': 'Кордия',
+    'variety.golden': 'Златна превъзходна',
+    'variety.florina': 'Флорина',
+    'variety.jonagold': 'Джонаголд',
+    'variety.melrose': 'Мелроуз',
+    
+    // Apple Quality
+    'quality.first': '1-во качество',
+    'quality.second': '2-ро качество',
+    'quality.select': 'Изберете качество',
     
     // Badges
     'badges.premium': 'ВИСОКА НАЛИЧНОСТ',
@@ -426,12 +435,15 @@ const translations = {
     'trust.location': 'Aleksandrovo, Lovech • Local production',
     'trust.family': 'Family business • Honesty and quality',
     
+    // Experience Section
+    'experience.text': 'We have been engaged in agriculture for 17 years (since 2008).',
+    
     // About Us
     'about.title': 'OUR LAND',
     'about.heading': 'Aleksandrovo: The Perfect Place for Fruits',
     'about.description1': 'Located in the heart of Lovech region, our lands benefit from a unique microclimate - warm days, cool nights and rich soil, ideal for apples, cherries and pears.',
     'about.description2': 'The water we use comes from natural underground springs, and every tree receives attention like in grandfather\'s gardens.',
-    'about.description3': 'This is not just a farm - this is a heritage that we preserve and develop since 2013.',
+    'about.description3': 'This is not just a farm - this is a heritage that we preserve and develop since 2008.',
     'about.visit': 'Visit us: Aleksandrovo 5572, Lovech',
     'about.hours': 'Working hours: Mon-Sat 8:00-17:00',
     
@@ -620,16 +632,19 @@ const translations = {
     'season.may_jul': 'May – July',
     'season.aug_oct': 'August – October',
     'season.jul_aug': 'July – August',
+    'season.jul_sep': 'July – September',
     'season.jun_sep': 'June – September',
     'season.may_oct': 'May – October',
+    'season.sep_mar': 'September – March',
+    'season.sep_oct': 'September – October',
     'season.oct_nov': 'October – November',
     'season.year_round': 'Year-round',
     
     // Product Details
     'product.apples.name': 'Apples',
-    'product.apples.desc': 'We grow Idared, Golden Delicious, and Granny Smith varieties.',
+    'product.apples.desc': 'We grow Golden Delicious, Florina, Jonagold, and Melrose varieties.',
     'product.cherries.name': 'Cherries',
-    'product.cherries.desc': 'Sweet and juicy cherries, hand-picked at peak ripeness.',
+    'product.cherries.desc': 'Sweet and juicy crunchy cherries, hand-picked at peak ripeness.',
     'product.pears.name': 'Pears',
     'product.pears.desc': 'Aromatic pears with perfect texture and natural sweetness.',
     'product.melons.name': 'Melons',
@@ -641,15 +656,18 @@ const translations = {
     'product.quinces.name': 'Quinces',
     'product.quinces.desc': 'Aromatic quinces for jam, marmalade and traditional recipes.',
     'product.appleJuice.name': '100% Apple Juice',
-    'product.appleJuice.desc': 'Natural juice without added sugar, preservatives or colorants.',
+    'product.appleJuice.desc': 'Natural apple juice – 100% authentic, without added sugar and without preservatives. 3-liter pack.',
     
     // Varieties
-    'variety.idared': 'Idared',
     'variety.golden': 'Golden Delicious',
-    'variety.granny': 'Granny Smith',
-    'variety.bing': 'Bing',
-    'variety.van': 'Van',
-    'variety.kordia': 'Kordia',
+    'variety.florina': 'Florina',
+    'variety.jonagold': 'Jonagold',
+    'variety.melrose': 'Melrose',
+    
+    // Apple Quality
+    'quality.first': '1st Quality',
+    'quality.second': '2nd Quality',
+    'quality.select': 'Select Quality',
     
     // Badges
     'badges.premium': 'HIGH AVAILABILITY',

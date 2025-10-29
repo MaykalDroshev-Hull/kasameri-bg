@@ -3,14 +3,10 @@ import { Product, Variety } from '@/types/product';
 
 export const varieties: Record<string, Variety[]> = {
   apples: [
-    { id: 'idared', nameKey: 'variety.idared', imageUrl: '/images/plc1.jpg' },
-    { id: 'golden', nameKey: 'variety.golden', imageUrl: '/images/plc2.jpg' },
-    { id: 'granny', nameKey: 'variety.granny', imageUrl: '/images/plc3.jpg' }
-  ],
-  cherries: [
-    { id: 'bing', nameKey: 'variety.bing' },
-    { id: 'van', nameKey: 'variety.van' },
-    { id: 'kordia', nameKey: 'variety.kordia' }
+    { id: 'golden', nameKey: 'variety.golden', imageUrl: '/apple-sorts/gold-precious.jpg' },
+    { id: 'florina', nameKey: 'variety.florina', imageUrl: '/apple-sorts/florina.jpg' },
+    { id: 'jonagold', nameKey: 'variety.jonagold', imageUrl: '/apple-sorts/johna-gold.jpg' },
+    { id: 'melrose', nameKey: 'variety.melrose', imageUrl: '/apple-sorts/mellrouse,jpg.jpg' }
   ]
 };
 
@@ -21,8 +17,8 @@ export const products: Product[] = [
     descriptionKey: 'product.apples.desc',
     seasonKey: 'season.sep_nov',
     category: 'fruits',
-    imageUrl: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=800&h=600&fit=crop',
-    pricePerUnit: 2.80,
+    imageUrl: '/products-section/apple.jpg',
+    pricePerUnit: 3.50, // 1st quality price (will be overridden by quality selection)
     unit: 'kg',
     rating: 5,
     premium: true,
@@ -34,12 +30,10 @@ export const products: Product[] = [
     descriptionKey: 'product.cherries.desc',
     seasonKey: 'season.may_jul',
     category: 'fruits',
-    imageUrl: 'https://images.unsplash.com/photo-1528821128474-27f963b062bf?w=800&h=600&fit=crop',
+    imageUrl: '/products-section/cherries.jpg',
     pricePerUnit: 5.90,
     unit: 'kg',
-    rating: 5,
-    premium: true,
-    varieties: varieties.cherries
+    rating: 5
   },
   {
     id: 'pears',
@@ -47,7 +41,7 @@ export const products: Product[] = [
     descriptionKey: 'product.pears.desc',
     seasonKey: 'season.aug_oct',
     category: 'fruits',
-    imageUrl: 'https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=800&h=600&fit=crop',
+    imageUrl: '/products-section/pears.jpg',
     pricePerUnit: 3.20,
     unit: 'kg',
     rating: 5
@@ -56,9 +50,9 @@ export const products: Product[] = [
     id: 'melons',
     nameKey: 'product.melons.name',
     descriptionKey: 'product.melons.desc',
-    seasonKey: 'season.jul_aug',
+    seasonKey: 'season.jul_sep',
     category: 'fruits',
-    imageUrl: 'https://images.unsplash.com/photo-1571575173700-afb9492e6a50?w=800&h=600&fit=crop',
+    imageUrl: '/products-section/melons.jpg',
     pricePerUnit: 1.80,
     unit: 'kg',
     rating: 5
@@ -69,7 +63,7 @@ export const products: Product[] = [
     descriptionKey: 'product.tomatoes.desc',
     seasonKey: 'season.jun_sep',
     category: 'vegetables',
-    imageUrl: 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=800&h=600&fit=crop',
+    imageUrl: '/products-section/tomatoes.jpg',
     pricePerUnit: 2.40,
     unit: 'kg',
     rating: 5
@@ -78,10 +72,10 @@ export const products: Product[] = [
     id: 'potatoes',
     nameKey: 'product.potatoes.name',
     descriptionKey: 'product.potatoes.desc',
-    seasonKey: 'season.may_oct',
+    seasonKey: 'season.sep_mar',
     category: 'vegetables',
-    imageUrl: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=800&h=600&fit=crop',
-    pricePerUnit: 1.50,
+    imageUrl: '/products-section/potatoes.jpg',
+    pricePerUnit: 1.30,
     unit: 'kg',
     rating: 5
   },
@@ -89,9 +83,9 @@ export const products: Product[] = [
     id: 'quinces',
     nameKey: 'product.quinces.name',
     descriptionKey: 'product.quinces.desc',
-    seasonKey: 'season.oct_nov',
+    seasonKey: 'season.sep_oct',
     category: 'fruits',
-    imageUrl: 'https://images.unsplash.com/photo-1609501676725-7186f017a4b7?w=800&h=600&fit=crop',
+    imageUrl: '/products-section/quinces.jpg',
     pricePerUnit: 3.80,
     unit: 'kg',
     rating: 5
@@ -102,9 +96,9 @@ export const products: Product[] = [
     descriptionKey: 'product.appleJuice.desc',
     seasonKey: 'season.year_round',
     category: 'drinks',
-    imageUrl: 'https://images.unsplash.com/photo-1600271886742-f049cd451bba?w=800&h=600&fit=crop',
-    pricePerUnit: 3.50,
-    unit: 'l',
+    imageUrl: '/products-section/juice.jpg',
+    pricePerUnit: 10.00,
+    unit: 'pack',
     featured: true,
     rating: 5
   }

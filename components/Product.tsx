@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { Calendar, ShoppingCart, Star, Heart } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -26,7 +25,6 @@ const Product = () => {
   const [showAddToCartModal, setShowAddToCartModal] = useState(false);
   const [showCartDrawer, setShowCartDrawer] = useState(false);
   const { t, language } = useLanguage();
-  const router = useRouter();
 
   const products: ProductItem[] = [
     {
@@ -118,8 +116,8 @@ const Product = () => {
   };
 
   const handleCardClick = (product: ProductType) => {
-    // Navigate to product detail page
-    router.push(`/product/${product.id}`);
+    // Open buy modal directly
+    handleBuyClick(new Event('click') as any, product);
   };
 
   const formatPrice = (price: number) => {
@@ -135,8 +133,8 @@ const Product = () => {
   };
 
   // Determine premium/featured products
-  const isPremiumProduct = (productId: string) => {
-    return productId === 'apples' || productId === 'cherries';
+  const isPremiumProduct = (product: ProductType) => {
+    return product.premium === true;
   };
 
   return (
@@ -152,20 +150,20 @@ const Product = () => {
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {realProducts.map((product) => {
-              const isPremium = isPremiumProduct(product.id);
-              const isJuice = product.id === 'apple_juice';
+              const isPremium = isPremiumProduct(product);
+              const isJuice = product.featured === true;
               
               return (
                 <div 
                   key={product.id}
                   className={`
                     ${isPremium ? 'md:col-span-2 lg:col-span-1' : 'md:col-span-1'}
-                    bg-[#FFF7ED] rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer
+                    bg-[#FFF7ED] rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer flex flex-col
                     ${isPremium ? 'ring-4 ring-[#EFBF3A] ring-offset-2' : ''}
                   `}
                   onClick={() => handleCardClick(product)}
                 >
-                  <div className={`relative ${isPremium ? 'h-80' : 'h-64'} overflow-hidden`}>
+                  <div className={`relative ${isPremium ? 'h-80' : 'h-64'} overflow-hidden flex-shrink-0`}>
                     <Image
                       src={product.imageUrl}
                       alt={t(product.nameKey)}
@@ -195,33 +193,35 @@ const Product = () => {
                     )}
                   </div>
                   
-                  <div className={`${isPremium ? 'p-8' : 'p-6'}`}>
-                    <h4 className={`font-serif ${isPremium ? 'text-3xl' : 'text-2xl'} text-[#7A0B18] mb-2`}>
-                      {t(product.nameKey)}
-                    </h4>
-                    <p className={`text-[#6B4423] ${isPremium ? 'text-base' : 'text-sm'} mb-3`}>
-                      {t(product.descriptionKey)}
-                    </p>
-                    {isPremium && (
-                      <div className="mb-3 p-3 bg-[#4C8F3A]/10 rounded-lg border-l-4 border-[#4C8F3A]">
-                        <p className="text-[#4C8F3A] font-bold text-sm flex items-center gap-2">
-                          <Heart className="fill-current" size={16} />
-                          <span>{t('badges.coreProduct')}</span>
-                        </p>
+                  <div className={`${isPremium ? 'p-8' : 'p-6'} flex flex-col flex-1`}>
+                    <div className="flex-1">
+                      <h4 className={`font-serif ${isPremium ? 'text-3xl' : 'text-2xl'} text-[#7A0B18] mb-2`}>
+                        {t(product.nameKey)}
+                      </h4>
+                      <p className={`text-[#6B4423] ${isPremium ? 'text-base' : 'text-sm'} mb-3`}>
+                        {t(product.descriptionKey)}
+                      </p>
+                      {isPremium && (
+                        <div className="mb-3 p-3 bg-[#4C8F3A]/10 rounded-lg border-l-4 border-[#4C8F3A]">
+                          <p className="text-[#4C8F3A] font-bold text-sm flex items-center gap-2">
+                            <Heart className="fill-current" size={16} />
+                            <span>{t('badges.coreProduct')}</span>
+                          </p>
+                        </div>
+                      )}
+                      <div className="flex items-center justify-between text-xs text-[#8B8680] mb-3">
+                        <span className="flex items-center space-x-1">
+                          <Calendar size={14} />
+                          <span>{t(product.seasonKey)}</span>
+                        </span>
+                        <span className="text-[#C4312E] font-medium hover:underline">{t('badges.learnMore')}</span>
                       </div>
-                    )}
-                    <div className="flex items-center justify-between text-xs text-[#8B8680] mb-3">
-                      <span className="flex items-center space-x-1">
-                        <Calendar size={14} />
-                        <span>{t(product.seasonKey)}</span>
-                      </span>
-                      <span className="text-[#C4312E] font-medium hover:underline">{t('badges.learnMore')}</span>
                     </div>
                     
-                    {/* Buy Button */}
+                    {/* Buy Button - Always at bottom */}
                     <button
                       onClick={(e) => handleBuyClick(e, product)}
-                      className="w-full mt-2 px-4 py-2 bg-[#C4312E] text-white rounded-lg hover:bg-[#A02820] transition flex items-center justify-center space-x-2 font-medium"
+                      className="w-full mt-4 px-4 py-3 bg-[#C4312E] text-white rounded-lg hover:bg-[#A02820] transition flex items-center justify-center space-x-2 font-medium"
                     >
                       <ShoppingCart size={16} />
                       <span>{t('common.buy')}</span>
@@ -230,12 +230,45 @@ const Product = () => {
                 </div>
               );
             })}
-          </div>
-
-          {/* Coming Soon Badge */}
-          <div className="mt-12 text-center">
-            <div className="inline-block bg-[#EFBF3A] text-[#7A0B18] px-6 py-3 rounded-full font-bold text-lg shadow-lg">
-              🍾 {t('products.vinegar')}
+            
+            {/* Coming Soon - Vinegar Card */}
+            <div className="bg-[#FFF7ED] rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 flex flex-col opacity-75">
+              <div className="relative h-64 overflow-hidden flex-shrink-0 bg-gradient-to-br from-[#EFBF3A] to-[#FFD15C]">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="text-8xl mb-4">🍾</div>
+                    <div className="bg-[#7A0B18] text-white text-sm px-4 py-2 rounded-full font-bold">
+                      {t('badges.comingSoon')}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="p-6 flex flex-col flex-1">
+                <div className="flex-1">
+                  <h4 className="font-serif text-2xl text-[#7A0B18] mb-2">
+                    Оцет
+                  </h4>
+                  <p className="text-[#6B4423] text-sm mb-3">
+                    Скоро в продажба!
+                  </p>
+                  <div className="flex items-center justify-between text-xs text-[#8B8680] mb-3">
+                    <span className="flex items-center space-x-1">
+                      <Calendar size={14} />
+                      <span>Очаквайте скоро</span>
+                    </span>
+                  </div>
+                </div>
+                
+                {/* Disabled Button */}
+                <button
+                  disabled
+                  className="w-full mt-4 px-4 py-3 bg-gray-300 text-gray-500 rounded-lg cursor-not-allowed flex items-center justify-center space-x-2 font-medium"
+                >
+                  <ShoppingCart size={16} />
+                  <span>Скоро</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>

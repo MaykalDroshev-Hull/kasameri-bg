@@ -37,14 +37,14 @@ const Topbar = () => {
               <Image 
                 src="/logo.svg" 
                 alt="Kasameri EOOD Logo" 
-                width={48} 
-                height={48}
+                width={64} 
+                height={64}
                 className="object-contain"
                 priority
               />
               <div className="text-white">
-                <div className="font-serif text-xl font-bold">Kasameri</div>
-                <div className="text-xs opacity-80">EOOD</div>
+                <div className="font-serif text-2xl font-bold">Kasameri</div>
+                <div className="text-sm opacity-90">EOOD</div>
               </div>
             </div>
 

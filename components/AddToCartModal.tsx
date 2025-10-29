@@ -20,15 +20,25 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({ isOpen, onClose, produc
   const { add } = useCartStore();
   
   const [selectedVariety, setSelectedVariety] = useState<string>('');
+  const [selectedQuality, setSelectedQuality] = useState<string>('first'); // For apples
   const [quantity, setQuantity] = useState<number>(0.5);
   const [notes, setNotes] = useState<string>('');
   const [errors, setErrors] = useState<Record<string, string>>({});
+  
+  // Apple quality prices
+  const appleQualityPrices = {
+    first: 3.50,
+    second: 2.50
+  };
 
   // Get min/max/step based on product type
   const getQuantityConfig = () => {
-    if (product.unit === 'l') {
-      // Juice: start at 3, step 3, max 30
-      return { min: 3, max: 30, step: 3, initial: 3 };
+    if (product.unit === 'pack') {
+      // Juice: 3L packs, min 1 pack
+      return { min: 1, max: 20, step: 1, initial: 1 };
+    } else if (product.id === 'potatoes') {
+      // Potatoes: minimum 10 kg
+      return { min: 10, max: 100, step: 1, initial: 10 };
     } else {
       // Fruits/vegetables: start at 1, step 1, max 100
       return { min: 1, max: 100, step: 1, initial: 1 };
@@ -36,6 +46,14 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({ isOpen, onClose, produc
   };
 
   const quantityConfig = getQuantityConfig();
+  
+  // Get current price (considering quality for apples)
+  const getCurrentPrice = () => {
+    if (product.id === 'apples') {
+      return appleQualityPrices[selectedQuality as keyof typeof appleQualityPrices];
+    }
+    return product.pricePerUnit;
+  };
 
   useEffect(() => {
     if (isOpen) {
@@ -45,6 +63,7 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({ isOpen, onClose, produc
       }
       // Reset form when opening
       setQuantity(quantityConfig.initial);
+      setSelectedQuality('first'); // Reset quality for apples
       setNotes('');
       setErrors({});
     }
@@ -55,7 +74,10 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({ isOpen, onClose, produc
   };
 
   const getUnitLabel = (unit: string) => {
-    return unit === 'kg' ? t('common.perKg') : t('common.perL');
+    if (unit === 'kg') return t('common.perKg');
+    if (unit === 'l') return t('common.perL');
+    if (unit === 'pack') return '(3л)';
+    return '';
   };
 
   const getCategoryLabel = (category: string) => {
@@ -91,13 +113,14 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({ isOpen, onClose, produc
     if (!validateForm()) return;
     
     const varietyKey = product.varieties && product.varieties.length > 0 ? selectedVariety : undefined;
+    const currentPrice = getCurrentPrice();
     
     add({
       id: product.id,
       nameKey: product.nameKey,
       varietyKey,
       unit: product.unit,
-      pricePerUnit: product.pricePerUnit,
+      pricePerUnit: currentPrice,
       qty: quantity,
       notes: notes.trim() || undefined,
       imageUrl: product.imageUrl
@@ -126,8 +149,11 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({ isOpen, onClose, produc
       />
       
       {/* Modal */}
-      <div className="absolute inset-0 flex items-center justify-center p-4">
-        <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto">
+      <div className="absolute inset-0 flex items-center justify-center p-4" onClick={handleClose}>
+        <div 
+          className="bg-white rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto"
+          onClick={(e) => e.stopPropagation()}
+        >
           {/* Header */}
           <div className="flex items-center justify-between p-6 border-b border-gray-200">
             <div className="flex items-center space-x-3">
@@ -207,6 +233,79 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({ isOpen, onClose, produc
                 {errors.variety && (
                   <p className="text-red-500 text-sm mt-1">{errors.variety}</p>
                 )}
+                
+                {/* Large Preview Image for Selected Variety */}
+                {selectedVariety && (
+                  <div className="mt-4 rounded-lg overflow-hidden border-2 border-[#C4312E]">
+                    <div className="relative w-full h-48">
+                      <Image
+                        src={product.varieties.find(v => v.id === selectedVariety)?.imageUrl || product.imageUrl}
+                        alt={t(product.varieties.find(v => v.id === selectedVariety)?.nameKey || product.nameKey)}
+                        fill
+                        quality={95}
+                        sizes="400px"
+                        className="object-cover"
+                      />
+                    </div>
+                    <div className="bg-[#FFF7ED] p-2 text-center">
+                      <p className="text-[#7A0B18] font-semibold">
+                        {t(product.varieties.find(v => v.id === selectedVariety)?.nameKey || '')}
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Quality Selection (Apples only) */}
+            {product.id === 'apples' && (
+              <div>
+                <label className="block text-sm font-medium text-[#7A0B18] mb-3">
+                  {t('quality.select')} <span className="text-red-500">*</span>
+                </label>
+                <div className="space-y-2">
+                  <label 
+                    className={`flex items-center justify-between cursor-pointer p-3 rounded-lg border-2 transition ${
+                      selectedQuality === 'first' 
+                        ? 'border-[#C4312E] bg-[#FFF7ED]' 
+                        : 'border-gray-200 hover:border-[#C4312E]/50'
+                    }`}
+                  >
+                    <div className="flex items-center space-x-3">
+                      <input
+                        type="radio"
+                        name="quality"
+                        value="first"
+                        checked={selectedQuality === 'first'}
+                        onChange={(e) => setSelectedQuality(e.target.value)}
+                        className="text-[#C4312E] focus:ring-[#C4312E]"
+                      />
+                      <span className="text-[#6B4423] font-medium">{t('quality.first')}</span>
+                    </div>
+                    <span className="text-[#C4312E] font-bold">{formatPrice(appleQualityPrices.first)}</span>
+                  </label>
+                  
+                  <label 
+                    className={`flex items-center justify-between cursor-pointer p-3 rounded-lg border-2 transition ${
+                      selectedQuality === 'second' 
+                        ? 'border-[#C4312E] bg-[#FFF7ED]' 
+                        : 'border-gray-200 hover:border-[#C4312E]/50'
+                    }`}
+                  >
+                    <div className="flex items-center space-x-3">
+                      <input
+                        type="radio"
+                        name="quality"
+                        value="second"
+                        checked={selectedQuality === 'second'}
+                        onChange={(e) => setSelectedQuality(e.target.value)}
+                        className="text-[#C4312E] focus:ring-[#C4312E]"
+                      />
+                      <span className="text-[#6B4423] font-medium">{t('quality.second')}</span>
+                    </div>
+                    <span className="text-[#C4312E] font-bold">{formatPrice(appleQualityPrices.second)}</span>
+                  </label>
+                </div>
               </div>
             )}
 
@@ -274,12 +373,12 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({ isOpen, onClose, produc
             <div className="bg-[#FFF7ED] rounded-lg p-4">
               <div className="flex justify-between items-center">
                 <span className="text-[#6B4423]">
-                  {quantity} {product.unit} × {formatPrice(product.pricePerUnit)}{' '}
-                  <span className="text-xs">{getEurConversion(product.pricePerUnit)}</span>
+                  {quantity} {product.unit} × {formatPrice(getCurrentPrice())}{' '}
+                  <span className="text-xs">{getEurConversion(getCurrentPrice())}</span>
                 </span>
                 <span className="text-lg font-bold text-[#7A0B18]">
-                  {formatPrice(quantity * product.pricePerUnit)}{' '}
-                  <span className="text-sm font-normal">{getEurConversion(quantity * product.pricePerUnit)}</span>
+                  {formatPrice(quantity * getCurrentPrice())}{' '}
+                  <span className="text-sm font-normal">{getEurConversion(quantity * getCurrentPrice())}</span>
                 </span>
               </div>
             </div>

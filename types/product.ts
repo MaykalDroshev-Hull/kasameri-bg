@@ -1,5 +1,5 @@
 // types/product.ts
-export type Unit = 'kg' | 'l';
+export type Unit = 'kg' | 'l' | 'pack';
 export type Category = 'fruits' | 'vegetables' | 'drinks';
 
 export type Variety = {
