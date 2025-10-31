@@ -47,13 +47,14 @@ const Hero = () => {
   // Quick access products
   const quickAccessProducts = [
     'apples',
+    'apple_juice',
+    'potatoes',
     'cherries',
     'pears',
     'melons',
+    'watermelons',
     'tomatoes',
-    'potatoes',
-    'quinces',
-    'apple_juice'
+    'quinces'
   ];
 
   useEffect(() => {
@@ -97,7 +98,7 @@ const Hero = () => {
 
   return (
     <>
-      <section id="home" className="relative h-[97.5vh] flex items-center justify-center overflow-hidden pt-20">
+      <section id="home" className="relative h-[97.5vh] flex items-center justify-center overflow-hidden pt-24 md:pt-20">
         {/* Desktop: 2-column layout with gradient overlay on each */}
         <div className="hidden md:flex absolute inset-0 w-full h-full">
           {/* Left Column */}
@@ -179,7 +180,7 @@ const Hero = () => {
 
           {/* Transparent Container with Quick-Access Buttons */}
           <div className="bg-black/40 backdrop-blur-sm rounded-2xl p-6 md:p-8 border border-white/20 w-full">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+            <div className="grid grid-cols-3 md:grid-cols-3 gap-3 md:gap-4">
               {quickAccessProducts.map((productId) => {
                 const product = getProductById(productId);
                 if (!product) return null;
@@ -190,6 +191,7 @@ const Hero = () => {
                   'cherries': 'cherries.jpg',
                   'pears': 'pears.jpg',
                   'melons': 'melons.jpg',
+                  'watermelons': 'watermelons.png',
                   'tomatoes': 'tomatoes.jpg',
                   'potatoes': 'potatoes.jpg',
                   'quinces': 'quinces.jpg',
@@ -198,11 +200,18 @@ const Hero = () => {
 
                 const imageName = imageMap[productId];
 
+                const isOutOfStock = product.inStock === false;
+                
                 return (
                   <button
                     key={productId}
-                    onClick={() => handleQuickBuy(productId)}
-                    className="bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-xl p-3 md:p-4 border border-white/30 hover:border-white/50 transition-all transform hover:scale-105 group"
+                    onClick={() => !isOutOfStock && handleQuickBuy(productId)}
+                    disabled={isOutOfStock}
+                    className={`bg-white/10 backdrop-blur-sm rounded-xl p-3 md:p-4 border border-white/30 transition-all group ${
+                      isOutOfStock 
+                        ? 'opacity-50 cursor-not-allowed' 
+                        : 'hover:bg-white/20 hover:border-white/50 transform hover:scale-105'
+                    }`}
                   >
                     <div className="relative w-12 h-12 md:w-16 md:h-16 mx-auto mb-2 rounded-lg overflow-hidden">
                       <Image
@@ -211,7 +220,7 @@ const Hero = () => {
                         fill
                         quality={90}
                         sizes="64px"
-                        className="object-cover group-hover:scale-110 transition-transform"
+                        className={`${productId === 'apple_juice' ? 'object-contain' : 'object-cover'} group-hover:scale-110 transition-transform`}
                       />
                     </div>
                     <p className="text-white text-xs md:text-sm font-medium drop-shadow-lg">

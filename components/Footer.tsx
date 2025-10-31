@@ -81,9 +81,9 @@ const Footer = () => {
         <div className="border-t border-white/20 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-white/60 gap-4">
   <p>{t('footer.copyright')}</p>
   <div className="flex flex-wrap justify-center items-center gap-4 md:gap-6">
-    <a href="#" className="hover:text-white transition">{t('footer.terms')}</a>
-    <a href="#" className="hover:text-white transition">{t('footer.privacy')}</a>
-    <a href="#" className="hover:text-white transition">{t('footer.gdpr')}</a>
+    <a href="/privacy-policy" className="hover:text-white transition">{t('footer.terms')}</a>
+    <a href="/privacy-policy" className="hover:text-white transition">{t('footer.privacy')}</a>
+    <a href="/privacy-policy" className="hover:text-white transition">{t('footer.gdpr')}</a>
     <span className="text-xs text-white/40">
       {t('footer.built_by')}{' '}
       <a 

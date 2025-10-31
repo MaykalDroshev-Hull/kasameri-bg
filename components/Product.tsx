@@ -125,7 +125,10 @@ const Product = () => {
   };
 
   const getUnitLabel = (unit: string) => {
-    return unit === 'kg' ? t('common.perKg') : t('common.perL');
+    if (unit === 'kg') return t('common.perKg');
+    if (unit === 'l') return t('common.perL');
+    if (unit === 'pack') return t('common.perPack');
+    return '';
   };
 
   const getCategoryLabel = (category: string) => {
@@ -160,8 +163,9 @@ const Product = () => {
                     ${isPremium ? 'md:col-span-2 lg:col-span-1' : 'md:col-span-1'}
                     bg-[#FFF7ED] rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer flex flex-col
                     ${isPremium ? 'ring-4 ring-[#EFBF3A] ring-offset-2' : ''}
+                    ${product.inStock === false ? 'opacity-75' : ''}
                   `}
-                  onClick={() => handleCardClick(product)}
+                  onClick={() => product.inStock !== false && handleCardClick(product)}
                 >
                   <div className={`relative ${isPremium ? 'h-80' : 'h-64'} overflow-hidden flex-shrink-0`}>
                     <Image
@@ -170,8 +174,17 @@ const Product = () => {
                       fill
                       quality={95}
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      className="object-cover hover:scale-110 transition-transform duration-500"
+                      className={`${product.id === 'apple_juice' ? 'object-contain' : 'object-cover'} hover:scale-110 transition-transform duration-500`}
                     />
+                    {/* Out of Stock Overlay */}
+                    {product.inStock === false && (
+                      <div className="absolute inset-0 bg-gray-900/80 flex items-center justify-center z-20">
+                        <div className="bg-gray-700 text-white px-6 py-3 rounded-lg font-bold text-center">
+                          <p className="text-sm md:text-base">{t('badges.outOfStock')}</p>
+                        </div>
+                      </div>
+                    )}
+                    
                     <div className="absolute top-4 right-4 bg-[#4C8F3A] text-white text-xs px-3 py-1 rounded-full font-medium">
                       {getCategoryLabel(product.category)}
                     </div>
@@ -221,10 +234,15 @@ const Product = () => {
                     {/* Buy Button - Always at bottom */}
                     <button
                       onClick={(e) => handleBuyClick(e, product)}
-                      className="w-full mt-4 px-4 py-3 bg-[#C4312E] text-white rounded-lg hover:bg-[#A02820] transition flex items-center justify-center space-x-2 font-medium"
+                      disabled={product.inStock === false}
+                      className={`w-full mt-4 px-4 py-3 rounded-lg transition flex items-center justify-center space-x-2 font-medium ${
+                        product.inStock === false
+                          ? 'bg-gray-400 text-gray-600 cursor-not-allowed'
+                          : 'bg-[#C4312E] text-white hover:bg-[#A02820]'
+                      }`}
                     >
                       <ShoppingCart size={16} />
-                      <span>{t('common.buy')}</span>
+                      <span>{product.inStock === false ? t('badges.outOfStock') : t('common.buy')}</span>
                     </button>
                   </div>
                 </div>

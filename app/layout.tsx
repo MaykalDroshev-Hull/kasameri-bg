@@ -1,6 +1,7 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import { LanguageProvider } from '@/contexts/LanguageContext'
+import CookieConsent from '@/components/CookieConsent'
 
 export const metadata: Metadata = {
   title: 'Kasameri EOOD - Натурални Плодове и Зеленчуци от Ловешко',
@@ -28,6 +29,7 @@ export default function RootLayout({
       <body suppressHydrationWarning={true}>
         <LanguageProvider>
           {children}
+          <CookieConsent />
         </LanguageProvider>
       </body>
     </html>

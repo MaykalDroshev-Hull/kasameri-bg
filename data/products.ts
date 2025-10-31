@@ -25,47 +25,15 @@ export const products: Product[] = [
     varieties: varieties.apples
   },
   {
-    id: 'cherries',
-    nameKey: 'product.cherries.name',
-    descriptionKey: 'product.cherries.desc',
-    seasonKey: 'season.may_jul',
-    category: 'fruits',
-    imageUrl: '/products-section/cherries.jpg',
-    pricePerUnit: 5.90,
-    unit: 'kg',
-    rating: 5
-  },
-  {
-    id: 'pears',
-    nameKey: 'product.pears.name',
-    descriptionKey: 'product.pears.desc',
-    seasonKey: 'season.aug_oct',
-    category: 'fruits',
-    imageUrl: '/products-section/pears.jpg',
-    pricePerUnit: 3.20,
-    unit: 'kg',
-    rating: 5
-  },
-  {
-    id: 'melons',
-    nameKey: 'product.melons.name',
-    descriptionKey: 'product.melons.desc',
-    seasonKey: 'season.jul_sep',
-    category: 'fruits',
-    imageUrl: '/products-section/melons.jpg',
-    pricePerUnit: 1.80,
-    unit: 'kg',
-    rating: 5
-  },
-  {
-    id: 'tomatoes',
-    nameKey: 'product.tomatoes.name',
-    descriptionKey: 'product.tomatoes.desc',
-    seasonKey: 'season.jun_sep',
-    category: 'vegetables',
-    imageUrl: '/products-section/tomatoes.jpg',
-    pricePerUnit: 2.40,
-    unit: 'kg',
+    id: 'apple_juice',
+    nameKey: 'product.appleJuice.name',
+    descriptionKey: 'product.appleJuice.desc',
+    seasonKey: 'season.year_round',
+    category: 'drinks',
+    imageUrl: '/products-section/juice.jpg',
+    pricePerUnit: 10.00,
+    unit: 'pack',
+    premium: true,
     rating: 5
   },
   {
@@ -80,6 +48,66 @@ export const products: Product[] = [
     rating: 5
   },
   {
+    id: 'cherries',
+    nameKey: 'product.cherries.name',
+    descriptionKey: 'product.cherries.desc',
+    seasonKey: 'season.may_jul',
+    category: 'fruits',
+    imageUrl: '/products-section/cherries.jpg',
+    pricePerUnit: 5.90,
+    unit: 'kg',
+    rating: 5,
+    inStock: false
+  },
+  {
+    id: 'pears',
+    nameKey: 'product.pears.name',
+    descriptionKey: 'product.pears.desc',
+    seasonKey: 'season.aug_oct',
+    category: 'fruits',
+    imageUrl: '/products-section/pears.jpg',
+    pricePerUnit: 3.20,
+    unit: 'kg',
+    rating: 5,
+    inStock: false
+  },
+  {
+    id: 'melons',
+    nameKey: 'product.melons.name',
+    descriptionKey: 'product.melons.desc',
+    seasonKey: 'season.jul_sep',
+    category: 'fruits',
+    imageUrl: '/products-section/melons.jpg',
+    pricePerUnit: 1.80,
+    unit: 'kg',
+    rating: 5,
+    inStock: false
+  },
+  {
+    id: 'watermelons',
+    nameKey: 'product.watermelons.name',
+    descriptionKey: 'product.watermelons.desc',
+    seasonKey: 'season.jul_sep',
+    category: 'fruits',
+    imageUrl: '/products-section/watermelons.png',
+    pricePerUnit: 1.90,
+    unit: 'kg',
+    rating: 5,
+    inStock: false
+  },
+  {
+    id: 'tomatoes',
+    nameKey: 'product.tomatoes.name',
+    descriptionKey: 'product.tomatoes.desc',
+    seasonKey: 'season.jun_sep',
+    category: 'vegetables',
+    imageUrl: '/products-section/tomatoes.jpg',
+    pricePerUnit: 2.40,
+    unit: 'kg',
+    rating: 5,
+    inStock: false
+  },
+  {
     id: 'quinces',
     nameKey: 'product.quinces.name',
     descriptionKey: 'product.quinces.desc',
@@ -88,19 +116,8 @@ export const products: Product[] = [
     imageUrl: '/products-section/quinces.jpg',
     pricePerUnit: 3.80,
     unit: 'kg',
-    rating: 5
-  },
-  {
-    id: 'apple_juice',
-    nameKey: 'product.appleJuice.name',
-    descriptionKey: 'product.appleJuice.desc',
-    seasonKey: 'season.year_round',
-    category: 'drinks',
-    imageUrl: '/products-section/juice.jpg',
-    pricePerUnit: 10.00,
-    unit: 'pack',
-    featured: true,
-    rating: 5
+    rating: 5,
+    inStock: false
   }
 ];
 

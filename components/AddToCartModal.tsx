@@ -76,7 +76,7 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({ isOpen, onClose, produc
   const getUnitLabel = (unit: string) => {
     if (unit === 'kg') return t('common.perKg');
     if (unit === 'l') return t('common.perL');
-    if (unit === 'pack') return '(3л)';
+    if (unit === 'pack') return t('common.perPack');
     return '';
   };
 
@@ -312,7 +312,7 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({ isOpen, onClose, produc
             {/* Quantity */}
             <div>
               <label className="block text-sm font-medium text-[#7A0B18] mb-3">
-                {t('common.quantity')} ({product.unit})
+                {t('common.quantity')} ({product.unit === 'pack' ? t('common.box') + ' 3л' : product.unit})
               </label>
               <div className="flex items-center space-x-3">
                 <button
@@ -373,7 +373,7 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({ isOpen, onClose, produc
             <div className="bg-[#FFF7ED] rounded-lg p-4">
               <div className="flex justify-between items-center">
                 <span className="text-[#6B4423]">
-                  {quantity} {product.unit} × {formatPrice(getCurrentPrice())}{' '}
+                  {quantity} {product.unit === 'pack' ? (quantity === 1 ? t('common.box') : t('common.boxes')) : product.unit} × {formatPrice(getCurrentPrice())}{' '}
                   <span className="text-xs">{getEurConversion(getCurrentPrice())}</span>
                 </span>
                 <span className="text-lg font-bold text-[#7A0B18]">

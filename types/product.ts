@@ -22,6 +22,7 @@ export type Product = {
   rating?: number;         // default 5
   varieties?: Variety[];    // only for apples, cherries
   comingSoon?: boolean;     // vinegar
+  inStock?: boolean;        // true by default, false for out of stock
 };
 
 export type CartItem = {
