@@ -201,15 +201,10 @@ export const useCheckoutStore = create<CheckoutState>()(
           discount = subtotal * 0.05; // 5% discount
         }
         
-        // Calculate delivery fee based on method
-        const FREE_THRESHOLD = 40.00;
-        const fees = { econt_cod: 6.90, our_transport: 4.90, pickup: 0 };
-        let deliveryFee = fees[form.deliveryMethod];
-        if (subtotal >= FREE_THRESHOLD && form.deliveryMethod !== 'pickup') {
-          deliveryFee = 0;
-        }
+        // No delivery fees for inquiry system
+        const deliveryFee = 0;
         
-        const total = subtotal - discount + deliveryFee;
+        const total = subtotal - discount;
         
         return {
           subtotal,

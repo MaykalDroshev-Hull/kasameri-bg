@@ -2,6 +2,7 @@ import React from 'react';
 import Topbar from '@/components/Topbar';
 import AnnouncementBanner from '@/components/AnnouncementBanner';
 import Hero from '@/components/Hero';
+import HowToOrder from '@/components/HowToOrder';
 import Experience from '@/components/Experience';
 import TrustBar from '@/components/TrustBar';
 import AboutUs from '@/components/AboutUs';
@@ -21,6 +22,7 @@ export default function Home() {
       <Topbar />
       <AnnouncementBanner />
       <Hero />
+      <HowToOrder />
       <Experience />
       <TrustBar />
       <AboutUs />

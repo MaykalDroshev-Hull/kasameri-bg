@@ -205,7 +205,18 @@ const translations = {
     
     // Banner
     'banner.bulkOrders': 'За по-големи поръчки звъннете на',
-    'banner.viberNote': 'За поръчки през Viber/Messenger първо ни добавете като контакт',
+    'banner.viberNote': 'ВАЖНО: Добавете ни в контакти преди поръчка',
+    
+    // How to Order
+    'howToOrder.title': 'Как да поръчате',
+    'howToOrder.step1': 'Разгледайте продуктите',
+    'howToOrder.step1Desc': 'Изберете любимите си плодове и зеленчуци',
+    'howToOrder.step2': 'Добавете в количката',
+    'howToOrder.step2Desc': 'Посочете количество и детайли',
+    'howToOrder.step3': 'Изпратете запитване',
+    'howToOrder.step3Desc': 'Свържете се с нас чрез Viber или Messenger',
+    'howToOrder.step4': 'Потвърждаваме веднага',
+    'howToOrder.step4Desc': 'Ние ще се свържем с вас незабавно за потвърждение',
     
     // Common UI
     'common.learnMore': 'Научи повече',
@@ -629,7 +640,18 @@ const translations = {
     
     // Banner
     'banner.bulkOrders': 'For bulk orders call',
-    'banner.viberNote': 'To order via Viber/Messenger, add us as a contact first',
+    'banner.viberNote': 'IMPORTANT: Add us as a contact before ordering',
+    
+    // How to Order
+    'howToOrder.title': 'How to Order',
+    'howToOrder.step1': 'Browse Products',
+    'howToOrder.step1Desc': 'Choose your favorite fruits and vegetables',
+    'howToOrder.step2': 'Add to Cart',
+    'howToOrder.step2Desc': 'Specify quantity and details',
+    'howToOrder.step3': 'Send Inquiry',
+    'howToOrder.step3Desc': 'Contact us via Viber or Messenger',
+    'howToOrder.step4': 'We Confirm Immediately',
+    'howToOrder.step4Desc': 'We will contact you immediately for confirmation',
     
     // Common UI
     'common.learnMore': 'Learn more',

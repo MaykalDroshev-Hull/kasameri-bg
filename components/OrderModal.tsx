@@ -258,7 +258,6 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
     if (totals.discount > 0) {
       orderText += `Отстъпка: -${formatPrice(totals.discount)}\n`;
     }
-    orderText += `Доставка: ${(totals.deliveryFee || 0) === 0 ? 'Безплатно' : formatPrice(totals.deliveryFee || 0)}\n`;
     orderText += `ОБЩО: ${formatPrice(totals.total || 0)}\n`;
 
     console.log('=== COMPLETE MESSAGE ===');
@@ -710,13 +709,6 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
                         </div>
                       )}
                       
-                      <div className="flex justify-between">
-                        <span className="text-[#6B4423]">{t('checkout.deliveryFee')}:</span>
-                        <span className="font-medium">
-                          {totals.deliveryFee === 0 ? 'Безплатно' : formatPrice(totals.deliveryFee)}
-                        </span>
-                      </div>
-                      
                       <div className="border-t border-gray-300 pt-2">
                         <div className="flex justify-between text-lg font-bold text-[#7A0B18]">
                           <span>{t('checkout.total')}:</span>
@@ -727,12 +719,6 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
                         </div>
                       </div>
                     </div>
-
-                    {totals.deliveryFee > 0 && (
-                      <p className="text-sm text-[#6B4423] text-center">
-                        {t('checkout.freeDelivery')}
-                      </p>
-                    )}
                   </div>
 
                 </div>
