@@ -205,6 +205,7 @@ const translations = {
     
     // Banner
     'banner.bulkOrders': 'За по-големи поръчки звъннете на',
+    'banner.viberNote': 'За поръчки през Viber/Messenger първо ни добавете като контакт',
     
     // Common UI
     'common.learnMore': 'Научи повече',
@@ -628,6 +629,7 @@ const translations = {
     
     // Banner
     'banner.bulkOrders': 'For bulk orders call',
+    'banner.viberNote': 'To order via Viber/Messenger, add us as a contact first',
     
     // Common UI
     'common.learnMore': 'Learn more',
