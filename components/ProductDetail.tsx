@@ -38,7 +38,17 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ productId }) => {
   };
 
   const getUnitLabel = (unit: string) => {
-    return unit === 'kg' ? t('common.perKg') : t('common.perL');
+    if (unit === 'kg') return t('common.perKg');
+    if (unit === 'l') return t('common.perL');
+    if (unit === 'pack') return t('common.perPack');
+    return unit;
+  };
+
+  const getUnitDisplayName = (unit: string) => {
+    if (unit === 'kg') return 'кг';
+    if (unit === 'l') return 'л';
+    if (unit === 'pack') return t('common.box');
+    return unit;
   };
 
   const getCategoryLabel = (category: string) => {
@@ -75,7 +85,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ productId }) => {
                   alt={t(product.nameKey)}
                   fill
                   priority
-                  quality={95}
+                  quality={85}
                   sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover"
                 />
@@ -172,7 +182,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({ productId }) => {
                 </h3>
                 <div className="space-y-2 text-[#6B4423]">
                   <p><strong>Category:</strong> {getCategoryLabel(product.category)}</p>
-                  <p><strong>Unit:</strong> {product.unit}</p>
+                  <p><strong>Unit:</strong> {getUnitDisplayName(product.unit)}</p>
                   <p><strong>Price:</strong> {formatPrice(product.pricePerUnit)}{getUnitLabel(product.unit)}</p>
                   {product.featured && (
                     <p className="text-[#EFBF3A] font-medium">⭐ Featured Product</p>

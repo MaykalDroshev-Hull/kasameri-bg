@@ -73,6 +73,13 @@ const SuccessSheet: React.FC<SuccessSheetProps> = ({ isOpen, onClose, orderResul
     return `(≈ €${eurAmount.toFixed(2)})`;
   };
 
+  const getUnitDisplayName = (unit: string) => {
+    if (unit === 'kg') return 'кг';
+    if (unit === 'l') return 'л';
+    if (unit === 'pack') return t('common.box');
+    return unit;
+  };
+
   // Automatically open Viber when success sheet opens
   useEffect(() => {
     if (isOpen && orderText) {
@@ -260,7 +267,7 @@ const SuccessSheet: React.FC<SuccessSheetProps> = ({ isOpen, onClose, orderResul
                         )}
                       </p>
                       <p className="text-sm text-[#6B4423]">
-                        {item.qty} {item.unit} × {formatPrice(item.pricePerUnit)}{' '}
+                        {item.qty} {getUnitDisplayName(item.unit)} × {formatPrice(item.pricePerUnit)}{' '}
                         <span className="text-xs">{getEurConversion(item.pricePerUnit)}</span>
                       </p>
                     </div>

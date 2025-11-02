@@ -1,5 +1,6 @@
 import React from 'react';
 import Topbar from '@/components/Topbar';
+import AnnouncementBanner from '@/components/AnnouncementBanner';
 import Hero from '@/components/Hero';
 import Experience from '@/components/Experience';
 import TrustBar from '@/components/TrustBar';
@@ -18,6 +19,7 @@ export default function Home() {
   return (
     <div className="font-sans bg-[#FFF7ED]">
       <Topbar />
+      <AnnouncementBanner />
       <Hero />
       <Experience />
       <TrustBar />

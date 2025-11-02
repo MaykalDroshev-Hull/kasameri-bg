@@ -24,7 +24,8 @@ const Distributors = () => {
 Съобщение: ${formData.message || 'Няма допълнително съобщение'}`;
 
     const encodedMessage = encodeURIComponent(viberMessage);
-    window.open(`viber://forward?text=${encodedMessage}`, '_blank');
+    // Use window.location.href for better compatibility with custom URI schemes
+    window.location.href = `viber://forward?text=${encodedMessage}`;
   };
 
   return (

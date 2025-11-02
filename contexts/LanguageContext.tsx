@@ -203,6 +203,9 @@ const translations = {
     'contact.sunday': 'Неделя',
     'contact.closed': 'Затворено',
     
+    // Banner
+    'banner.bulkOrders': 'За по-големи поръчки звъннете на',
+    
     // Common UI
     'common.learnMore': 'Научи повече',
     'common.buy': 'Купи',
@@ -622,6 +625,9 @@ const translations = {
     'contact.saturday': 'Saturday',
     'contact.sunday': 'Sunday',
     'contact.closed': 'Closed',
+    
+    // Banner
+    'banner.bulkOrders': 'For bulk orders call',
     
     // Common UI
     'common.learnMore': 'Learn more',

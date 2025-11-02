@@ -195,17 +195,19 @@ const Process = () => {
                       // Show rotating orchard images for "Our Orchards" step
                       <div className="relative bg-gradient-to-br from-[#FFF7ED] to-[#FFE4CC] rounded-3xl h-[300px] border-4 border-white shadow-xl overflow-hidden">
                         <div className="relative w-full h-full">
-                          {orchardImages.map((image, imageIndex) => (
+                          {/* Only render current and next images for smooth transitions */}
+                          {[currentOrchardImageIndex, (currentOrchardImageIndex + 1) % orchardImages.length].map((imageIndex) => (
                             <Image
                               key={imageIndex}
-                              src={image}
+                              src={orchardImages[imageIndex]}
                               alt={`Orchard ${imageIndex + 1}`}
                               fill
-                              priority={imageIndex === 0}
-                              quality={95}
+                              priority={false}
+                              loading="lazy"
+                              quality={85}
                               sizes="(max-width: 768px) 100vw, 50vw"
                               className={`absolute inset-0 object-cover transition-opacity duration-1000 ease-in-out ${
-                                isMounted && imageIndex === currentOrchardImageIndex ? 'opacity-100' : imageIndex === 0 ? 'opacity-100' : 'opacity-0'
+                                imageIndex === currentOrchardImageIndex ? 'opacity-100' : 'opacity-0'
                               }`}
                             />
                           ))}
@@ -219,17 +221,19 @@ const Process = () => {
                       // Show rotating hand picking images for "Hand Picking" step
                       <div className="relative bg-gradient-to-br from-[#FFF7ED] to-[#FFE4CC] rounded-3xl h-[300px] border-4 border-white shadow-xl overflow-hidden">
                         <div className="relative w-full h-full">
-                          {handPickingImages.map((image, imageIndex) => (
+                          {/* Only render current and next images for smooth transitions */}
+                          {[currentHandPickingImageIndex, (currentHandPickingImageIndex + 1) % handPickingImages.length].map((imageIndex) => (
                             <Image
                               key={imageIndex}
-                              src={image}
+                              src={handPickingImages[imageIndex]}
                               alt={`Hand Picking ${imageIndex + 1}`}
                               fill
-                              priority={imageIndex === 0}
-                              quality={95}
+                              priority={false}
+                              loading="lazy"
+                              quality={85}
                               sizes="(max-width: 768px) 100vw, 50vw"
                               className={`absolute inset-0 object-cover transition-opacity duration-1000 ease-in-out ${
-                                isMounted && imageIndex === currentHandPickingImageIndex ? 'opacity-100' : imageIndex === 0 ? 'opacity-100' : 'opacity-0'
+                                imageIndex === currentHandPickingImageIndex ? 'opacity-100' : 'opacity-0'
                               }`}
                             />
                           ))}
@@ -243,17 +247,19 @@ const Process = () => {
                       // Show rotating machinery images for "Modern Machinery" step
                       <div className="relative bg-gradient-to-br from-[#FFF7ED] to-[#FFE4CC] rounded-3xl h-[300px] border-4 border-white shadow-xl overflow-hidden">
                         <div className="relative w-full h-full">
-                          {machineryImages.map((image, imageIndex) => (
+                          {/* Only render current and next images for smooth transitions */}
+                          {[currentMachineryImageIndex, (currentMachineryImageIndex + 1) % machineryImages.length].map((imageIndex) => (
                             <Image
                               key={imageIndex}
-                              src={image}
+                              src={machineryImages[imageIndex]}
                               alt={`Modern Machinery ${imageIndex + 1}`}
                               fill
-                              priority={imageIndex === 0}
-                              quality={95}
+                              priority={false}
+                              loading="lazy"
+                              quality={85}
                               sizes="(max-width: 768px) 100vw, 50vw"
                               className={`absolute inset-0 object-cover transition-opacity duration-1000 ease-in-out ${
-                                isMounted && imageIndex === currentMachineryImageIndex ? 'opacity-100' : imageIndex === 0 ? 'opacity-100' : 'opacity-0'
+                                imageIndex === currentMachineryImageIndex ? 'opacity-100' : 'opacity-0'
                               }`}
                             />
                           ))}
@@ -267,17 +273,19 @@ const Process = () => {
                       // Show rotating love process images for "Love for the Process" step
                       <div className="relative bg-gradient-to-br from-[#FFF7ED] to-[#FFE4CC] rounded-3xl h-[300px] border-4 border-white shadow-xl overflow-hidden">
                         <div className="relative w-full h-full">
-                          {loveProcessImages.map((image, imageIndex) => (
+                          {/* Only render current and next images for smooth transitions */}
+                          {[currentLoveProcessImageIndex, (currentLoveProcessImageIndex + 1) % loveProcessImages.length].map((imageIndex) => (
                             <Image
                               key={imageIndex}
-                              src={image}
+                              src={loveProcessImages[imageIndex]}
                               alt={`Love for the Process ${imageIndex + 1}`}
                               fill
-                              priority={imageIndex === 0}
-                              quality={95}
+                              priority={false}
+                              loading="lazy"
+                              quality={85}
                               sizes="(max-width: 768px) 100vw, 50vw"
                               className={`absolute inset-0 object-cover transition-opacity duration-1000 ease-in-out ${
-                                isMounted && imageIndex === currentLoveProcessImageIndex ? 'opacity-100' : imageIndex === 0 ? 'opacity-100' : 'opacity-0'
+                                imageIndex === currentLoveProcessImageIndex ? 'opacity-100' : 'opacity-0'
                               }`}
                             />
                           ))}
@@ -291,17 +299,19 @@ const Process = () => {
                       // Show rotating quality control images for "Quality Control" step
                       <div className="relative bg-gradient-to-br from-[#FFF7ED] to-[#FFE4CC] rounded-3xl h-[300px] border-4 border-white shadow-xl overflow-hidden">
                         <div className="relative w-full h-full">
-                          {qualityControlImages.map((image, imageIndex) => (
+                          {/* Only render current and next images for smooth transitions */}
+                          {[currentQualityControlImageIndex, (currentQualityControlImageIndex + 1) % qualityControlImages.length].map((imageIndex) => (
                             <Image
                               key={imageIndex}
-                              src={image}
+                              src={qualityControlImages[imageIndex]}
                               alt={`Quality Control ${imageIndex + 1}`}
                               fill
-                              priority={imageIndex === 0}
-                              quality={95}
+                              priority={false}
+                              loading="lazy"
+                              quality={85}
                               sizes="(max-width: 768px) 100vw, 50vw"
                               className={`absolute inset-0 object-cover transition-opacity duration-1000 ease-in-out ${
-                                isMounted && imageIndex === currentQualityControlImageIndex ? 'opacity-100' : imageIndex === 0 ? 'opacity-100' : 'opacity-0'
+                                imageIndex === currentQualityControlImageIndex ? 'opacity-100' : 'opacity-0'
                               }`}
                             />
                           ))}

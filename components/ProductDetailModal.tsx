@@ -25,7 +25,17 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ isOpen, onClose
   };
 
   const getUnitLabel = (unit: string) => {
-    return unit === 'kg' ? t('common.perKg') : t('common.perL');
+    if (unit === 'kg') return t('common.perKg');
+    if (unit === 'l') return t('common.perL');
+    if (unit === 'pack') return t('common.perPack');
+    return unit;
+  };
+
+  const getUnitDisplayName = (unit: string) => {
+    if (unit === 'kg') return 'кг';
+    if (unit === 'l') return 'л';
+    if (unit === 'pack') return t('common.box');
+    return unit;
   };
 
   const getCategoryLabel = (category: string) => {
@@ -70,7 +80,8 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ isOpen, onClose
                   src={product.imageUrl}
                   alt={t(product.nameKey)}
                   fill
-                  quality={95}
+                  loading="lazy"
+                  quality={85}
                   sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover"
                 />
@@ -163,7 +174,7 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ isOpen, onClose
                 </h3>
                 <div className="space-y-1 text-sm text-[#6B4423]">
                   <p><strong>{t('common.categories.fruits')}:</strong> {getCategoryLabel(product.category)}</p>
-                  <p><strong>{t('common.minQty')}:</strong> {product.unit}</p>
+                  <p><strong>{t('common.minQty')}:</strong> {getUnitDisplayName(product.unit)}</p>
                   <p><strong>{t('common.total')}:</strong> {formatPrice(product.pricePerUnit)}{getUnitLabel(product.unit)}</p>
                   {product.featured && (
                     <p className="text-[#EFBF3A] font-medium">⭐ {t('common.recommended')}</p>

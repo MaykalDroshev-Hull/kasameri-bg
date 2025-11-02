@@ -172,7 +172,8 @@ const Product = () => {
                       src={product.imageUrl}
                       alt={t(product.nameKey)}
                       fill
-                      quality={95}
+                      loading="lazy"
+                      quality={85}
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       className={`${product.id === 'apple_juice' ? 'object-contain' : 'object-cover'} hover:scale-110 transition-transform duration-500`}
                     />

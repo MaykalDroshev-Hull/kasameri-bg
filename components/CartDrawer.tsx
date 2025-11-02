@@ -25,7 +25,17 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
   };
 
   const getUnitLabel = (unit: string) => {
-    return unit === 'kg' ? t('common.perKg') : t('common.perL');
+    if (unit === 'kg') return t('common.perKg');
+    if (unit === 'l') return t('common.perL');
+    if (unit === 'pack') return t('common.perPack');
+    return unit;
+  };
+
+  const getUnitDisplayName = (unit: string) => {
+    if (unit === 'kg') return 'кг';
+    if (unit === 'l') return 'л';
+    if (unit === 'pack') return t('common.box');
+    return unit;
   };
 
   const getStepSize = (unit: string) => {
@@ -146,7 +156,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                           <Minus size={16} />
                         </button>
                         <span className="w-16 text-center font-medium">
-                          {item.qty} {item.unit}
+                          {item.qty} {getUnitDisplayName(item.unit)}
                         </span>
                         <button
                           onClick={() => handleQuantityChange(item, item.qty + getStepSize(item.unit))}

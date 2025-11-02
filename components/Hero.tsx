@@ -44,6 +44,10 @@ const Hero = () => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // Helper to get next index for preloading
+  const getNextIndex = (current: number, total: number) => (current + 1) % total;
+  const getPrevIndex = (current: number, total: number) => (current - 1 + total) % total;
+
   // Quick access products
   const quickAccessProducts = [
     'apples',
@@ -105,17 +109,18 @@ const Hero = () => {
           <div className="relative flex-1">
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#7A0B18]/30 to-[#7A0B18]/60 z-10"></div>
             <div className="absolute inset-0">
-              {heroSectionImages.map((image, index) => (
+              {/* Only render current and next images for smooth transitions */}
+              {[leftColumnIndex, getNextIndex(leftColumnIndex, heroSectionImages.length)].map((imageIndex) => (
                 <Image
-                  key={index}
-                  src={image}
-                  alt={`Orchard ${index + 1}`}
+                  key={imageIndex}
+                  src={heroSectionImages[imageIndex]}
+                  alt={`Orchard ${imageIndex + 1}`}
                   fill
-                  priority={index === 0}
-                  quality={100}
+                  priority={imageIndex === 0}
+                  quality={85}
                   sizes="50vw"
                   className={`object-cover transition-opacity duration-1000 ease-in-out ${
-                    isMounted && index === leftColumnIndex ? 'opacity-100' : index === 0 && !isMounted ? 'opacity-100' : 'opacity-0'
+                    imageIndex === leftColumnIndex ? 'opacity-100' : 'opacity-0'
                   }`}
                 />
               ))}
@@ -126,17 +131,18 @@ const Hero = () => {
           <div className="relative flex-1">
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#7A0B18]/30 to-[#7A0B18]/60 z-10"></div>
             <div className="absolute inset-0">
-              {heroSectionImages.map((image, index) => (
+              {/* Only render current and next images for smooth transitions */}
+              {[rightColumnIndex, getNextIndex(rightColumnIndex, heroSectionImages.length)].map((imageIndex) => (
                 <Image
-                  key={index}
-                  src={image}
-                  alt={`Orchard ${index + 1}`}
+                  key={imageIndex}
+                  src={heroSectionImages[imageIndex]}
+                  alt={`Orchard ${imageIndex + 1}`}
                   fill
-                  priority={index === 1}
-                  quality={100}
+                  priority={imageIndex === 1}
+                  quality={85}
                   sizes="50vw"
                   className={`object-cover transition-opacity duration-1000 ease-in-out ${
-                    isMounted && index === rightColumnIndex ? 'opacity-100' : index === 1 && !isMounted ? 'opacity-100' : 'opacity-0'
+                    imageIndex === rightColumnIndex ? 'opacity-100' : 'opacity-0'
                   }`}
                 />
               ))}
@@ -147,17 +153,18 @@ const Hero = () => {
         {/* Mobile: Slideshow with gradient overlay */}
         <div className="md:hidden absolute inset-0 w-full h-full">
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#7A0B18]/30 to-[#7A0B18]/60 z-10"></div>
-          {images.map((image, index) => (
+          {/* Only render current and next images for smooth transitions */}
+          {[currentImageIndex, getNextIndex(currentImageIndex, images.length)].map((imageIndex) => (
             <Image
-              key={index}
-              src={image}
-              alt={`Orchard ${index + 1}`}
+              key={imageIndex}
+              src={images[imageIndex]}
+              alt={`Orchard ${imageIndex + 1}`}
               fill
-              priority={index === 0}
-              quality={100}
+              priority={imageIndex === 0}
+              quality={85}
               sizes="100vw"
               className={`absolute inset-0 object-cover transition-opacity duration-1000 ease-in-out ${
-                isMounted && index === currentImageIndex ? 'opacity-100' : index === 0 ? 'opacity-100' : 'opacity-0'
+                imageIndex === currentImageIndex ? 'opacity-100' : 'opacity-0'
               }`}
             />
           ))}
@@ -218,8 +225,9 @@ const Hero = () => {
                         src={`/quick-buttons/${imageName}`}
                         alt={t(product.nameKey)}
                         fill
-                        quality={90}
+                        quality={85}
                         sizes="64px"
+                        loading="eager"
                         className={`${productId === 'apple_juice' ? 'object-contain' : 'object-cover'} group-hover:scale-110 transition-transform`}
                       />
                     </div>

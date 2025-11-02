@@ -17,11 +17,11 @@ export function formatPhoneToE164BG(input: string): string {
  */
 export function buildOrderTextBG(payload: OrderRequest, orderId: string): string {
   const lines = [];
-  lines.push(`ПОРЪЧКА #${orderId}`);
-  lines.push(`Клиент: ${payload.customer.fullName}`);
-  lines.push(`Телефон: ${payload.customer.phone}`);
-  lines.push(`Имейл: ${payload.customer.email || '—'}`);
-  lines.push('');
+  
+  // Customer info - compact format
+  lines.push(`Клиент - ${payload.customer.fullName}`);
+  lines.push(`Тел - ${payload.customer.phone}`);
+  lines.push(`Имейл - ${payload.customer.email || '—'}`);
   
   // Delivery method label
   const deliveryLabels: Record<string, string> = {
@@ -29,36 +29,56 @@ export function buildOrderTextBG(payload: OrderRequest, orderId: string): string
     our_transport: 'Доставка с наш транспорт',
     pickup: 'Лично вземане от място'
   };
-  lines.push(`Доставка: ${deliveryLabels[payload.delivery.method]}`);
   
-  // Address (only if not pickup)
+  // Delivery - compact single line with address
+  let deliveryLine = `Доставка - ${deliveryLabels[payload.delivery.method]}`;
   if (payload.delivery.method !== 'pickup' && payload.delivery.address) {
     const addr = payload.delivery.address;
-    lines.push(`Адрес: ${addr.street}, ${addr.city} ${addr.postcode}`);
-    if (addr.extra) lines.push(`Допълнително: ${addr.extra}`);
+    deliveryLine += `, ${addr.street}, ${addr.city} ${addr.postcode}`;
+    if (addr.extra) deliveryLine += ` (${addr.extra})`;
   } else if (payload.delivery.method === 'pickup') {
-    lines.push('Адрес: Лично вземане от с. Александрово 5572, Ловеч');
+    deliveryLine += ', с. Александрово 5572, Ловеч';
   }
+  lines.push(deliveryLine);
   
   // Preferred time (if set)
   if (payload.delivery.preferred?.dateISO) {
-    lines.push(`Предпочитан час: ${payload.delivery.preferred.dateISO} ${payload.delivery.preferred.slot || ''}`);
+    lines.push(`Предпочитан час - ${payload.delivery.preferred.dateISO} ${payload.delivery.preferred.slot || ''}`);
   }
   
   lines.push('');
-  lines.push('Артикули:');
+  
+  // Products - compact single line format
   payload.items.forEach(item => {
-    const varTxt = item.variety ? ` (${item.variety})` : '';
-    lines.push(`- ${item.name}${varTxt} — ${item.qty} ${item.unit}, ${item.pricePerUnit.toFixed(2)} лв/${item.unit} = ${item.lineTotal.toFixed(2)} лв`);
+    const varTxt = item.variety ? ` - ${item.variety}` : '';
+    
+    // Determine quality indicator for apples based on price
+    let qualityIndicator = '';
+    if (item.productId === 'apples') {
+      // First quality: 3.50, Second quality: 2.50
+      if (item.pricePerUnit === 3.50) {
+        qualityIndicator = ' 1К';
+      } else if (item.pricePerUnit === 2.50) {
+        qualityIndicator = ' 2К';
+      }
+    }
+    
+    // Use proper translation for unit
+    const unitLabel = item.unit === 'pack' ? 'кутии' : item.unit;
+    const qtyText = item.unit === 'pack' ? `${item.qty} ${unitLabel}` : `${item.qty} ${unitLabel}`;
+    
+    lines.push(`${item.name}${varTxt}${qualityIndicator} - ${qtyText} - ${item.lineTotal.toFixed(2)} лв`);
   });
   
   lines.push('');
-  lines.push(`Междинна сума: ${payload.subtotal.toFixed(2)} лв`);
-  lines.push(`Доставка: ${payload.delivery.fee.toFixed(2)} лв`);
-  if (payload.discount) lines.push(`Отстъпка: ${payload.discount.toFixed(2)} лв`);
   lines.push(`Общо: ${payload.total.toFixed(2)} лв`);
+  
+  if (payload.notes) {
+    lines.push('');
+    lines.push(`Бележки: ${payload.notes}`);
+  }
+  
   lines.push('');
-  if (payload.notes) lines.push(`Бележки: ${payload.notes}`);
   lines.push(`Дата: ${new Date(payload.createdAtISO).toLocaleString('bg-BG')}`);
   
   return lines.join('\n');
@@ -69,11 +89,11 @@ export function buildOrderTextBG(payload: OrderRequest, orderId: string): string
  */
 export function buildOrderTextEN(payload: OrderRequest, orderId: string): string {
   const lines = [];
-  lines.push(`ORDER #${orderId}`);
-  lines.push(`Customer: ${payload.customer.fullName}`);
-  lines.push(`Phone: ${payload.customer.phone}`);
-  lines.push(`Email: ${payload.customer.email || '—'}`);
-  lines.push('');
+  
+  // Customer info - compact format
+  lines.push(`Customer - ${payload.customer.fullName}`);
+  lines.push(`Phone - ${payload.customer.phone}`);
+  lines.push(`Email - ${payload.customer.email || '—'}`);
   
   // Delivery method label
   const deliveryLabels: Record<string, string> = {
@@ -81,36 +101,56 @@ export function buildOrderTextEN(payload: OrderRequest, orderId: string): string
     our_transport: 'Delivery with our transport',
     pickup: 'Pickup'
   };
-  lines.push(`Delivery: ${deliveryLabels[payload.delivery.method]}`);
   
-  // Address (only if not pickup)
+  // Delivery - compact single line with address
+  let deliveryLine = `Delivery - ${deliveryLabels[payload.delivery.method]}`;
   if (payload.delivery.method !== 'pickup' && payload.delivery.address) {
     const addr = payload.delivery.address;
-    lines.push(`Address: ${addr.street}, ${addr.city} ${addr.postcode}`);
-    if (addr.extra) lines.push(`Additional: ${addr.extra}`);
+    deliveryLine += `, ${addr.street}, ${addr.city} ${addr.postcode}`;
+    if (addr.extra) deliveryLine += ` (${addr.extra})`;
   } else if (payload.delivery.method === 'pickup') {
-    lines.push('Address: Pickup from Aleksandrovo 5572, Lovech');
+    deliveryLine += ', Aleksandrovo 5572, Lovech';
   }
+  lines.push(deliveryLine);
   
   // Preferred time (if set)
   if (payload.delivery.preferred?.dateISO) {
-    lines.push(`Preferred time: ${payload.delivery.preferred.dateISO} ${payload.delivery.preferred.slot || ''}`);
+    lines.push(`Preferred time - ${payload.delivery.preferred.dateISO} ${payload.delivery.preferred.slot || ''}`);
   }
   
   lines.push('');
-  lines.push('Items:');
+  
+  // Products - compact single line format
   payload.items.forEach(item => {
-    const varTxt = item.variety ? ` (${item.variety})` : '';
-    lines.push(`- ${item.name}${varTxt} — ${item.qty} ${item.unit}, ${item.pricePerUnit.toFixed(2)} BGN/${item.unit} = ${item.lineTotal.toFixed(2)} BGN`);
+    const varTxt = item.variety ? ` - ${item.variety}` : '';
+    
+    // Determine quality indicator for apples based on price
+    let qualityIndicator = '';
+    if (item.productId === 'apples') {
+      // First quality: 3.50, Second quality: 2.50
+      if (item.pricePerUnit === 3.50) {
+        qualityIndicator = ' 1Q';
+      } else if (item.pricePerUnit === 2.50) {
+        qualityIndicator = ' 2Q';
+      }
+    }
+    
+    // Use proper translation for unit
+    const unitLabel = item.unit === 'pack' ? 'boxes' : item.unit;
+    const qtyText = item.unit === 'pack' ? `${item.qty} ${unitLabel}` : `${item.qty} ${unitLabel}`;
+    
+    lines.push(`${item.name}${varTxt}${qualityIndicator} - ${qtyText} - ${item.lineTotal.toFixed(2)} BGN`);
   });
   
   lines.push('');
-  lines.push(`Subtotal: ${payload.subtotal.toFixed(2)} BGN`);
-  lines.push(`Delivery: ${payload.delivery.fee.toFixed(2)} BGN`);
-  if (payload.discount) lines.push(`Discount: ${payload.discount.toFixed(2)} BGN`);
   lines.push(`Total: ${payload.total.toFixed(2)} BGN`);
+  
+  if (payload.notes) {
+    lines.push('');
+    lines.push(`Notes: ${payload.notes}`);
+  }
+  
   lines.push('');
-  if (payload.notes) lines.push(`Notes: ${payload.notes}`);
   lines.push(`Date: ${new Date(payload.createdAtISO).toLocaleString('en-US')}`);
   
   return lines.join('\n');
@@ -124,7 +164,7 @@ export function buildOrderTextEN(payload: OrderRequest, orderId: string): string
  */
 export async function sendViaViber(
   orderText: string, 
-  phone: string = '+447471887453'
+  phone: string = '+359876522974'
 ): Promise<boolean> {
   try {
     // Copy to clipboard
