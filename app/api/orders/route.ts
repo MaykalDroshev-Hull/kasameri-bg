@@ -2,8 +2,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
-// Initialize Resend
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Initialize Resend (use empty string as fallback for build time)
+const resend = new Resend(process.env.RESEND_API_KEY || '');
 
 // Store to track idempotency keys (in production, use Redis/DB)
 const processedOrders = new Set<string>();
@@ -12,6 +12,9 @@ export async function POST(request: NextRequest) {
   try {
     // Parse request body
     const body = await request.json();
+    
+    // Log received data for debugging
+    console.log('Order API - Received body:', JSON.stringify(body, null, 2));
     
     // Extract idempotency key
     const { idempotencyKey } = body;
@@ -30,13 +33,21 @@ export async function POST(request: NextRequest) {
     
     // Validate required fields
     if (!body.customer?.fullName || !body.customer?.phone) {
+      console.error('Missing customer info:', { fullName: body.customer?.fullName, phone: body.customer?.phone });
       return NextResponse.json(
-        { error: 'Missing required customer information' },
+        { 
+          error: 'Missing required customer information',
+          details: {
+            fullName: !body.customer?.fullName ? 'required' : 'ok',
+            phone: !body.customer?.phone ? 'required' : 'ok'
+          }
+        },
         { status: 400 }
       );
     }
     
     if (!body.items || body.items.length === 0) {
+      console.error('Missing items:', body.items);
       return NextResponse.json(
         { error: 'Order must contain at least one item' },
         { status: 400 }

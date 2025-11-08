@@ -2,18 +2,28 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
-// Initialize Resend
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Initialize Resend (use empty string as fallback for build time)
+const resend = new Resend(process.env.RESEND_API_KEY || '');
 
 export async function POST(request: NextRequest) {
   try {
     // Parse request body
     const body = await request.json();
     
+    // Log received data for debugging
+    console.log('Distributor API - Received body:', JSON.stringify(body, null, 2));
+    
     // Validate required fields
     if (!body.company || !body.phone) {
+      console.error('Missing distributor info:', { company: body.company, phone: body.phone });
       return NextResponse.json(
-        { error: 'Missing required information' },
+        { 
+          error: 'Missing required information',
+          details: {
+            company: !body.company ? 'required' : 'ok',
+            phone: !body.phone ? 'required' : 'ok'
+          }
+        },
         { status: 400 }
       );
     }

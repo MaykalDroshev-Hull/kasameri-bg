@@ -50,7 +50,10 @@ const Distributors = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Submission failed');
+        const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+        console.error('Distributor submission failed:', errorData);
+        alert(`Submission failed: ${errorData.error || 'Unknown error'}\n${JSON.stringify(errorData.details || {}, null, 2)}`);
+        throw new Error(`Submission failed: ${errorData.error}`);
       }
 
       const result = await response.json();

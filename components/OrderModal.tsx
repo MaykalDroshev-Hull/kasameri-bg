@@ -159,7 +159,10 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
       });
 
       if (!response.ok) {
-        throw new Error('Order submission failed');
+        const errorData = await response.json().catch(() => ({ error: 'Unknown error' }));
+        console.error('Order submission failed:', errorData);
+        alert(`Order failed: ${errorData.error || 'Unknown error'}\n${JSON.stringify(errorData.details || {}, null, 2)}`);
+        throw new Error(`Order submission failed: ${errorData.error}`);
       }
 
       const result = await response.json();

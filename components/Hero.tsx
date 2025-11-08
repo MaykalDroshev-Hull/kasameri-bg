@@ -194,7 +194,7 @@ const Hero = () => {
 
                 // Map product IDs to image filenames
                 const imageMap: Record<string, string> = {
-                  'apples': '../apple-sorts/florina.jpg',
+                  'apples': 'florina.jpg',
                   'cherries': 'cherries.jpg',
                   'pears': 'pears.jpg',
                   'melons': 'melons.jpg',
