@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useCallback } from 'react';
+import { useEffect, useMemo, useRef, useCallback, useState } from 'react';
 import { useGesture } from '@use-gesture/react';
 import './DomeGallery.css';
 
@@ -156,14 +156,36 @@ export default function DomeGallery({
   const openStartedAtRef = useRef(0);
   const lastDragEndAt = useRef(0);
 
-  // Detect mobile for adjusted parameters
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const [isMobile, setIsMobile] = useState<boolean>(() =>
+    typeof window !== 'undefined' ? window.innerWidth < 768 : false
+  );
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  useEffect(() => {
+    setIsHydrated(true);
+
+    const updateMobileFlag = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    if (typeof window !== 'undefined') {
+      updateMobileFlag();
+      window.addEventListener('resize', updateMobileFlag);
+    }
+
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('resize', updateMobileFlag);
+      }
+    };
+  }, []);
   
   // Adjust parameters for mobile
   const effectiveDragSensitivity = isMobile ? 30 : dragSensitivity;
   const effectiveDragDampening = isMobile ? 3 : dragDampening;
   const effectiveMaxVerticalRotationDeg = isMobile ? 3 : maxVerticalRotationDeg;
   const effectiveSegments = isMobile ? 50 : segments; // More segments on mobile to prevent white space
+  const currentSegments = isHydrated ? effectiveSegments : segments;
 
   const scrollLockedRef = useRef(false);
   const lockScroll = useCallback(() => {
@@ -178,7 +200,7 @@ export default function DomeGallery({
     document.body.classList.remove('dg-scroll-lock');
   }, []);
 
-  const items = useMemo(() => buildItems(images, effectiveSegments), [images, effectiveSegments]);
+  const items = useMemo(() => buildItems(images, currentSegments), [images, currentSegments]);
 
   const applyTransform = (xDeg: number, yDeg: number) => {
     const el = sphereRef.current;
@@ -485,7 +507,7 @@ export default function DomeGallery({
       const offsetY = getDataNumber(parent, 'offsetY', 0);
       const sizeX = getDataNumber(parent, 'sizeX', 2);
       const sizeY = getDataNumber(parent, 'sizeY', 2);
-      const parentRot = computeItemBaseRotation(offsetX, offsetY, sizeX, sizeY, effectiveSegments);
+      const parentRot = computeItemBaseRotation(offsetX, offsetY, sizeX, sizeY, currentSegments);
       const parentY = normalizeAngle(parentRot.rotateY);
       const globalY = normalizeAngle(rotationRef.current.y);
       let rotY = -(parentY + globalY) % 360;
@@ -564,7 +586,7 @@ export default function DomeGallery({
         overlay.addEventListener('transitionend', onFirstEnd as EventListener);
       }
     },
-    [enlargeTransitionMs, lockScroll, openedImageHeight, openedImageWidth, effectiveSegments]
+    [enlargeTransitionMs, lockScroll, openedImageHeight, openedImageWidth, currentSegments]
   );
 
   const onTileClick = useCallback(
@@ -609,8 +631,8 @@ export default function DomeGallery({
       ref={rootRef}
       className="sphere-root"
       style={{
-        ['--segments-x' as string]: effectiveSegments,
-        ['--segments-y' as string]: effectiveSegments,
+        ['--segments-x' as string]: currentSegments,
+        ['--segments-y' as string]: currentSegments,
         ['--overlay-blur-color' as string]: overlayBlurColor,
         ['--tile-radius' as string]: imageBorderRadius,
         ['--enlarge-radius' as string]: openedImageBorderRadius,
