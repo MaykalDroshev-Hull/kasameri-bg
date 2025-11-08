@@ -214,13 +214,13 @@ const Hero = () => {
                     key={productId}
                     onClick={() => !isOutOfStock && handleQuickBuy(productId)}
                     disabled={isOutOfStock}
-                    className={`bg-white/10 backdrop-blur-sm rounded-xl p-3 md:p-4 border border-white/30 transition-all group ${
+                    className={`flex flex-col items-center justify-center bg-white/10 backdrop-blur-sm rounded-xl p-3 md:p-4 border border-white/30 transition-all group ${
                       isOutOfStock 
                         ? 'opacity-50 cursor-not-allowed' 
                         : 'hover:bg-white/20 hover:border-white/50 transform hover:scale-105'
                     }`}
                   >
-                    <div className="relative w-20 h-20 md:w-24 md:h-24 mx-auto mb-2 rounded-lg overflow-hidden aspect-square">
+                    <div className="relative w-20 h-20 md:w-24 md:h-24 mb-2 rounded-lg overflow-hidden aspect-square">
                       <Image
                         src={`/quick-buttons/${imageName}`}
                         alt={t(product.nameKey)}
@@ -231,7 +231,7 @@ const Hero = () => {
                         className={`${productId === 'apple_juice' ? 'object-contain' : 'object-cover'} group-hover:scale-110 transition-transform`}
                       />
                     </div>
-                    <p className="text-white text-xs md:text-sm font-medium drop-shadow-lg">
+                    <p className="text-white text-xs md:text-sm font-medium drop-shadow-lg text-center">
                       {t(product.nameKey)}
                     </p>
                   </button>

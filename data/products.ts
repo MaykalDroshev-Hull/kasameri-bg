@@ -17,7 +17,7 @@ export const products: Product[] = [
     descriptionKey: 'product.apples.desc',
     seasonKey: 'season.sep_nov',
     category: 'fruits',
-    imageUrl: '/products-section/apple.jpg',
+    imageUrl: '/apple-sorts/florina.jpg',
     pricePerUnit: 3.50, // 1st quality price (will be overridden by quality selection)
     unit: 'kg',
     rating: 5,

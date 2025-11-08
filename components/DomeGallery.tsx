@@ -156,6 +156,15 @@ export default function DomeGallery({
   const openStartedAtRef = useRef(0);
   const lastDragEndAt = useRef(0);
 
+  // Detect mobile for adjusted parameters
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  
+  // Adjust parameters for mobile
+  const effectiveDragSensitivity = isMobile ? 30 : dragSensitivity;
+  const effectiveDragDampening = isMobile ? 3 : dragDampening;
+  const effectiveMaxVerticalRotationDeg = isMobile ? 3 : maxVerticalRotationDeg;
+  const effectiveSegments = isMobile ? 50 : segments; // More segments on mobile to prevent white space
+
   const scrollLockedRef = useRef(false);
   const lockScroll = useCallback(() => {
     if (scrollLockedRef.current) return;
@@ -169,7 +178,7 @@ export default function DomeGallery({
     document.body.classList.remove('dg-scroll-lock');
   }, []);
 
-  const items = useMemo(() => buildItems(images, segments), [images, segments]);
+  const items = useMemo(() => buildItems(images, effectiveSegments), [images, effectiveSegments]);
 
   const applyTransform = (xDeg: number, yDeg: number) => {
     const el = sphereRef.current;
@@ -277,11 +286,11 @@ export default function DomeGallery({
 
   const startInertia = useCallback(
     (vx: number, vy: number) => {
-      const MAX_V = 1.4;
+      const MAX_V = isMobile ? 1.0 : 1.4; // Lower max velocity on mobile
       let vX = clamp(vx, -MAX_V, MAX_V) * 80;
       let vY = clamp(vy, -MAX_V, MAX_V) * 80;
       let frames = 0;
-      const d = clamp(dragDampening ?? 0.6, 0, 1);
+      const d = clamp(effectiveDragDampening ?? 0.6, 0, 1);
       const frictionMul = 0.94 + 0.055 * d;
       const stopThreshold = 0.015 - 0.01 * d;
       const maxFrames = Math.round(90 + 270 * d);
@@ -296,7 +305,7 @@ export default function DomeGallery({
           inertiaRAF.current = null;
           return;
         }
-        const nextX = clamp(rotationRef.current.x - vY / 200, -maxVerticalRotationDeg, maxVerticalRotationDeg);
+        const nextX = clamp(rotationRef.current.x - vY / 200, -effectiveMaxVerticalRotationDeg, effectiveMaxVerticalRotationDeg);
         const nextY = wrapAngleSigned(rotationRef.current.y + vX / 200);
         rotationRef.current = { x: nextX, y: nextY };
         applyTransform(nextX, nextY);
@@ -305,7 +314,7 @@ export default function DomeGallery({
       stopInertia();
       inertiaRAF.current = requestAnimationFrame(step);
     },
-    [dragDampening, maxVerticalRotationDeg, stopInertia]
+    [effectiveDragDampening, effectiveMaxVerticalRotationDeg, isMobile, stopInertia]
   );
 
   useGesture(
@@ -333,11 +342,11 @@ export default function DomeGallery({
           if (dist2 > 16) movedRef.current = true;
         }
         const nextX = clamp(
-          startRotRef.current.x - dyTotal / dragSensitivity,
-          -maxVerticalRotationDeg,
-          maxVerticalRotationDeg
+          startRotRef.current.x - dyTotal / effectiveDragSensitivity,
+          -effectiveMaxVerticalRotationDeg,
+          effectiveMaxVerticalRotationDeg
         );
-        const nextY = wrapAngleSigned(startRotRef.current.y + dxTotal / dragSensitivity);
+        const nextY = wrapAngleSigned(startRotRef.current.y + dxTotal / effectiveDragSensitivity);
         if (rotationRef.current.x !== nextX || rotationRef.current.y !== nextY) {
           rotationRef.current = { x: nextX, y: nextY };
           applyTransform(nextX, nextY);
@@ -350,8 +359,8 @@ export default function DomeGallery({
           let vy = vMagY * dirY;
           if (Math.abs(vx) < 0.001 && Math.abs(vy) < 0.001 && Array.isArray(movement)) {
             const [mx, my] = movement;
-            vx = clamp((mx / dragSensitivity) * 0.02, -1.2, 1.2);
-            vy = clamp((my / dragSensitivity) * 0.02, -1.2, 1.2);
+            vx = clamp((mx / effectiveDragSensitivity) * 0.02, -1.2, 1.2);
+            vy = clamp((my / effectiveDragSensitivity) * 0.02, -1.2, 1.2);
           }
           if (Math.abs(vx) > 0.005 || Math.abs(vy) > 0.005) startInertia(vx, vy);
           if (movedRef.current) lastDragEndAt.current = performance.now();
@@ -476,7 +485,7 @@ export default function DomeGallery({
       const offsetY = getDataNumber(parent, 'offsetY', 0);
       const sizeX = getDataNumber(parent, 'sizeX', 2);
       const sizeY = getDataNumber(parent, 'sizeY', 2);
-      const parentRot = computeItemBaseRotation(offsetX, offsetY, sizeX, sizeY, segments);
+      const parentRot = computeItemBaseRotation(offsetX, offsetY, sizeX, sizeY, effectiveSegments);
       const parentY = normalizeAngle(parentRot.rotateY);
       const globalY = normalizeAngle(rotationRef.current.y);
       let rotY = -(parentY + globalY) % 360;
@@ -555,7 +564,7 @@ export default function DomeGallery({
         overlay.addEventListener('transitionend', onFirstEnd as EventListener);
       }
     },
-    [enlargeTransitionMs, lockScroll, openedImageHeight, openedImageWidth, segments]
+    [enlargeTransitionMs, lockScroll, openedImageHeight, openedImageWidth, effectiveSegments]
   );
 
   const onTileClick = useCallback(
@@ -600,8 +609,8 @@ export default function DomeGallery({
       ref={rootRef}
       className="sphere-root"
       style={{
-        ['--segments-x' as string]: segments,
-        ['--segments-y' as string]: segments,
+        ['--segments-x' as string]: effectiveSegments,
+        ['--segments-y' as string]: effectiveSegments,
         ['--overlay-blur-color' as string]: overlayBlurColor,
         ['--tile-radius' as string]: imageBorderRadius,
         ['--enlarge-radius' as string]: openedImageBorderRadius,
