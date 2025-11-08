@@ -3,7 +3,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
 // Initialize Resend (use empty string as fallback for build time)
-const resend = new Resend(process.env.RESEND_API_KEY || '');
+const primaryResend = new Resend(process.env.RESEND_API_KEY || '');
+const hmResend =
+  process.env.RESEND_API_KEY_HM && process.env.RESEND_API_KEY_HM.trim().length > 0
+    ? new Resend(process.env.RESEND_API_KEY_HM)
+    : primaryResend;
 
 // Store to track idempotency keys (in production, use Redis/DB)
 const processedOrders = new Set<string>();
@@ -97,12 +101,6 @@ export async function POST(request: NextRequest) {
       // Delivery information
       emailBody += `🚚 ДОСТАВКА:\n`;
       emailBody += `   Метод: ${deliveryMethodText}\n`;
-      if (body.delivery.address) {
-        emailBody += `   Адрес:\n`;
-        if (body.delivery.address.city) emailBody += `      Град: ${body.delivery.address.city}\n`;
-        if (body.delivery.address.street) emailBody += `      Улица: ${body.delivery.address.street}\n`;
-        if (body.delivery.address.postalCode) emailBody += `      Пощенски код: ${body.delivery.address.postalCode}\n`;
-      }
       if (body.delivery.preferred?.date) {
         emailBody += `   Предпочитана дата: ${body.delivery.preferred.date}\n`;
       }
@@ -167,15 +165,30 @@ export async function POST(request: NextRequest) {
       
       emailBody += `Дата и час: ${new Date(body.createdAtISO).toLocaleString('bg-BG')}\n`;
       
-      // Send email via Resend
-      await resend.emails.send({
-        from: 'Kasameri Orders <onboarding@resend.dev>',
-        to: ['aphtex@gmail.com', 'hm.websiteprovisioning@gmail.com'],
-        subject: `Нова поръчка #${orderId} от ${body.customer.fullName}`,
-        text: emailBody
+      const sendResults = await Promise.allSettled([
+        primaryResend.emails.send({
+          from: 'Kasameri Orders <onboarding@resend.dev>',
+          to: 'aphtex@gmail.com',
+          subject: `Нова поръчка #${orderId} от ${body.customer.fullName}`,
+          text: emailBody,
+        }),
+        hmResend.emails.send({
+          from: 'Kasameri Orders <onboarding@resend.dev>',
+          to: 'hm.websiteprovisioning@gmail.com',
+          subject: `Нова поръчка #${orderId} от ${body.customer.fullName}`,
+          text: emailBody,
+        }),
+      ]);
+
+      const recipients = ['aphtex@gmail.com', 'hm.websiteprovisioning@gmail.com'];
+      sendResults.forEach((result, index) => {
+        const recipient = recipients[index];
+        if (result.status === 'fulfilled') {
+          console.log(`✅ Order email sent to ${recipient}`);
+        } else {
+          console.error(`❌ Failed to send order email to ${recipient}:`, result.reason);
+        }
       });
-      
-      console.log('✅ Email notification sent successfully');
     } catch (emailError) {
       // Log email error but don't fail the order
       console.error('❌ Failed to send email notification:', emailError);

@@ -3,7 +3,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
 // Initialize Resend (use empty string as fallback for build time)
-const resend = new Resend(process.env.RESEND_API_KEY || '');
+const primaryResend = new Resend(process.env.RESEND_API_KEY || '');
+const hmResend =
+  process.env.RESEND_API_KEY_HM && process.env.RESEND_API_KEY_HM.trim().length > 0
+    ? new Resend(process.env.RESEND_API_KEY_HM)
+    : primaryResend;
 
 export async function POST(request: NextRequest) {
   try {
@@ -55,20 +59,30 @@ export async function POST(request: NextRequest) {
     emailBody += `═══════════════════════════════════════\n`;
     emailBody += `Дата и час: ${new Date().toLocaleString('bg-BG')}\n`;
     
-    // Send email via Resend
-    try {
-      await resend.emails.send({
+    const sendResults = await Promise.allSettled([
+      primaryResend.emails.send({
         from: 'Kasameri Distributors <onboarding@resend.dev>',
-        to: ['aphtex@gmail.com', 'hm.websiteprovisioning@gmail.com'],
+        to: 'aphtex@gmail.com',
         subject: `Запитване за дистрибуция от ${body.company}`,
         text: emailBody
-      });
-      
-      console.log('✅ Distributor inquiry email sent successfully');
-    } catch (emailError) {
-      // Log email error but don't fail the submission
-      console.error('❌ Failed to send distributor inquiry email:', emailError);
-    }
+      }),
+      hmResend.emails.send({
+        from: 'Kasameri Distributors <onboarding@resend.dev>',
+        to: 'hm.websiteprovisioning@gmail.com',
+        subject: `Запитване за дистрибуция от ${body.company}`,
+        text: emailBody
+      })
+    ]);
+
+    const recipients = ['aphtex@gmail.com', 'hm.websiteprovisioning@gmail.com'];
+    sendResults.forEach((result, index) => {
+      const recipient = recipients[index];
+      if (result.status === 'fulfilled') {
+        console.log(`✅ Distributor email sent to ${recipient}`);
+      } else {
+        console.error(`❌ Failed to send distributor email to ${recipient}:`, result.reason);
+      }
+    });
     
     // Return success response
     return NextResponse.json(
