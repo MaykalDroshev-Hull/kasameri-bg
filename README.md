@@ -5,7 +5,7 @@ A modern, responsive website for Kasameri EOOD, an agricultural business special
 ## 🌟 Features
 
 - **Hero Section** - Stunning orchard background with compelling headline
-- **Sticky Trust Bar** - Highlights 12+ years experience, location, and family business values
+- **Sticky Trust Bar** - Highlights 17+ years experience, location, and family business values
 - **Products Grid** - Beautiful cards showcasing apples, cherries, pears, melons, tomatoes, potatoes, quinces, and their featured 100% apple juice
 - **Process Timeline** - 6-step production process from harvest to bottling
 - **Sustainability Section** - Water recycling, zero waste, and local employment initiatives
@@ -127,8 +127,7 @@ Build the project and deploy the `.next` folder with a Node.js runtime.
 
 Kasameri EOOD  
 Aleksandrovo 5572, Lovech, Bulgaria  
-Email: info@kasameri.bg  
-Sales: sales@kasameri.bg
+Email: teamkasameri@gmail.com
 
 ## 📄 License
 

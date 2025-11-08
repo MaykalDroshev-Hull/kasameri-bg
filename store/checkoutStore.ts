@@ -236,8 +236,9 @@ export const useCheckoutStore = create<CheckoutState>()(
           isValid = false;
         } else {
           const normalized = normalizePhone(form.phone);
-          if (!normalized.startsWith('+359') || normalized.length !== 13) {
-            setError('phone', 'invalid');
+          // More lenient validation - just check if it starts with +359 and has digits
+          if (!normalized.startsWith('+359') && !form.phone.startsWith('0')) {
+            setError('phone', 'phone');
             isValid = false;
           }
         }
@@ -247,25 +248,6 @@ export const useCheckoutStore = create<CheckoutState>()(
           const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
           if (!emailRegex.test(form.email)) {
             setError('email', 'invalid');
-            isValid = false;
-          }
-        }
-
-        // Address validation (only if delivery - not pickup)
-        if (form.deliveryMethod !== 'pickup') {
-          if (!form.address?.street?.trim()) {
-            setError('street', 'required');
-            isValid = false;
-          }
-          if (!form.address?.city?.trim()) {
-            setError('city', 'required');
-            isValid = false;
-          }
-          if (!form.address?.postcode?.trim()) {
-            setError('postcode', 'required');
-            isValid = false;
-          } else if (!/^\d{4}$/.test(form.address.postcode)) {
-            setError('postcode', 'invalid');
             isValid = false;
           }
         }

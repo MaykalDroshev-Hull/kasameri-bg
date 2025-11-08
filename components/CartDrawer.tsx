@@ -20,6 +20,13 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
   const { t } = useLanguage();
   const { items, updateQty, remove, clear, subtotal } = useCartStore();
 
+  // Close cart drawer when cart becomes empty, BUT only if order modal is not open
+  React.useEffect(() => {
+    if (isOpen && items.length === 0 && !showOrderModal) {
+      onClose();
+    }
+  }, [items.length, isOpen, onClose, showOrderModal]);
+
   const formatPrice = (price: number) => {
     return `${price.toFixed(2)} ${t('common.currency')}`;
   };
@@ -62,6 +69,10 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
 
   const handleOrderModalClose = () => {
     setShowOrderModal(false);
+    // Also close cart drawer if it's empty (after successful order)
+    if (items.length === 0) {
+      onClose();
+    }
   };
 
   if (!isOpen) return null;

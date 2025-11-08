@@ -48,7 +48,7 @@ const Contact = () => {
 
             {/* Social media */}
             <div className="flex justify-center items-center space-x-4 mb-6">
-              <a href="#" className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition">
+              <a href="https://www.facebook.com/groups/1819576442319363/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition">
                 <Facebook size={18} />
               </a>
               <a href="#" className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition">
@@ -66,11 +66,11 @@ const Contact = () => {
                 </div>
                 <div className="flex justify-between">
                   <span>{t('contact.saturday')}</span>
-                  <span className="font-medium">8:00 - 13:00</span>
+                  <span className="font-medium">8:00 - 17:00</span>
                 </div>
                 <div className="flex justify-between">
                   <span>{t('contact.sunday')}</span>
-                  <span className="font-medium">{t('contact.closed')}</span>
+                  <span className="font-medium">8:00 - 17:00</span>
                 </div>
               </div>
             </div>

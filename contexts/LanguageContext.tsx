@@ -32,26 +32,26 @@ const translations = {
     
     // Hero Section
     'hero.title': 'От градината в бутилката',
-    'hero.description': '12+ години отглеждаме качествени плодове и зеленчуци в сърцето на Ловешко. Опитайте нашия 100% натурален ябълков сок.',
+    'hero.description': '17+ години отглеждаме качествени плодове и зеленчуци в сърцето на Ловешко. Опитайте нашия 100% натурален ябълков сок.',
     'hero.products_button': 'Разгледай Продуктите',
     'hero.distributors_button': 'Станете Дистрибутор',
     
     // Trust Bar
-    'trust.experience': '12+ години опит • Основани 2013',
+    'trust.experience': '17+ години опит • Основани 2007',
     'trust.location': 'Александрово, Ловеч • Локално производство',
     'trust.family': 'Семеен бизнес • Честност и качество',
     
     // Experience Section
-    'experience.text': 'Занимаваме се със земеделие от 17 години (от 2008).',
+    'experience.text': 'Занимаваме се със земеделие от 17 години (от 2007).',
     
     // About Us
     'about.title': 'НАШАТА ЗЕМЯ',
     'about.heading': 'Александрово: Перфектното място за плодове',
     'about.description1': 'Разположени в сърцето на Ловешка област, нашите земи се ползват от уникален микроклимат - топли дни, хладни нощи и богата почва, идеална за ябълки, череши и круши.',
     'about.description2': 'Водата, която използваме, идва от естествени подпочвени извори, а всяко дърво получава внимание както в дядовите градини.',
-    'about.description3': 'Това не е просто ферма - това е наследство, което пазим и развиваме от 2008 година.',
+    'about.description3': 'Това не е просто ферма - това е наследство, което пазим и развиваме от 2007 година.',
     'about.visit': 'Посетете ни: Александрово 5572, Ловеч',
-    'about.hours': 'Работно време: Пон-Съб 8:00-17:00',
+    'about.hours': 'Работно време: Всеки ден 8:00-17:00',
     
     // Contact
     'contact.title': 'Свържете се с нас',
@@ -59,17 +59,17 @@ const translations = {
     'contact.address': 'Адрес',
     'contact.address_value': 'с. Александрово 5572<br/>Община Ловеч, България',
     'contact.phone': 'Телефон',
-    'contact.phone_value': '+359 XXX XXX XXX',
+    'contact.phone_value': '+359 878 115 494',
     'contact.hours': 'Пон-Съб: 8:00 - 17:00',
     'contact.email': 'Email',
-    'contact.email_info': 'info@kasameri.bg',
-    'contact.email_sales': 'sales@kasameri.bg',
+    'contact.email_info': 'teamkasameri@gmail.com',
+    'contact.email_sales': 'teamkasameri@gmail.com',
     
     // Products
     'products.title': 'Нашите продукти',
     'products.subtitle': 'От семето до масата - контролираме всеки етап за да гарантираме качество и вкус.',
     'products.apples': 'Ябълки',
-    'products.apples_desc': 'Отглеждаме сортове Айдаред, Златна Превъзходна и Гренни Смит.',
+    'products.apples_desc': 'Отглеждаме сортове Златна превъзходна, Флорина, Джонаголд и Мелроуз.',
     'products.apples_season': 'Септември - Ноември',
     'products.cherries': 'Череши',
     'products.cherries_desc': 'Сладки и сочни череши, берени на ръка в пика на зрялост.',
@@ -168,7 +168,7 @@ const translations = {
     'testimonials.elena_review': 'Използваме техните домати и ябълки в менюто си. Гостите забелязват разликата във вкуса. Това са истински продукти, отгледани с грижа!',
     
     // Footer
-    'footer.tagline': '12+ години традиция в отглеждането на качествени плодове и зеленчуци.',
+    'footer.tagline': '17+ години традиция в отглеждането на качествени плодове и зеленчуци.',
     'footer.products_title': 'Продукти',
     'footer.apples': 'Ябълки',
     'footer.cherries': 'Череши',
@@ -194,7 +194,7 @@ const translations = {
     'contact.name': 'Име *',
     'contact.name_placeholder': 'Вашето име',
     'contact.email_placeholder': 'vashemail@example.com',
-    'contact.phone_placeholder': '+359 888 123 456',
+    'contact.phone_placeholder': '+359 878 115 494',
     'contact.message_placeholder': 'Как можем да ви помогнем?',
     'contact.submit': 'Изпрати',
     'contact.working_hours_title': 'Работно време',
@@ -213,10 +213,10 @@ const translations = {
     'howToOrder.step1Desc': 'Изберете любимите си плодове и зеленчуци',
     'howToOrder.step2': 'Добавете в количката',
     'howToOrder.step2Desc': 'Посочете количество и детайли',
-    'howToOrder.step3': 'Изпратете запитване',
-    'howToOrder.step3Desc': 'Свържете се с нас чрез Viber или Messenger',
+    'howToOrder.step3': 'Завършете поръчката',
+    'howToOrder.step3Desc': 'Попълнете данните и изпратете',
     'howToOrder.step4': 'Потвърждаваме веднага',
-    'howToOrder.step4Desc': 'Ние ще се свържем с вас незабавно за потвърждение',
+    'howToOrder.step4Desc': 'Ще се свържем с вас незабавно за потвърждение',
     
     // Common UI
     'common.learnMore': 'Научи повече',
@@ -328,8 +328,8 @@ const translations = {
     'cart.itemCount': 'предмета',
     'cart.lineTotal': 'Общо за ред',
     'cart.validation.varietyRequired': 'Моля изберете сорт',
-    'cart.validation.qtyMin': 'Минимално количество: 0.2',
-    'cart.validation.qtyMax': 'Максимално количество: 25',
+    'cart.validation.qtyMin': 'Моля въведете валидно количество',
+    'cart.validation.qtyMax': 'Максимално количество: 100',
     'cart.validation.notesMax': 'Максимум 140 символа',
     
     // Checkout
@@ -385,6 +385,8 @@ const translations = {
     'checkout.econt_cod': 'Наложен платеж с Еконт',
     'checkout.our_transport': 'Доставка с наш транспорт',
     'checkout.extra': 'Вход/Етаж/Ап.',
+    'checkout.submit': 'Поръчай',
+    'checkout.submitting': 'Изпращане...',
     
     // Viber & Success
     'viber.sendOrder': 'Изпрати по Viber',
@@ -399,7 +401,7 @@ const translations = {
     'success.sendMessenger': 'Изпрати по Messenger',
     'success.copyText': 'Копирай текста',
     'success.sendTo': 'Изпратете на:',
-    'success.viberNumber': 'Viber: +447471887453',
+    'success.viberNumber': 'Viber: +359878115494',
     'success.messengerProfile': 'Messenger: @BlameH1M',
     
     // Gallery Section
@@ -467,26 +469,26 @@ const translations = {
     
     // Hero Section
     'hero.title': 'From Our Orchard to Your Table',
-    'hero.description': '12+ years growing quality fruits and vegetables in the heart of Lovech region. Try our 100% natural apple juice.',
+    'hero.description': '17+ years growing quality fruits and vegetables in the heart of Lovech region. Try our 100% natural apple juice.',
     'hero.products_button': 'View Products',
     'hero.distributors_button': 'Become Distributor',
     
     // Trust Bar
-    'trust.experience': '12+ years experience • Founded 2013',
+    'trust.experience': '17+ years experience • Founded 2007',
     'trust.location': 'Aleksandrovo, Lovech • Local production',
     'trust.family': 'Family business • Honesty and quality',
     
     // Experience Section
-    'experience.text': 'We have been engaged in agriculture for 17 years (since 2008).',
+    'experience.text': 'We have been engaged in agriculture for 17 years (since 2007).',
     
     // About Us
     'about.title': 'OUR LAND',
     'about.heading': 'Aleksandrovo: The Perfect Place for Fruits',
     'about.description1': 'Located in the heart of Lovech region, our lands benefit from a unique microclimate - warm days, cool nights and rich soil, ideal for apples, cherries and pears.',
     'about.description2': 'The water we use comes from natural underground springs, and every tree receives attention like in grandfather\'s gardens.',
-    'about.description3': 'This is not just a farm - this is a heritage that we preserve and develop since 2008.',
+    'about.description3': 'This is not just a farm - this is a heritage that we preserve and develop since 2007.',
     'about.visit': 'Visit us: Aleksandrovo 5572, Lovech',
-    'about.hours': 'Working hours: Mon-Sat 8:00-17:00',
+    'about.hours': 'Working hours: Every day 8:00-17:00',
     
     // Contact
     'contact.title': 'Contact Us',
@@ -494,17 +496,17 @@ const translations = {
     'contact.address': 'Address',
     'contact.address_value': 'Aleksandrovo 5572<br/>Lovech Municipality, Bulgaria',
     'contact.phone': 'Phone',
-    'contact.phone_value': '+359 XXX XXX XXX',
+    'contact.phone_value': '+359 878 115 494',
     'contact.hours': 'Mon-Sat: 8:00 - 17:00',
     'contact.email': 'Email',
-    'contact.email_info': 'info@kasameri.bg',
-    'contact.email_sales': 'sales@kasameri.bg',
+    'contact.email_info': 'teamkasameri@gmail.com',
+    'contact.email_sales': 'teamkasameri@gmail.com',
     
     // Products
     'products.title': 'Our Products',
     'products.subtitle': 'From seed to table - we control every step to guarantee quality and taste.',
     'products.apples': 'Apples',
-    'products.apples_desc': 'We grow Idared, Golden Delicious and Granny Smith varieties.',
+    'products.apples_desc': 'We grow Golden Delicious, Florina, Jonagold, and Melrose varieties.',
     'products.apples_season': 'September - November',
     'products.cherries': 'Cherries',
     'products.cherries_desc': 'Sweet and juicy cherries, hand-picked at peak ripeness.',
@@ -603,7 +605,7 @@ const translations = {
     'testimonials.elena_review': 'We use their tomatoes and apples in our menu. Guests notice the difference in taste. These are real products grown with care!',
     
     // Footer
-    'footer.tagline': '12+ years tradition in growing quality fruits and vegetables.',
+    'footer.tagline': '17+ years tradition in growing quality fruits and vegetables.',
     'footer.products_title': 'Products',
     'footer.apples': 'Apples',
     'footer.cherries': 'Cherries',
@@ -629,7 +631,7 @@ const translations = {
     'contact.name': 'Name *',
     'contact.name_placeholder': 'Your name',
     'contact.email_placeholder': 'yourname@example.com',
-    'contact.phone_placeholder': '+359 888 123 456',
+    'contact.phone_placeholder': '+359 878 115 494',
     'contact.message_placeholder': 'How can we help you?',
     'contact.submit': 'Send',
     'contact.working_hours_title': 'Working Hours',
@@ -648,8 +650,8 @@ const translations = {
     'howToOrder.step1Desc': 'Choose your favorite fruits and vegetables',
     'howToOrder.step2': 'Add to Cart',
     'howToOrder.step2Desc': 'Specify quantity and details',
-    'howToOrder.step3': 'Send Inquiry',
-    'howToOrder.step3Desc': 'Contact us via Viber or Messenger',
+    'howToOrder.step3': 'Complete Your Order',
+    'howToOrder.step3Desc': 'Fill in your details and submit',
     'howToOrder.step4': 'We Confirm Immediately',
     'howToOrder.step4Desc': 'We will contact you immediately for confirmation',
     
@@ -675,7 +677,7 @@ const translations = {
     'common.categories.vegetables': 'VEGETABLES',
     'common.categories.drinks': 'DRINKS',
     'common.season': 'Season',
-    'common.currency': '€',
+    'common.currency': 'лв.',
     'common.minQty': 'Min. quantity',
     'common.step': 'Step',
     'common.maxChars': 'max chars',
@@ -763,8 +765,8 @@ const translations = {
     'cart.itemCount': 'items',
     'cart.lineTotal': 'Line total',
     'cart.validation.varietyRequired': 'Please select a variety',
-    'cart.validation.qtyMin': 'Minimum quantity: 0.2',
-    'cart.validation.qtyMax': 'Maximum quantity: 25',
+    'cart.validation.qtyMin': 'Please enter a valid quantity',
+    'cart.validation.qtyMax': 'Maximum quantity: 100',
     'cart.validation.notesMax': 'Maximum 140 characters',
     
     // Checkout
@@ -812,7 +814,7 @@ const translations = {
     'checkout.newOrder': 'New order',
     'checkout.print': 'Print',
     'checkout.editInCart': 'Edit in cart',
-    'checkout.freeDelivery': 'Free delivery over €40',
+    'checkout.freeDelivery': 'Free delivery over 40 лв.',
     'checkout.timeSlots.09-12': '09:00 - 12:00',
     'checkout.timeSlots.12-15': '12:00 - 15:00',
     'checkout.timeSlots.15-18': '15:00 - 18:00',
@@ -820,6 +822,8 @@ const translations = {
     'checkout.econt_cod': 'Econt cash on delivery',
     'checkout.our_transport': 'Delivery with our transport',
     'checkout.extra': 'Entrance/Floor/Apt',
+    'checkout.submit': 'Place Order',
+    'checkout.submitting': 'Submitting...',
     
     // Viber & Success
     'viber.sendOrder': 'Send via Viber',
@@ -834,7 +838,7 @@ const translations = {
     'success.sendMessenger': 'Send via Messenger',
     'success.copyText': 'Copy text',
     'success.sendTo': 'Send to:',
-    'success.viberNumber': 'Viber: +447471887453',
+    'success.viberNumber': 'Viber: +359878115494',
     'success.messengerProfile': 'Messenger: @BlameH1M',
     
     // Gallery Section

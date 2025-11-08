@@ -194,7 +194,7 @@ const Hero = () => {
 
                 // Map product IDs to image filenames
                 const imageMap: Record<string, string> = {
-                  'apples': 'apple.jpg',
+                  'apples': '../apple-sorts/florina.jpg',
                   'cherries': 'cherries.jpg',
                   'pears': 'pears.jpg',
                   'melons': 'melons.jpg',
@@ -220,13 +220,13 @@ const Hero = () => {
                         : 'hover:bg-white/20 hover:border-white/50 transform hover:scale-105'
                     }`}
                   >
-                    <div className="relative w-12 h-12 md:w-16 md:h-16 mx-auto mb-2 rounded-lg overflow-hidden">
+                    <div className="relative w-18 h-18 md:w-24 md:h-24 mx-auto mb-2 rounded-lg overflow-hidden">
                       <Image
                         src={`/quick-buttons/${imageName}`}
                         alt={t(product.nameKey)}
                         fill
                         quality={85}
-                        sizes="64px"
+                        sizes="96px"
                         loading="eager"
                         className={`${productId === 'apple_juice' ? 'object-contain' : 'object-cover'} group-hover:scale-110 transition-transform`}
                       />

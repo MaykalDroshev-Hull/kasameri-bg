@@ -95,35 +95,35 @@ const Process = () => {
       setCurrentOrchardImageIndex((prevIndex) => 
         prevIndex === orchardImages.length - 1 ? 0 : prevIndex + 1
       );
-    }, 2000); // Change image every 2 seconds
+    }, 3000); // Change image every 3 seconds
 
     // Interval for hand picking images
     const handPickingInterval = setInterval(() => {
       setCurrentHandPickingImageIndex((prevIndex) => 
         prevIndex === handPickingImages.length - 1 ? 0 : prevIndex + 1
       );
-    }, 2000); // Change image every 2 seconds
+    }, 3000); // Change image every 3 seconds
 
     // Interval for machinery images
     const machineryInterval = setInterval(() => {
       setCurrentMachineryImageIndex((prevIndex) => 
         prevIndex === machineryImages.length - 1 ? 0 : prevIndex + 1
       );
-    }, 2000); // Change image every 2 seconds
+    }, 3000); // Change image every 3 seconds
 
     // Interval for love process images
     const loveProcessInterval = setInterval(() => {
       setCurrentLoveProcessImageIndex((prevIndex) => 
         prevIndex === loveProcessImages.length - 1 ? 0 : prevIndex + 1
       );
-    }, 2000); // Change image every 2 seconds
+    }, 3000); // Change image every 3 seconds
 
     // Interval for quality control images
     const qualityControlInterval = setInterval(() => {
       setCurrentQualityControlImageIndex((prevIndex) => 
         prevIndex === qualityControlImages.length - 1 ? 0 : prevIndex + 1
       );
-    }, 2000); // Change image every 2 seconds
+    }, 3000); // Change image every 3 seconds
 
     return () => {
       clearInterval(orchardInterval);
@@ -197,22 +197,39 @@ const Process = () => {
                         <div className="relative w-full h-full">
                           {/* Only render current and next images for smooth transitions */}
                           {[currentOrchardImageIndex, (currentOrchardImageIndex + 1) % orchardImages.length].map((imageIndex) => (
-                            <Image
-                              key={imageIndex}
-                              src={orchardImages[imageIndex]}
-                              alt={`Orchard ${imageIndex + 1}`}
-                              fill
-                              priority={false}
-                              loading="lazy"
-                              quality={85}
-                              sizes="(max-width: 768px) 100vw, 50vw"
-                              className={`absolute inset-0 object-cover transition-opacity duration-1000 ease-in-out ${
-                                imageIndex === currentOrchardImageIndex ? 'opacity-100' : 'opacity-0'
-                              }`}
-                            />
+                            <div key={imageIndex} className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                              imageIndex === currentOrchardImageIndex ? 'opacity-100' : 'opacity-0'
+                            }`}>
+                              {/* Blurred background */}
+                              <div className="absolute inset-0 z-0">
+                                <Image
+                                  src={orchardImages[imageIndex]}
+                                  alt={`Orchard background ${imageIndex + 1}`}
+                                  fill
+                                  priority={false}
+                                  loading="lazy"
+                                  quality={85}
+                                  sizes="(max-width: 768px) 100vw, 50vw"
+                                  style={{ objectFit: 'cover', filter: 'blur(20px)', transform: 'scale(1.1)' }}
+                                />
+                              </div>
+                              {/* Sharp foreground */}
+                              <div className="absolute inset-0 z-10">
+                                <Image
+                                  src={orchardImages[imageIndex]}
+                                  alt={`Orchard ${imageIndex + 1}`}
+                                  fill
+                                  priority={false}
+                                  loading="lazy"
+                                  quality={85}
+                                  sizes="(max-width: 768px) 100vw, 50vw"
+                                  style={{ objectFit: 'contain' }}
+                                />
+                              </div>
+                            </div>
                           ))}
                           {/* Overlay with step number */}
-                          <div className="absolute bottom-4 right-4 bg-[#7A0B18]/80 text-white text-4xl font-serif px-4 py-2 rounded-full">
+                          <div className="absolute bottom-4 right-4 bg-[#7A0B18]/80 text-white text-4xl font-serif px-4 py-2 rounded-full z-20">
                             {step.number}
                           </div>
                         </div>
@@ -223,22 +240,39 @@ const Process = () => {
                         <div className="relative w-full h-full">
                           {/* Only render current and next images for smooth transitions */}
                           {[currentHandPickingImageIndex, (currentHandPickingImageIndex + 1) % handPickingImages.length].map((imageIndex) => (
-                            <Image
-                              key={imageIndex}
-                              src={handPickingImages[imageIndex]}
-                              alt={`Hand Picking ${imageIndex + 1}`}
-                              fill
-                              priority={false}
-                              loading="lazy"
-                              quality={85}
-                              sizes="(max-width: 768px) 100vw, 50vw"
-                              className={`absolute inset-0 object-cover transition-opacity duration-1000 ease-in-out ${
-                                imageIndex === currentHandPickingImageIndex ? 'opacity-100' : 'opacity-0'
-                              }`}
-                            />
+                            <div key={imageIndex} className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                              imageIndex === currentHandPickingImageIndex ? 'opacity-100' : 'opacity-0'
+                            }`}>
+                              {/* Blurred background */}
+                              <div className="absolute inset-0 z-0">
+                                <Image
+                                  src={handPickingImages[imageIndex]}
+                                  alt={`Hand Picking background ${imageIndex + 1}`}
+                                  fill
+                                  priority={false}
+                                  loading="lazy"
+                                  quality={85}
+                                  sizes="(max-width: 768px) 100vw, 50vw"
+                                  style={{ objectFit: 'cover', filter: 'blur(20px)', transform: 'scale(1.1)' }}
+                                />
+                              </div>
+                              {/* Sharp foreground */}
+                              <div className="absolute inset-0 z-10">
+                                <Image
+                                  src={handPickingImages[imageIndex]}
+                                  alt={`Hand Picking ${imageIndex + 1}`}
+                                  fill
+                                  priority={false}
+                                  loading="lazy"
+                                  quality={85}
+                                  sizes="(max-width: 768px) 100vw, 50vw"
+                                  style={{ objectFit: 'contain' }}
+                                />
+                              </div>
+                            </div>
                           ))}
                           {/* Overlay with step number */}
-                          <div className="absolute bottom-4 right-4 bg-[#7A0B18]/80 text-white text-4xl font-serif px-4 py-2 rounded-full">
+                          <div className="absolute bottom-4 right-4 bg-[#7A0B18]/80 text-white text-4xl font-serif px-4 py-2 rounded-full z-20">
                             {step.number}
                           </div>
                         </div>
@@ -249,22 +283,39 @@ const Process = () => {
                         <div className="relative w-full h-full">
                           {/* Only render current and next images for smooth transitions */}
                           {[currentMachineryImageIndex, (currentMachineryImageIndex + 1) % machineryImages.length].map((imageIndex) => (
-                            <Image
-                              key={imageIndex}
-                              src={machineryImages[imageIndex]}
-                              alt={`Modern Machinery ${imageIndex + 1}`}
-                              fill
-                              priority={false}
-                              loading="lazy"
-                              quality={85}
-                              sizes="(max-width: 768px) 100vw, 50vw"
-                              className={`absolute inset-0 object-cover transition-opacity duration-1000 ease-in-out ${
-                                imageIndex === currentMachineryImageIndex ? 'opacity-100' : 'opacity-0'
-                              }`}
-                            />
+                            <div key={imageIndex} className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                              imageIndex === currentMachineryImageIndex ? 'opacity-100' : 'opacity-0'
+                            }`}>
+                              {/* Blurred background */}
+                              <div className="absolute inset-0 z-0">
+                                <Image
+                                  src={machineryImages[imageIndex]}
+                                  alt={`Modern Machinery background ${imageIndex + 1}`}
+                                  fill
+                                  priority={false}
+                                  loading="lazy"
+                                  quality={85}
+                                  sizes="(max-width: 768px) 100vw, 50vw"
+                                  style={{ objectFit: 'cover', filter: 'blur(20px)', transform: 'scale(1.1)' }}
+                                />
+                              </div>
+                              {/* Sharp foreground */}
+                              <div className="absolute inset-0 z-10">
+                                <Image
+                                  src={machineryImages[imageIndex]}
+                                  alt={`Modern Machinery ${imageIndex + 1}`}
+                                  fill
+                                  priority={false}
+                                  loading="lazy"
+                                  quality={85}
+                                  sizes="(max-width: 768px) 100vw, 50vw"
+                                  style={{ objectFit: 'contain' }}
+                                />
+                              </div>
+                            </div>
                           ))}
                           {/* Overlay with step number */}
-                          <div className="absolute bottom-4 right-4 bg-[#7A0B18]/80 text-white text-4xl font-serif px-4 py-2 rounded-full">
+                          <div className="absolute bottom-4 right-4 bg-[#7A0B18]/80 text-white text-4xl font-serif px-4 py-2 rounded-full z-20">
                             {step.number}
                           </div>
                         </div>
@@ -275,22 +326,39 @@ const Process = () => {
                         <div className="relative w-full h-full">
                           {/* Only render current and next images for smooth transitions */}
                           {[currentLoveProcessImageIndex, (currentLoveProcessImageIndex + 1) % loveProcessImages.length].map((imageIndex) => (
-                            <Image
-                              key={imageIndex}
-                              src={loveProcessImages[imageIndex]}
-                              alt={`Love for the Process ${imageIndex + 1}`}
-                              fill
-                              priority={false}
-                              loading="lazy"
-                              quality={85}
-                              sizes="(max-width: 768px) 100vw, 50vw"
-                              className={`absolute inset-0 object-cover transition-opacity duration-1000 ease-in-out ${
-                                imageIndex === currentLoveProcessImageIndex ? 'opacity-100' : 'opacity-0'
-                              }`}
-                            />
+                            <div key={imageIndex} className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                              imageIndex === currentLoveProcessImageIndex ? 'opacity-100' : 'opacity-0'
+                            }`}>
+                              {/* Blurred background */}
+                              <div className="absolute inset-0 z-0">
+                                <Image
+                                  src={loveProcessImages[imageIndex]}
+                                  alt={`Love for the Process background ${imageIndex + 1}`}
+                                  fill
+                                  priority={false}
+                                  loading="lazy"
+                                  quality={85}
+                                  sizes="(max-width: 768px) 100vw, 50vw"
+                                  style={{ objectFit: 'cover', filter: 'blur(20px)', transform: 'scale(1.1)' }}
+                                />
+                              </div>
+                              {/* Sharp foreground */}
+                              <div className="absolute inset-0 z-10">
+                                <Image
+                                  src={loveProcessImages[imageIndex]}
+                                  alt={`Love for the Process ${imageIndex + 1}`}
+                                  fill
+                                  priority={false}
+                                  loading="lazy"
+                                  quality={85}
+                                  sizes="(max-width: 768px) 100vw, 50vw"
+                                  style={{ objectFit: 'contain' }}
+                                />
+                              </div>
+                            </div>
                           ))}
                           {/* Overlay with step number */}
-                          <div className="absolute bottom-4 right-4 bg-[#7A0B18]/80 text-white text-4xl font-serif px-4 py-2 rounded-full">
+                          <div className="absolute bottom-4 right-4 bg-[#7A0B18]/80 text-white text-4xl font-serif px-4 py-2 rounded-full z-20">
                             {step.number}
                           </div>
                         </div>
@@ -301,22 +369,39 @@ const Process = () => {
                         <div className="relative w-full h-full">
                           {/* Only render current and next images for smooth transitions */}
                           {[currentQualityControlImageIndex, (currentQualityControlImageIndex + 1) % qualityControlImages.length].map((imageIndex) => (
-                            <Image
-                              key={imageIndex}
-                              src={qualityControlImages[imageIndex]}
-                              alt={`Quality Control ${imageIndex + 1}`}
-                              fill
-                              priority={false}
-                              loading="lazy"
-                              quality={85}
-                              sizes="(max-width: 768px) 100vw, 50vw"
-                              className={`absolute inset-0 object-cover transition-opacity duration-1000 ease-in-out ${
-                                imageIndex === currentQualityControlImageIndex ? 'opacity-100' : 'opacity-0'
-                              }`}
-                            />
+                            <div key={imageIndex} className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+                              imageIndex === currentQualityControlImageIndex ? 'opacity-100' : 'opacity-0'
+                            }`}>
+                              {/* Blurred background */}
+                              <div className="absolute inset-0 z-0">
+                                <Image
+                                  src={qualityControlImages[imageIndex]}
+                                  alt={`Quality Control background ${imageIndex + 1}`}
+                                  fill
+                                  priority={false}
+                                  loading="lazy"
+                                  quality={85}
+                                  sizes="(max-width: 768px) 100vw, 50vw"
+                                  style={{ objectFit: 'cover', filter: 'blur(20px)', transform: 'scale(1.1)' }}
+                                />
+                              </div>
+                              {/* Sharp foreground */}
+                              <div className="absolute inset-0 z-10">
+                                <Image
+                                  src={qualityControlImages[imageIndex]}
+                                  alt={`Quality Control ${imageIndex + 1}`}
+                                  fill
+                                  priority={false}
+                                  loading="lazy"
+                                  quality={85}
+                                  sizes="(max-width: 768px) 100vw, 50vw"
+                                  style={{ objectFit: 'contain' }}
+                                />
+                              </div>
+                            </div>
                           ))}
                           {/* Overlay with step number */}
-                          <div className="absolute bottom-4 right-4 bg-[#7A0B18]/80 text-white text-4xl font-serif px-4 py-2 rounded-full">
+                          <div className="absolute bottom-4 right-4 bg-[#7A0B18]/80 text-white text-4xl font-serif px-4 py-2 rounded-full z-20">
                             {step.number}
                           </div>
                         </div>

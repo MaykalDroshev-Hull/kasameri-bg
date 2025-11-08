@@ -21,7 +21,7 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({ isOpen, onClose, produc
   
   const [selectedVariety, setSelectedVariety] = useState<string>('');
   const [selectedQuality, setSelectedQuality] = useState<string>('first'); // For apples
-  const [quantity, setQuantity] = useState<number>(0.5);
+  const [quantity, setQuantity] = useState<string>('');
   const [notes, setNotes] = useState<string>('');
   const [errors, setErrors] = useState<Record<string, string>>({});
   
@@ -62,7 +62,7 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({ isOpen, onClose, produc
         console.log('Varieties with images:', product.varieties);
       }
       // Reset form when opening
-      setQuantity(quantityConfig.initial);
+      setQuantity('');
       setSelectedQuality('first'); // Reset quality for apples
       setNotes('');
       setErrors({});
@@ -99,7 +99,8 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({ isOpen, onClose, produc
       newErrors.variety = t('cart.validation.varietyRequired');
     }
     
-    if (quantity < quantityConfig.min) {
+    const qty = parseFloat(quantity);
+    if (isNaN(qty) || qty < quantityConfig.min) {
       newErrors.quantity = `${t('cart.validation.qtyMin')}: ${quantityConfig.min}`;
     }
     
@@ -113,8 +114,9 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({ isOpen, onClose, produc
 
   const handleQuantityChange = (delta: number) => {
     const step = quantityConfig.step;
-    const newQty = Math.max(quantityConfig.min, Math.min(quantityConfig.max, quantity + delta));
-    setQuantity(newQty);
+    const currentQty = parseFloat(quantity) || 0;
+    const newQty = Math.max(quantityConfig.min, Math.min(quantityConfig.max, currentQty + delta));
+    setQuantity(newQty.toString());
   };
 
   const handleAddToCart = () => {
@@ -132,7 +134,7 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({ isOpen, onClose, produc
       varietyKey,
       unit: product.unit,
       pricePerUnit: currentPrice,
-      qty: quantity,
+      qty: parseFloat(quantity),
       notes: notes.trim() || undefined,
       imageUrl: product.imageUrl
     });
@@ -143,7 +145,7 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({ isOpen, onClose, produc
 
   const handleClose = () => {
     setSelectedVariety('');
-    setQuantity(0.5);
+    setQuantity('');
     setNotes('');
     setErrors({});
     onClose();
@@ -329,17 +331,18 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({ isOpen, onClose, produc
                 <button
                   onClick={() => handleQuantityChange(-quantityConfig.step)}
                   className="p-2 hover:bg-gray-100 rounded-lg transition"
-                  disabled={quantity <= quantityConfig.min}
+                  disabled={parseFloat(quantity) <= quantityConfig.min}
                 >
                   <Minus size={16} />
                 </button>
                 <input
                   type="number"
                   value={quantity}
-                  onChange={(e) => setQuantity(Math.max(quantityConfig.min, Math.min(quantityConfig.max, parseFloat(e.target.value) || quantityConfig.min)))}
+                  onChange={(e) => setQuantity(e.target.value)}
                   step={quantityConfig.step}
                   min={quantityConfig.min}
                   max={quantityConfig.max}
+                  placeholder={quantityConfig.min.toString()}
                   className="w-20 text-center border border-gray-300 rounded-lg px-3 py-2 focus:border-[#C4312E] focus:outline-none"
                 />
                 <button
@@ -350,46 +353,44 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({ isOpen, onClose, produc
                 </button>
               </div>
               <p className="text-xs text-gray-500 mt-1">
-                {t('common.minQty')}: {quantityConfig.min}, {t('common.step')}: {quantityConfig.step}
+                {t('common.minQty')}: {quantityConfig.min} {product.unit === 'pack' ? t('common.box') : product.unit}
               </p>
               {errors.quantity && (
                 <p className="text-red-500 text-sm mt-1">{errors.quantity}</p>
               )}
-            </div>
-
-            {/* Notes */}
-            <div>
-              <label className="block text-sm font-medium text-[#7A0B18] mb-3">
-                {t('common.notes')} ({t('common.maxChars')}: 140)
-              </label>
-              <textarea
-                value={notes}
-                onChange={(e) => setNotes(e.target.value)}
-                maxLength={140}
-                rows={3}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:border-[#C4312E] focus:outline-none resize-none"
-                placeholder={t('common.notes')}
-              />
-              <div className="flex justify-between items-center mt-1">
-                <span className="text-xs text-gray-500">
-                  {notes.length}/140 {t('common.maxChars')}
-                </span>
-                {errors.notes && (
-                  <span className="text-red-500 text-xs">{errors.notes}</span>
-                )}
-              </div>
+              
+              {/* Juice Preview Image */}
+              {product.id === 'apple_juice' && (
+                <div className="mt-4 rounded-lg overflow-hidden border-2 border-[#C4312E]">
+                  <div className="relative w-full h-48">
+                    <Image
+                      src={product.imageUrl}
+                      alt={t(product.nameKey)}
+                      fill
+                      quality={95}
+                      sizes="400px"
+                      className="object-contain bg-white"
+                    />
+                  </div>
+                  <div className="bg-[#FFF7ED] p-2 text-center">
+                    <p className="text-[#7A0B18] font-semibold">
+                      {t(product.nameKey)} - 3л {t('common.box')}
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Price Preview */}
             <div className="bg-[#FFF7ED] rounded-lg p-4">
               <div className="flex justify-between items-center">
                 <span className="text-[#6B4423]">
-                  {quantity} {getUnitDisplayName(product.unit, quantity)} × {formatPrice(getCurrentPrice())}{' '}
+                  {quantity || 0} {getUnitDisplayName(product.unit, parseFloat(quantity) || 0)} × {formatPrice(getCurrentPrice())}{' '}
                   <span className="text-xs">{getEurConversion(getCurrentPrice())}</span>
                 </span>
                 <span className="text-lg font-bold text-[#7A0B18]">
-                  {formatPrice(quantity * getCurrentPrice())}{' '}
-                  <span className="text-sm font-normal">{getEurConversion(quantity * getCurrentPrice())}</span>
+                  {formatPrice((parseFloat(quantity) || 0) * getCurrentPrice())}{' '}
+                  <span className="text-sm font-normal">{getEurConversion((parseFloat(quantity) || 0) * getCurrentPrice())}</span>
                 </span>
               </div>
             </div>

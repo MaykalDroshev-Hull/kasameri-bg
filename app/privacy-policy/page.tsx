@@ -194,8 +194,8 @@ const PrivacyPolicyPage = () => {
                   </div>
                   <div className="flex items-center space-x-3">
                     <div className="text-[#C4312E]"><Mail size={20} /></div>
-                    <a href="mailto:info@kasameri.bg" className="text-[#C4312E] hover:underline">
-                      info@kasameri.bg
+                    <a href="mailto:teamkasameri@gmail.com" className="text-[#C4312E] hover:underline">
+                      teamkasameri@gmail.com
                     </a>
                   </div>
                   <div className="flex items-center space-x-3">
@@ -378,8 +378,8 @@ const PrivacyPolicyPage = () => {
                   </div>
                   <div className="flex items-center space-x-3">
                     <div className="text-[#C4312E]"><Mail size={20} /></div>
-                    <a href="mailto:info@kasameri.bg" className="text-[#C4312E] hover:underline">
-                      info@kasameri.bg
+                    <a href="mailto:teamkasameri@gmail.com" className="text-[#C4312E] hover:underline">
+                      teamkasameri@gmail.com
                     </a>
                   </div>
                   <div className="flex items-center space-x-3">

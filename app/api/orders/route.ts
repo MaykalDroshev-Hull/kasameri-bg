@@ -1,5 +1,9 @@
 // app/api/orders/route.ts
 import { NextRequest, NextResponse } from 'next/server';
+import { Resend } from 'resend';
+
+// Initialize Resend
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Store to track idempotency keys (in production, use Redis/DB)
 const processedOrders = new Set<string>();
@@ -57,6 +61,115 @@ export async function POST(request: NextRequest) {
       total: body.total,
       delivery: body.delivery
     });
+    
+    // Send email notification to aphtex@gmail.com
+    try {
+      // Build email content
+      const deliveryMethodText = 
+        body.delivery.method === 'pickup' ? 'Лично вземане' : 
+        body.delivery.method === 'econt_cod' ? 'Econt (наложен платеж)' : 
+        'Наша доставка';
+      
+      let emailBody = `НОВА ПОРЪЧКА ОТ УЕБСАЙТА\n\n`;
+      emailBody += `═══════════════════════════════════════\n\n`;
+      emailBody += `📋 НОМЕР НА ПОРЪЧКА: ${orderId}\n\n`;
+      
+      // Customer information
+      emailBody += `👤 КЛИЕНТ:\n`;
+      emailBody += `   Име: ${body.customer.fullName}\n`;
+      emailBody += `   Телефон: ${body.customer.phone}\n`;
+      if (body.customer.email) {
+        emailBody += `   Email: ${body.customer.email}\n`;
+      }
+      emailBody += `\n`;
+      
+      // Delivery information
+      emailBody += `🚚 ДОСТАВКА:\n`;
+      emailBody += `   Метод: ${deliveryMethodText}\n`;
+      if (body.delivery.address) {
+        emailBody += `   Адрес:\n`;
+        if (body.delivery.address.city) emailBody += `      Град: ${body.delivery.address.city}\n`;
+        if (body.delivery.address.street) emailBody += `      Улица: ${body.delivery.address.street}\n`;
+        if (body.delivery.address.postalCode) emailBody += `      Пощенски код: ${body.delivery.address.postalCode}\n`;
+      }
+      if (body.delivery.preferred?.date) {
+        emailBody += `   Предпочитана дата: ${body.delivery.preferred.date}\n`;
+      }
+      if (body.delivery.preferred?.time) {
+        emailBody += `   Предпочитано време: ${body.delivery.preferred.time}\n`;
+      }
+      emailBody += `\n`;
+      
+      // Order items
+      emailBody += `🛒 ПОРЪЧАНИ ПРОДУКТИ:\n`;
+      body.items.forEach((item: any, index: number) => {
+        emailBody += `   ${index + 1}. ${item.name}`;
+        if (item.variety) {
+          emailBody += ` (${item.variety})`;
+        }
+        
+        // Add quality indicator for apples
+        if (item.productId === 'apples') {
+          if (item.pricePerUnit === 3.50) {
+            emailBody += ` - Първо качество`;
+          } else if (item.pricePerUnit === 2.50) {
+            emailBody += ` - Второ качество`;
+          }
+        }
+        
+        emailBody += `\n`;
+        
+        // Use proper Bulgarian unit names
+        let unitDisplay = item.unit;
+        if (item.unit === 'pack') {
+          unitDisplay = item.qty === 1 ? 'кутия' : 'кутии';
+        }
+        
+        emailBody += `      Количество: ${item.qty} ${unitDisplay}\n`;
+        emailBody += `      Цена: ${item.pricePerUnit.toFixed(2)} лв/${item.unit === 'pack' ? 'кутия' : item.unit}\n`;
+        emailBody += `      Общо: ${item.lineTotal.toFixed(2)} лв\n`;
+        if (index < body.items.length - 1) emailBody += `\n`;
+      });
+      emailBody += `\n`;
+      
+      // Totals
+      emailBody += `═══════════════════════════════════════\n`;
+      emailBody += `💰 ФИНАНСОВА ИНФОРМАЦИЯ:\n`;
+      emailBody += `   Междинна сума: ${body.subtotal.toFixed(2)} лв\n`;
+      if (body.discount && body.discount > 0) {
+        emailBody += `   Отстъпка: -${body.discount.toFixed(2)} лв\n`;
+      }
+      if (body.delivery.fee && body.delivery.fee > 0) {
+        emailBody += `   Доставка: ${body.delivery.fee.toFixed(2)} лв\n`;
+      }
+      emailBody += `   ОБЩО: ${body.total.toFixed(2)} лв\n`;
+      emailBody += `═══════════════════════════════════════\n\n`;
+      
+      // Payment method
+      if (body.payment?.method) {
+        const paymentMethodText = 
+          body.payment.method === 'cash' ? 'В брой' : 
+          body.payment.method === 'card' ? 'С карта' : 
+          'Наложен платеж';
+        emailBody += `💳 Метод на плащане: ${paymentMethodText}\n\n`;
+      }
+      
+      emailBody += `Дата и час: ${new Date(body.createdAtISO).toLocaleString('bg-BG')}\n`;
+      
+      // Send email via Resend
+      await resend.emails.send({
+        from: 'Kasameri Orders <onboarding@resend.dev>',
+        to: 'aphtex@gmail.com',
+        subject: `Нова поръчка #${orderId} от ${body.customer.fullName}`,
+        text: emailBody
+      });
+      
+      console.log('✅ Email notification sent successfully');
+    } catch (emailError) {
+      // Log email error but don't fail the order
+      console.error('❌ Failed to send email notification:', emailError);
+      // Order still succeeds even if email fails
+    }
     
     // Return success response
     return NextResponse.json(

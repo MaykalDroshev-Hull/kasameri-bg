@@ -2,13 +2,11 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { X, Calendar, Clock, MapPin, CreditCard, User, Phone, Mail, Facebook } from 'lucide-react';
+import { X, Calendar, Clock, MapPin, CreditCard, User } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useCartStore } from '@/store/cartStore';
 import { useCheckoutStore, CheckoutForm, OrderRequest, OrderItem } from '@/store/checkoutStore';
-import SuccessSheet from './SuccessSheet';
 import { getEurConversion } from '@/utils/currency';
-import { copyToClipboard } from '@/utils/viber';
 
 interface OrderModalProps {
   isOpen: boolean;
@@ -36,8 +34,8 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
   } = useCheckoutStore();
 
   const [activeTab, setActiveTab] = useState<'contact' | 'review'>('contact');
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [orderResult, setOrderResult] = useState<any>(null);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [successOrderId, setSuccessOrderId] = useState('');
   
   const modalRef = useRef<HTMLDivElement>(null);
   const firstInputRef = useRef<HTMLInputElement>(null);
@@ -117,256 +115,6 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
     return `order_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   };
 
-  const buildOrderSummaryForViber = () => {
-    const totals = getTotals();
-    const orderItems = convertCartItemsToOrderItems();
-
-    // Enhanced debug logging to see what we have
-    console.log('=== BUILDING VIBER MESSAGE ===');
-    console.log('🔍 DEBUGGING CART STATE:');
-    console.log('- items from useCartStore:', items);
-    console.log('- items type:', typeof items);
-    console.log('- items length:', items ? items.length : 'undefined');
-    console.log('- items is array:', Array.isArray(items));
-    
-    if (items && items.length > 0) {
-      console.log('- First cart item:', items[0]);
-      console.log('- All cart items:', items);
-    } else {
-      console.log('❌ NO CART ITEMS FOUND!');
-    }
-    
-    console.log('🔍 ORDER ITEMS:');
-    console.log('- orderItems:', orderItems);
-    console.log('- orderItems length:', orderItems ? orderItems.length : 'undefined');
-    console.log('🔍 TOTALS:', totals);
-    console.log('🔍 FORM:', form);
-
-    let orderText = `ПОРЪЧКА ОТ УЕБСАЙТА\n\n`;
-    
-    console.log('=== FORCING PRODUCTS INCLUSION ===');
-    console.log('Cart items (items):', items);
-    console.log('Cart items length:', items?.length);
-    console.log('Order items:', orderItems);
-    console.log('Order items length:', orderItems?.length);
-    // Customer info
-    orderText += `Клиент: ${form.fullName || 'Не е посочено'}\n`;
-    orderText += `Телефон: ${form.phone || 'Не е посочен'}\n`;
-    orderText += `\n`;
-
-    // Delivery info
-    const deliveryMethodText = form.deliveryMethod === 'pickup' ? 'Лично вземане' : 
-                              form.deliveryMethod === 'econt_cod' ? 'Econt (наложен платеж)' : 
-                              'Наша доставка';
-    orderText += `Доставка: ${deliveryMethodText}\n`;
-    orderText += `\n`;
-
-    // Order items - FORCE INCLUDE this section
-    orderText += `ПОРЪЧКИ:\n`;
-    console.log('=== FORCING PRODUCTS INCLUSION ===');
-    console.log('Cart items (items):', items);
-    console.log('Cart items length:', items?.length);
-    console.log('Order items:', orderItems);
-    console.log('Order items length:', orderItems?.length);
-    
-    // ALWAYS try to add products from cart items first (most reliable)
-    console.log('🚨 CHECKING CART BEFORE ADDING PRODUCTS:');
-    console.log('- items exists:', !!items);
-    console.log('- items.length:', items?.length);
-    console.log('- items array check:', Array.isArray(items));
-    
-    if (items && items.length > 0) {
-      console.log('✅ FORCING: Using cart items directly - found', items.length, 'items');
-      items.forEach((item, index) => {
-        console.log(`🛒 FORCING: Processing cart item ${index}:`, {
-          id: item.id,
-          nameKey: item.nameKey,
-          varietyKey: item.varietyKey,
-          qty: item.qty,
-          unit: item.unit,
-          pricePerUnit: item.pricePerUnit
-        });
-        
-        const itemName = t(item.nameKey) || item.nameKey || `Продукт ${index + 1}`;
-        const itemVariety = item.varietyKey ? t(item.varietyKey) || item.varietyKey : undefined;
-        
-        // Determine quality indicator for apples based on price
-        let qualityIndicator = '';
-        if (item.id === 'apples') {
-          // First quality: 3.50, Second quality: 2.50
-          if (item.pricePerUnit === 3.50) {
-            qualityIndicator = ' 1К';
-          } else if (item.pricePerUnit === 2.50) {
-            qualityIndicator = ' 2К';
-          }
-        }
-        
-        console.log(`📝 Added to message: ${itemName} (${itemVariety || 'no variety'})`);
-        
-        orderText += `${index + 1}. ${itemName}`;
-        if (itemVariety) {
-          orderText += ` (${itemVariety})`;
-        }
-        if (qualityIndicator) {
-          orderText += qualityIndicator;
-        }
-        const lineTotal = (item.qty || 0) * (item.pricePerUnit || 0);
-        orderText += ` - ${item.qty || 0} ${getUnitDisplayName(item.unit || '')} × ${formatPrice(item.pricePerUnit || 0)} = ${formatPrice(lineTotal)}\n`;
-      });
-    } else if (orderItems && orderItems.length > 0) {
-      console.log('FORCING: Using converted order items');
-      orderItems.forEach((item, index) => {
-        console.log(`FORCING: Adding order item ${index}:`, item);
-        
-        // Determine quality indicator for apples based on price
-        let qualityIndicator = '';
-        if (item.productId === 'apples') {
-          // First quality: 3.50, Second quality: 2.50
-          if (item.pricePerUnit === 3.50) {
-            qualityIndicator = ' 1К';
-          } else if (item.pricePerUnit === 2.50) {
-            qualityIndicator = ' 2К';
-          }
-        }
-        
-        orderText += `${index + 1}. ${item.name || `Продукт ${index + 1}`}`;
-        if (item.variety) {
-          orderText += ` (${item.variety})`;
-        }
-        if (qualityIndicator) {
-          orderText += qualityIndicator;
-        }
-        orderText += ` - ${item.qty || 0} ${getUnitDisplayName(item.unit || '')} × ${formatPrice(item.pricePerUnit || 0)} = ${formatPrice(item.lineTotal || 0)}\n`;
-      });
-    } else {
-      console.log('FORCING: NO PRODUCTS FOUND - This is a problem!');
-      orderText += `ВНИМАНИЕ: Няма продукти в количката!\n`;
-      orderText += `Моля проверете количката и опитайте отново.\n`;
-    }
-    
-    orderText += `\n`;
-
-    // Debug: Show what the message looks like so far
-    console.log('💬 MESSAGE AFTER ADDING PRODUCTS:');
-    console.log('Current message length:', orderText.length);
-    console.log('Message contains "ПОРЪЧКИ":', orderText.includes('ПОРЪЧКИ'));
-    console.log('Message so far:', orderText);
-
-    // Totals - ensure this section is always included
-    console.log('About to add totals:', totals);
-    orderText += `Междинна сума: ${formatPrice(totals.subtotal || 0)}\n`;
-    if (totals.discount > 0) {
-      orderText += `Отстъпка: -${formatPrice(totals.discount)}\n`;
-    }
-    orderText += `ОБЩО: ${formatPrice(totals.total || 0)}\n`;
-
-    console.log('=== COMPLETE MESSAGE ===');
-    console.log('Final order text length:', orderText.length);
-    console.log('Final order text:');
-    console.log(orderText);
-    console.log('=== END MESSAGE ===');
-    
-    return orderText;
-  };
-
-  // Create a compact version of the message for Viber limits
-  const createCompactViberMessage = () => {
-    const totals = getTotals();
-    
-    // Define delivery method text (shorter versions)
-    const deliveryMethodText = form.deliveryMethod === 'pickup' ? 'Лично вземане' : 
-                              form.deliveryMethod === 'econt_cod' ? 'Econt (наложен платеж)' : 
-                              'Наша доставка';
-    
-    // Ultra-compact format: name, phone, delivery, products, total
-    let compactText = `${form.fullName || 'Не е посочено'}\n`;
-    compactText += `${form.phone || 'Не е посочен'}\n`;
-    compactText += `${deliveryMethodText}\n`;
-    
-    // Products list (simple format: name variety quantity unit - NO individual prices to keep URL short)
-    if (items && items.length > 0) {
-      items.forEach((item) => {
-        const itemName = t(item.nameKey) || item.nameKey || 'Продукт';
-        const itemVariety = item.varietyKey ? t(item.varietyKey) || item.varietyKey : '';
-        const varietyText = itemVariety ? ` - ${itemVariety}` : '';
-        
-        // Determine quality indicator for apples based on price
-        let qualityIndicator = '';
-        if (item.id === 'apples') {
-          // First quality: 3.50, Second quality: 2.50
-          if (item.pricePerUnit === 3.50) {
-            qualityIndicator = ' 1К';
-          } else if (item.pricePerUnit === 2.50) {
-            qualityIndicator = ' 2К';
-          }
-        }
-        
-        // Use proper translation for unit with singular/plural handling
-        let unitLabel = '';
-        if (item.unit === 'pack') {
-          // Handle singular/plural for boxes
-          if (language === 'bg') {
-            unitLabel = item.qty === 1 ? 'кутия' : 'кутии';
-          } else {
-            unitLabel = item.qty === 1 ? 'box' : 'boxes';
-          }
-        } else {
-          unitLabel = item.unit;
-        }
-        
-        compactText += `${itemName}${varietyText}${qualityIndicator} ${item.qty} ${unitLabel}\n`;
-      });
-    }
-    
-    // Total
-    compactText += `Общо: ${formatPrice(totals.total || 0)}`;
-    
-    return compactText;
-  };
-
-  const handleSendViaViber = async () => {
-    // Copy full message to clipboard first
-    const orderText = buildOrderSummaryForViber();
-    await copyToClipboard(orderText);
-    
-    // Create compact version for Viber URL limits
-    const compactMessage = createCompactViberMessage();
-    
-    // Encode the message for the URI
-    const encodedMessage = encodeURIComponent(compactMessage);
-    const viberUri = `viber://forward?text=${encodedMessage}`;
-    
-    console.log('📋 Message copied to clipboard');
-    console.log('🚀 Opening Viber with pre-filled message...');
-    console.log('URI length:', viberUri.length);
-    
-    // Use window.location.href for better compatibility with custom URI schemes
-    // This works more reliably than window.open() for viber:// links
-    window.location.href = viberUri;
-  };
-
-  const handleSendViaMessenger = async () => {
-    // Copy full message to clipboard first
-    const orderText = buildOrderSummaryForViber();
-    await copyToClipboard(orderText);
-    
-    // Create compact version for Messenger URL limits
-    const compactMessage = createCompactViberMessage();
-    
-    // Facebook profile ID from: https://www.facebook.com/profile.php?id=61581801093204
-    const facebookPageId = '61581801093204';
-    
-    // Encode compact message for Messenger URI
-    const encodedMessage = encodeURIComponent(compactMessage);
-    const messengerUri = `https://m.me/${facebookPageId}?text=${encodedMessage}`;
-    
-    console.log('📋 Message copied to clipboard');
-    console.log('🚀 Opening Messenger with pre-filled message...');
-    
-    // Open Messenger in new tab with pre-filled message
-    window.open(messengerUri, '_blank');
-  };
-
   const handleSubmit = async () => {
     if (!validateForm()) {
       setActiveTab('contact');
@@ -429,9 +177,9 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
       clear();
       resetForm();
       
-      // Show success
-      setOrderResult(result);
-      setShowSuccess(true);
+      // Show success message
+      setSuccessOrderId(result.orderId);
+      setShowSuccessMessage(true);
       
     } catch (error) {
       console.error('Order submission error:', error);
@@ -447,28 +195,53 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
     }
   };
 
-  const handleSuccessClose = () => {
-    setShowSuccess(false);
-    setOrderResult(null);
-    onClose();
-  };
-
-  // Hide OrderModal when success is showing
   if (!isOpen) return null;
-  if (showSuccess) {
-    return (
-      <SuccessSheet
-        isOpen={showSuccess}
-        onClose={handleSuccessClose}
-        orderResult={orderResult}
-      />
-    );
-  }
 
   const totals = getTotals();
 
   return (
     <>
+      {/* Success Notification */}
+      {showSuccessMessage && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl shadow-2xl border-4 border-[#4C8F3A] overflow-hidden animate-bounce-in max-w-md w-full relative">
+            {/* Close Button */}
+            <button
+              onClick={() => {
+                setShowSuccessMessage(false);
+                onClose();
+              }}
+              className="absolute top-3 right-3 p-2 bg-white/90 hover:bg-white rounded-full shadow-lg transition z-10"
+            >
+              <X size={20} className="text-[#7A0B18]" />
+            </button>
+            
+            <div className="bg-gradient-to-r from-[#4C8F3A] to-[#3D7230] p-6">
+              <div className="flex items-center justify-center space-x-3">
+                <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <h3 className="text-2xl font-bold text-white">Поръчката е приета успешно! 🎉</h3>
+              </div>
+            </div>
+            <div className="p-8 text-center">
+              <p className="text-[#6B4423] text-lg mb-6 leading-relaxed">
+                Благодарим Ви за доверието! Ще се свържем с Вас скоро за потвърждение на детайлите.
+              </p>
+              <button
+                onClick={() => {
+                  setShowSuccessMessage(false);
+                  onClose();
+                }}
+                className="w-full bg-[#4C8F3A] text-white px-6 py-3 rounded-lg hover:bg-[#3D7230] transition font-medium text-lg"
+              >
+                Разбрах, благодаря!
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      
       <div className="fixed inset-0 z-50 overflow-hidden">
         {/* Backdrop */}
         <div 
@@ -597,7 +370,8 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
                         />
                         <div className="flex-1">
                           <span className="font-medium text-[#7A0B18]">{t('checkout.econt_cod')}</span>
-                          <p className="text-xs text-gray-500 mt-1">Доставка с куриер Еконт (6.90 лв.)</p>
+                          <p className="text-xs text-gray-500 mt-1">Доставка с куриер Еконт</p>
+                          <p className="text-xs text-gray-400 mt-1 italic">Ще ви се обадим за детайли за доставката</p>
                         </div>
                       </label>
                       <label className="flex items-start space-x-3 cursor-pointer p-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
@@ -611,7 +385,8 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
                         />
                         <div className="flex-1">
                           <span className="font-medium text-[#7A0B18]">{t('checkout.our_transport')}</span>
-                          <p className="text-xs text-gray-500 mt-1">Доставка с наш транспорт (4.90 лв.)</p>
+                          <p className="text-xs text-gray-500 mt-1">Доставка с наш транспорт</p>
+                          <p className="text-xs text-gray-400 mt-1 italic">Ще ви се обадим за детайли за доставката</p>
                         </div>
                       </label>
                       <label className="flex items-start space-x-3 cursor-pointer p-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition">
@@ -743,22 +518,26 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
                   {t('checkout.review')} →
                 </button>
               ) : (
-                <div className="flex space-x-2 flex-1">
+                <>
+                  {Object.keys(errors).length > 0 && (
+                    <div className="flex-1 text-sm bg-red-50 px-4 py-3 rounded-lg border border-red-200">
+                      <p className="text-red-600 font-semibold mb-2">⚠️ Грешки във формата:</p>
+                      <ul className="text-red-600 text-xs space-y-1 list-disc list-inside">
+                        {errors.fullName && <li>Три имена: {t(`checkout.errors.${errors.fullName}`)}</li>}
+                        {errors.phone && <li>Телефон: {t(`checkout.errors.${errors.phone}`)}</li>}
+                        {errors.email && <li>Имейл: {t(`checkout.errors.${errors.email}`)}</li>}
+                        {errors.consent && <li>Трябва да приемете условията</li>}
+                      </ul>
+                    </div>
+                  )}
                   <button
-                    onClick={handleSendViaViber}
-                    className="flex-1 px-4 py-3 bg-[#7360F2] text-white rounded-lg hover:bg-[#5A4DC2] transition flex items-center justify-center space-x-2"
+                    onClick={handleSubmit}
+                    disabled={isSubmitting}
+                    className="flex-1 px-4 py-3 bg-[#4C8F3A] text-white rounded-lg hover:bg-[#3D7230] transition disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    <Phone size={18} />
-                    <span>{t('viber.sendOrder')}</span>
+                    {isSubmitting ? t('checkout.submitting') : t('checkout.submit')}
                   </button>
-                  <button
-                    onClick={handleSendViaMessenger}
-                    className="flex-1 px-4 py-3 bg-[#0084FF] text-white rounded-lg hover:bg-[#0073E6] transition flex items-center justify-center space-x-2"
-                  >
-                    <Facebook size={18} />
-                    <span>Messenger</span>
-                  </button>
-                </div>
+                </>
               )}
             </div>
           </div>

@@ -1,6 +1,5 @@
 import React from 'react';
 import Topbar from '@/components/Topbar';
-import AnnouncementBanner from '@/components/AnnouncementBanner';
 import Hero from '@/components/Hero';
 import HowToOrder from '@/components/HowToOrder';
 import Experience from '@/components/Experience';
@@ -20,7 +19,6 @@ export default function Home() {
   return (
     <div className="font-sans bg-[#FFF7ED]">
       <Topbar />
-      <AnnouncementBanner />
       <Hero />
       <HowToOrder />
       <Experience />
