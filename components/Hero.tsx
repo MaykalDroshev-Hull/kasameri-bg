@@ -174,7 +174,7 @@ const Hero = () => {
         <div className="relative z-20 text-center px-4 max-w-5xl mx-auto flex flex-col items-center">
           {/* Logo */}
           <div className="mb-2 md:mb-[-20px] relative z-30">
-            <div className="w-24 h-24 md:w-36 md:h-36 relative">
+            <div className="w-32 h-32 md:w-36 md:h-36 relative">
               <Image
                 src="/logo.svg"
                 alt="Kasameri Logo"
@@ -220,14 +220,14 @@ const Hero = () => {
                         : 'hover:bg-white/20 hover:border-white/50 transform hover:scale-105'
                     }`}
                   >
-                    <div className="relative w-18 h-18 md:w-24 md:h-24 mx-auto mb-2 rounded-lg overflow-hidden">
+                    <div className="relative w-20 h-20 md:w-24 md:h-24 mx-auto mb-2 rounded-lg overflow-hidden aspect-square">
                       <Image
                         src={`/quick-buttons/${imageName}`}
                         alt={t(product.nameKey)}
                         fill
-                        quality={85}
-                        sizes="96px"
-                        loading="eager"
+                        quality={90}
+                        sizes="(max-width: 768px) 80px, 96px"
+                        priority={productId === 'apples' || productId === 'apple_juice'}
                         className={`${productId === 'apple_juice' ? 'object-contain' : 'object-cover'} group-hover:scale-110 transition-transform`}
                       />
                     </div>

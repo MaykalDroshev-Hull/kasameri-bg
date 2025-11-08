@@ -38,6 +38,8 @@ export type CartItem = {
 
 export type CartState = {
   items: CartItem[];
+  isModalOpen: boolean;
+  setModalOpen(isOpen: boolean): void;
   add(item: Omit<CartItem, 'qty'> & { qty: number }): void;
   updateQty(id: string, qty: number, varietyKey?: string, notes?: string): void;
   updateNotes(id: string, varietyKey?: string, oldNotes?: string, newNotes?: string): void;

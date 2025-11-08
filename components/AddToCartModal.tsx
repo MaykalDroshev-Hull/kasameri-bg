@@ -17,13 +17,18 @@ interface AddToCartModalProps {
 
 const AddToCartModal: React.FC<AddToCartModalProps> = ({ isOpen, onClose, product }) => {
   const { t } = useLanguage();
-  const { add } = useCartStore();
+  const { add, setModalOpen } = useCartStore();
   
   const [selectedVariety, setSelectedVariety] = useState<string>('');
   const [selectedQuality, setSelectedQuality] = useState<string>('first'); // For apples
   const [quantity, setQuantity] = useState<string>('');
   const [notes, setNotes] = useState<string>('');
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  // Track modal open state
+  useEffect(() => {
+    setModalOpen(isOpen);
+  }, [isOpen, setModalOpen]);
   
   // Apple quality prices
   const appleQualityPrices = {

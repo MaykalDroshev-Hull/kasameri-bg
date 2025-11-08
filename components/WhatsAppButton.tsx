@@ -4,9 +4,16 @@ import React from 'react';
 import { FaViber } from 'react-icons/fa';
 import { Facebook, Phone } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useCartStore } from '@/store/cartStore';
 
 const WhatsAppButton = () => {
   const { t } = useLanguage();
+  const isModalOpen = useCartStore((state) => state.isModalOpen);
+  
+  // Hide when any modal is open
+  if (isModalOpen) {
+    return null;
+  }
   
   return (
     <div className="fixed bottom-6 right-6 z-50">

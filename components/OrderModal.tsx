@@ -15,7 +15,7 @@ interface OrderModalProps {
 
 const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
   const { t, language } = useLanguage();
-  const { items, subtotal, clear } = useCartStore();
+  const { items, subtotal, clear, setModalOpen } = useCartStore();
   const {
     form,
     errors,
@@ -39,6 +39,11 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
   
   const modalRef = useRef<HTMLDivElement>(null);
   const firstInputRef = useRef<HTMLInputElement>(null);
+
+  // Track modal open state
+  useEffect(() => {
+    setModalOpen(isOpen);
+  }, [isOpen, setModalOpen]);
 
   // Focus management
   useEffect(() => {
@@ -256,7 +261,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
         <div className="absolute inset-0 flex items-center justify-center p-4">
           <div 
             ref={modalRef}
-            className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden"
+            className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[85vh] sm:max-h-[90vh] overflow-hidden flex flex-col"
             role="dialog"
             aria-modal="true"
             aria-labelledby="order-modal-title"
@@ -300,7 +305,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
             </div>
 
             {/* Content */}
-            <div className="overflow-y-auto max-h-[60vh]">
+            <div className="overflow-y-auto flex-1 min-h-0">
               {activeTab === 'contact' ? (
                 <div className="p-6 space-y-6">
                   {/* Contact Information */}
@@ -504,7 +509,7 @@ const OrderModal: React.FC<OrderModalProps> = ({ isOpen, onClose }) => {
             </div>
 
             {/* Footer */}
-            <div className="flex space-x-3 p-6 border-t border-gray-200">
+            <div className="flex space-x-3 p-4 sm:p-6 border-t border-gray-200 flex-shrink-0 bg-white">
               <button
                 onClick={handleClose}
                 className="flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition"

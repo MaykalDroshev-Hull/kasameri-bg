@@ -18,7 +18,12 @@ interface CartDrawerProps {
 const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
   const [showOrderModal, setShowOrderModal] = React.useState(false);
   const { t } = useLanguage();
-  const { items, updateQty, remove, clear, subtotal } = useCartStore();
+  const { items, updateQty, remove, clear, subtotal, setModalOpen } = useCartStore();
+
+  // Track modal open state
+  React.useEffect(() => {
+    setModalOpen(isOpen || showOrderModal);
+  }, [isOpen, showOrderModal, setModalOpen]);
 
   // Close cart drawer when cart becomes empty, BUT only if order modal is not open
   React.useEffect(() => {

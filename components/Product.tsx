@@ -32,7 +32,7 @@ const Product = () => {
       name: t('products.apples'),
       nameEn: 'Apples',
       category: t('products.fruits'),
-      image: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=800&h=600&fit=crop',
+      image: '/quick-buttons/florina.jpg',
       description: t('products.apples_desc'),
       season: t('products.apples_season'),
       featured: true

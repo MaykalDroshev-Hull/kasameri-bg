@@ -11,6 +11,11 @@ export const useCartStore = create<CartState>()(
   persist(
     (set, get) => ({
       items: [],
+      isModalOpen: false,
+      
+      setModalOpen: (isOpen: boolean) => {
+        set({ isModalOpen: isOpen });
+      },
       
       add: (item) => {
         const { items } = get();
