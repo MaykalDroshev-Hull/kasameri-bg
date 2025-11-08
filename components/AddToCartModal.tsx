@@ -127,10 +127,13 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({ isOpen, onClose, produc
   const handleAddToCart = () => {
     if (!validateForm()) return;
     
-    // Get the variety's nameKey (e.g., "variety.florina") instead of just the id
-    const varietyKey = product.varieties && product.varieties.length > 0 
-      ? product.varieties.find(v => v.id === selectedVariety)?.nameKey 
+    // Get the selected variety data (includes nameKey and imageUrl)
+    const selectedVarietyData = product.varieties && product.varieties.length > 0 
+      ? product.varieties.find(v => v.id === selectedVariety)
       : undefined;
+    
+    const varietyKey = selectedVarietyData?.nameKey;
+    const varietyImageUrl = selectedVarietyData?.imageUrl || product.imageUrl;
     const currentPrice = getCurrentPrice();
     
     add({
@@ -141,7 +144,7 @@ const AddToCartModal: React.FC<AddToCartModalProps> = ({ isOpen, onClose, produc
       pricePerUnit: currentPrice,
       qty: parseFloat(quantity),
       notes: notes.trim() || undefined,
-      imageUrl: product.imageUrl
+      imageUrl: varietyImageUrl
     });
     
     // Reset and close
