@@ -170,7 +170,7 @@ export async function POST(request: NextRequest) {
       // Send email via Resend
       await resend.emails.send({
         from: 'Kasameri Orders <onboarding@resend.dev>',
-        to: 'aphtex@gmail.com',
+        to: ['aphtex@gmail.com', 'hm.websiteprovisioning@gmail.com'],
         subject: `Нова поръчка #${orderId} от ${body.customer.fullName}`,
         text: emailBody
       });

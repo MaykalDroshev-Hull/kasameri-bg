@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
     try {
       await resend.emails.send({
         from: 'Kasameri Distributors <onboarding@resend.dev>',
-        to: 'aphtex@gmail.com',
+        to: ['aphtex@gmail.com', 'hm.websiteprovisioning@gmail.com'],
         subject: `Запитване за дистрибуция от ${body.company}`,
         text: emailBody
       });
