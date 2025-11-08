@@ -667,7 +667,7 @@ export default function DomeGallery({
                   onPointerUp={onTilePointerUp}
                   onTouchEnd={onTileTouchEnd}
                 >
-                  <img src={it.src} draggable={false} alt={it.alt} loading="lazy" />
+                  <img src={it.src} draggable={false} alt={it.alt} loading="eager" />
                 </div>
               </div>
             ))}
