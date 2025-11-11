@@ -46,7 +46,7 @@ const WhatsAppButton = () => {
         
         {/* Messenger Button */}
         <a 
-          href="https://www.facebook.com/groups/1819576442319363/" 
+          href="https://www.facebook.com/profile.php?id=61581885132922" 
           target="_blank"
           rel="noopener noreferrer"
           className="w-16 h-16 bg-[#0084FF] rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform group"
