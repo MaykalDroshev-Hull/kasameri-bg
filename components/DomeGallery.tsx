@@ -5,56 +5,42 @@ import { useGesture } from '@use-gesture/react';
 import './DomeGallery.css';
 
 const GALLERY_IMAGES = [
-  '/images/2277eea7-a75b-412b-b94d-a20a68b9fefc.JPG',
-  '/images/2cac514c-ec21-45f3-8754-157b9e345811.JPG',
-  '/images/att.3epNKmnBDk8GVSf-QL2DxUu3-BW2H7kJnpnxqIdg6i4.JPG',
-  '/images/att.3SNb6F9f4c09VFiP76TuZQWzFkZgpIBIz3q1EbJHvUk.JPG',
-  '/images/att.kIMYYorSGws9Qg1px-YO6TE1VBVL7QgnwBByJDoji08.jpg',
-  '/images/att.Zw_KnCYzdSEQlM2SJy0AN7sQF04RBuW9lt39h7y3w64.jpg',
-  '/images/IMG_0651.jpg',
-  '/images/IMG_1099.jpg',
-  '/images/IMG_1874.JPG',
-  '/images/IMG_2362.jpg',
-  '/images/IMG_3398.jpg',
-  '/images/IMG_4201.jpg',
-  '/images/IMG_4443.jpg',
-  '/images/IMG_4465.jpg',
-  '/images/IMG_4466.jpg',
-  '/images/IMG_4505.jpg',
-  '/images/IMG_4528.jpg',
-  '/images/IMG_4607.jpg',
-  '/images/IMG_4623.jpg',
-  '/images/IMG_4710.jpg',
-  '/images/IMG_4740.jpg',
-  '/images/IMG_4799.jpg',
-  '/images/IMG_4802-2.jpg',
-  '/images/IMG_4802.jpg',
-  '/images/IMG_4803.jpg',
-  '/images/IMG_4825.jpg',
-  '/images/IMG_4827.jpg',
-  '/images/IMG_4888.jpg',
-  '/images/IMG_4911.jpg',
-  '/images/IMG_4954.jpg',
-  '/images/IMG_4963.jpg',
-  '/images/IMG_5034.jpg',
-  '/images/IMG_5039.jpg',
-  '/images/IMG_5043.jpg',
-  '/images/IMG_5045.jpg',
-  '/images/IMG_5060.jpg',
-  '/images/IMG_5083.jpg',
-  '/images/IMG_5089.jpg',
-  '/images/IMG_5139.jpg',
-  '/images/IMG_5173.jpg',
-  '/images/IMG_5205.jpg',
-  '/images/IMG_5218.jpg',
-  '/images/IMG_5232.jpg',
-  '/images/IMG_5287.jpg',
-  '/images/IMG_5299.jpg',
-  '/images/IMG_5304.jpg',
-  '/images/IMG_5411.jpg',
-  '/images/IMG_5538.jpg',
-  '/images/IMG_9879.jpg',
-  '/images/IMG_9894.jpg'
+  '/images/Compressed/2277eea7-a75b-412b-b94d-a20a68b9fefc.avif',
+  '/images/Compressed/2cac514c-ec21-45f3-8754-157b9e345811.avif',
+  '/images/Compressed/att.3epNKmnBDk8GVSf-QL2DxUu3-BW2H7kJnpnxqIdg6i4.avif',
+  '/images/Compressed/att.3SNb6F9f4c09VFiP76TuZQWzFkZgpIBIz3q1EbJHvUk.avif',
+  '/images/Compressed/att.kIMYYorSGws9Qg1px-YO6TE1VBVL7QgnwBByJDoji08.avif',
+  '/images/Compressed/att.Zw_KnCYzdSEQlM2SJy0AN7sQF04RBuW9lt39h7y3w64.avif',
+  '/images/Compressed/IMG_0651.avif',
+  '/images/Compressed/IMG_1099.avif',
+  '/images/Compressed/IMG_1874.avif',
+  '/images/Compressed/IMG_2362.avif',
+  '/images/Compressed/IMG_3398.avif',
+  '/images/Compressed/IMG_4201.avif',
+  '/images/Compressed/IMG_4443.avif',
+  '/images/Compressed/IMG_4465.avif',
+  '/images/Compressed/IMG_4466.avif',
+  '/images/Compressed/IMG_4505.avif',
+  '/images/Compressed/IMG_4528.avif',
+  '/images/Compressed/IMG_4607.avif',
+  '/images/Compressed/IMG_4825.avif',
+  '/images/Compressed/IMG_4827.avif',
+  '/images/Compressed/IMG_4888.avif',
+  '/images/Compressed/IMG_4911.avif',
+  '/images/Compressed/IMG_4954.avif',
+  '/images/Compressed/IMG_4963.avif',
+  '/images/Compressed/IMG_5034.avif',
+  '/images/Compressed/IMG_5039.avif',
+  '/images/Compressed/IMG_5043.avif',
+  '/images/Compressed/IMG_5218.avif',
+  '/images/Compressed/IMG_5232.avif',
+  '/images/Compressed/IMG_5287.avif',
+  '/images/Compressed/IMG_5299.avif',
+  '/images/Compressed/IMG_5304.avif',
+  '/images/Compressed/IMG_5411.avif',
+  '/images/Compressed/IMG_5538.avif',
+  '/images/Compressed/IMG_9879.avif',
+  '/images/Compressed/IMG_9894.avif'
 ];
 
 const DEFAULTS = {
@@ -289,25 +275,118 @@ export default function DomeGallery({
       if (enlargedOverlay && frameRef.current && mainRef.current) {
         const frameR = frameRef.current.getBoundingClientRect();
         const mainR = mainRef.current.getBoundingClientRect();
+        const img = enlargedOverlay.querySelector('img') as HTMLImageElement | null;
 
-        const hasCustomSize = openedImageWidth && openedImageHeight;
-        if (hasCustomSize) {
-          const tempDiv = document.createElement('div');
-          tempDiv.style.cssText = `position: absolute; width: ${openedImageWidth}; height: ${openedImageHeight}; visibility: hidden;`;
-          document.body.appendChild(tempDiv);
-          const tempRect = tempDiv.getBoundingClientRect();
-          document.body.removeChild(tempDiv);
+        if (img && img.complete && img.naturalWidth > 0) {
+          // Calculate responsive dimensions based on image aspect ratio
+          const imageAspectRatio = img.naturalWidth / img.naturalHeight;
+          const frameAspectRatio = frameR.width / frameR.height;
+          const maxWidth = frameR.width * 1.25;
+          const maxHeight = frameR.height * 1.25;
 
-          const centeredLeft = frameR.left - mainR.left + (frameR.width - tempRect.width) / 2;
-          const centeredTop = frameR.top - mainR.top + (frameR.height - tempRect.height) / 2;
+          let finalWidth: number;
+          let finalHeight: number;
+
+          const hasCustomSize = openedImageWidth || openedImageHeight;
+          if (hasCustomSize) {
+            if (openedImageWidth && openedImageHeight) {
+              // Both dimensions specified - use them but maintain aspect ratio
+              const specifiedAspectRatio = parseFloat(openedImageWidth) / parseFloat(openedImageHeight);
+              if (Math.abs(specifiedAspectRatio - imageAspectRatio) > 0.1) {
+                // Specified dimensions don't match image aspect ratio, calculate responsive size
+                if (imageAspectRatio > frameAspectRatio) {
+                  // Landscape image - constrain by width
+                  finalWidth = Math.min(maxWidth, parseFloat(openedImageWidth));
+                  finalHeight = finalWidth / imageAspectRatio;
+                  if (finalHeight > maxHeight) {
+                    finalHeight = maxHeight;
+                    finalWidth = finalHeight * imageAspectRatio;
+                  }
+                } else {
+                  // Portrait image - constrain by height
+                  finalHeight = Math.min(maxHeight, parseFloat(openedImageHeight));
+                  finalWidth = finalHeight * imageAspectRatio;
+                  if (finalWidth > maxWidth) {
+                    finalWidth = maxWidth;
+                    finalHeight = finalWidth / imageAspectRatio;
+                  }
+                }
+              } else {
+                const tempDiv = document.createElement('div');
+                tempDiv.style.cssText = `position: absolute; width: ${openedImageWidth}; height: ${openedImageHeight}; visibility: hidden;`;
+                document.body.appendChild(tempDiv);
+                const tempRect = tempDiv.getBoundingClientRect();
+                document.body.removeChild(tempDiv);
+                finalWidth = tempRect.width;
+                finalHeight = tempRect.height;
+              }
+            } else if (openedImageWidth) {
+              // Only width specified
+              finalWidth = Math.min(maxWidth, parseFloat(openedImageWidth));
+              finalHeight = finalWidth / imageAspectRatio;
+              if (finalHeight > maxHeight) {
+                finalHeight = maxHeight;
+                finalWidth = finalHeight * imageAspectRatio;
+              }
+            } else if (openedImageHeight) {
+              // Only height specified
+              finalHeight = Math.min(maxHeight, parseFloat(openedImageHeight));
+              finalWidth = finalHeight * imageAspectRatio;
+              if (finalWidth > maxWidth) {
+                finalWidth = maxWidth;
+                finalHeight = finalWidth / imageAspectRatio;
+              }
+            } else {
+              // Fallback to responsive calculation
+              if (imageAspectRatio > frameAspectRatio) {
+                finalWidth = maxWidth;
+                finalHeight = finalWidth / imageAspectRatio;
+              } else {
+                finalHeight = maxHeight;
+                finalWidth = finalHeight * imageAspectRatio;
+              }
+            }
+          } else {
+            // No custom size - use responsive calculation
+            if (imageAspectRatio > frameAspectRatio) {
+              // Landscape image - constrain by width
+              finalWidth = maxWidth;
+              finalHeight = finalWidth / imageAspectRatio;
+            } else {
+              // Portrait image - constrain by height
+              finalHeight = maxHeight;
+              finalWidth = finalHeight * imageAspectRatio;
+            }
+          }
+
+          const centeredLeft = frameR.left - mainR.left + (frameR.width - finalWidth) / 2;
+          const centeredTop = frameR.top - mainR.top + (frameR.height - finalHeight) / 2;
 
           enlargedOverlay.style.left = `${centeredLeft}px`;
           enlargedOverlay.style.top = `${centeredTop}px`;
+          enlargedOverlay.style.width = `${finalWidth}px`;
+          enlargedOverlay.style.height = `${finalHeight}px`;
         } else {
-          enlargedOverlay.style.left = `${frameR.left - mainR.left}px`;
-          enlargedOverlay.style.top = `${frameR.top - mainR.top}px`;
-          enlargedOverlay.style.width = `${frameR.width}px`;
-          enlargedOverlay.style.height = `${frameR.height}px`;
+          // Fallback for when image dimensions aren't available yet
+          const hasCustomSize = openedImageWidth && openedImageHeight;
+          if (hasCustomSize) {
+            const tempDiv = document.createElement('div');
+            tempDiv.style.cssText = `position: absolute; width: ${openedImageWidth}; height: ${openedImageHeight}; visibility: hidden;`;
+            document.body.appendChild(tempDiv);
+            const tempRect = tempDiv.getBoundingClientRect();
+            document.body.removeChild(tempDiv);
+
+            const centeredLeft = frameR.left - mainR.left + (frameR.width - tempRect.width) / 2;
+            const centeredTop = frameR.top - mainR.top + (frameR.height - tempRect.height) / 2;
+
+            enlargedOverlay.style.left = `${centeredLeft}px`;
+            enlargedOverlay.style.top = `${centeredTop}px`;
+          } else {
+            enlargedOverlay.style.left = `${frameR.left - mainR.left}px`;
+            enlargedOverlay.style.top = `${frameR.top - mainR.top}px`;
+            enlargedOverlay.style.width = `${frameR.width}px`;
+            enlargedOverlay.style.height = `${frameR.height}px`;
+          }
         }
       }
     });
@@ -572,6 +651,7 @@ export default function DomeGallery({
       overlay.style.transition = `transform ${enlargeTransitionMs}ms ease, opacity ${enlargeTransitionMs}ms ease`;
       const rawSrc = parent.dataset.src || el.querySelector('img')?.src || '';
       const img = document.createElement('img');
+      img.style.objectFit = 'contain';
       img.src = rawSrc;
       overlay.appendChild(img);
       viewerRef.current!.appendChild(overlay);
@@ -580,43 +660,179 @@ export default function DomeGallery({
       const sx0 = tileR.width / frameR.width;
       const sy0 = tileR.height / frameR.height;
       overlay.style.transform = `translate(${tx0}px, ${ty0}px) scale(${sx0}, ${sy0})`;
-      requestAnimationFrame(() => {
-        overlay.style.opacity = '1';
-        overlay.style.transform = 'translate(0px, 0px) scale(1,1)';
-        rootRef.current?.setAttribute('data-enlarging', 'true');
-      });
-      const wantsResize = openedImageWidth || openedImageHeight;
-      if (wantsResize) {
-        const onFirstEnd = (ev: TransitionEvent) => {
-          if (ev.propertyName !== 'transform') return;
-          overlay.removeEventListener('transitionend', onFirstEnd as EventListener);
-          const prevTransition = overlay.style.transition;
-          overlay.style.transition = 'none';
-          const tempWidth = openedImageWidth || `${frameR.width}px`;
-          const tempHeight = openedImageHeight || `${frameR.height}px`;
-          overlay.style.width = tempWidth;
-          overlay.style.height = tempHeight;
-          const newRect = overlay.getBoundingClientRect();
-          overlay.style.width = frameR.width + 'px';
-          overlay.style.height = frameR.height + 'px';
-          void overlay.offsetWidth;
-          overlay.style.transition = `left ${enlargeTransitionMs}ms ease, top ${enlargeTransitionMs}ms ease, width ${enlargeTransitionMs}ms ease, height ${enlargeTransitionMs}ms ease`;
-          const centeredLeft = frameR.left - mainR.left + (frameR.width - newRect.width) / 2;
-          const centeredTop = frameR.top - mainR.top + (frameR.height - newRect.height) / 2;
-          requestAnimationFrame(() => {
-            overlay.style.left = `${centeredLeft}px`;
-            overlay.style.top = `${centeredTop}px`;
-            overlay.style.width = tempWidth;
-            overlay.style.height = tempHeight;
-          });
-          const cleanupSecond = () => {
-            overlay.removeEventListener('transitionend', cleanupSecond as EventListener);
-            overlay.style.transition = prevTransition;
+      
+      // Load image to get its natural dimensions for responsive sizing
+      const loadImage = () => {
+        return new Promise<{ width: number; height: number }>((resolve) => {
+          if (img.complete && img.naturalWidth > 0) {
+            resolve({ width: img.naturalWidth, height: img.naturalHeight });
+            return;
+          }
+          img.onload = () => {
+            resolve({ width: img.naturalWidth, height: img.naturalHeight });
           };
-          overlay.addEventListener('transitionend', cleanupSecond as EventListener, { once: true });
-        };
-        overlay.addEventListener('transitionend', onFirstEnd as EventListener);
-      }
+          img.onerror = () => {
+            // Fallback to frame dimensions if image fails to load
+            resolve({ width: frameR.width, height: frameR.height });
+          };
+        });
+      };
+
+      loadImage().then((imageDimensions) => {
+        requestAnimationFrame(() => {
+          overlay.style.opacity = '1';
+          overlay.style.transform = 'translate(0px, 0px) scale(1,1)';
+          rootRef.current?.setAttribute('data-enlarging', 'true');
+        });
+
+        const wantsResize = openedImageWidth || openedImageHeight;
+        if (wantsResize) {
+          const onFirstEnd = (ev: TransitionEvent) => {
+            if (ev.propertyName !== 'transform') return;
+            overlay.removeEventListener('transitionend', onFirstEnd as EventListener);
+            const prevTransition = overlay.style.transition;
+            overlay.style.transition = 'none';
+            
+            // Calculate responsive dimensions based on image aspect ratio
+            const imageAspectRatio = imageDimensions.width / imageDimensions.height;
+            const frameAspectRatio = frameR.width / frameR.height;
+            
+            let finalWidth: number;
+            let finalHeight: number;
+            
+            if (openedImageWidth && openedImageHeight) {
+              // Both dimensions specified - use them but maintain aspect ratio
+              const specifiedAspectRatio = parseFloat(openedImageWidth) / parseFloat(openedImageHeight);
+              if (Math.abs(specifiedAspectRatio - imageAspectRatio) > 0.1) {
+                // Specified dimensions don't match image aspect ratio, calculate responsive size
+                const maxWidth = frameR.width * 1.25;
+                const maxHeight = frameR.height * 1.25;
+                
+                if (imageAspectRatio > frameAspectRatio) {
+                  // Landscape image - constrain by width
+                  finalWidth = Math.min(maxWidth, parseFloat(openedImageWidth));
+                  finalHeight = finalWidth / imageAspectRatio;
+                  if (finalHeight > maxHeight) {
+                    finalHeight = maxHeight;
+                    finalWidth = finalHeight * imageAspectRatio;
+                  }
+                } else {
+                  // Portrait image - constrain by height
+                  finalHeight = Math.min(maxHeight, parseFloat(openedImageHeight));
+                  finalWidth = finalHeight * imageAspectRatio;
+                  if (finalWidth > maxWidth) {
+                    finalWidth = maxWidth;
+                    finalHeight = finalWidth / imageAspectRatio;
+                  }
+                }
+              } else {
+                finalWidth = parseFloat(openedImageWidth);
+                finalHeight = parseFloat(openedImageHeight);
+              }
+            } else if (openedImageWidth) {
+              // Only width specified
+              finalWidth = Math.min(frameR.width * 1.25, parseFloat(openedImageWidth));
+              finalHeight = finalWidth / imageAspectRatio;
+              if (finalHeight > frameR.height * 1.25) {
+                finalHeight = frameR.height * 1.25;
+                finalWidth = finalHeight * imageAspectRatio;
+              }
+            } else if (openedImageHeight) {
+              // Only height specified
+              finalHeight = Math.min(frameR.height * 0.98, parseFloat(openedImageHeight));
+              finalWidth = finalHeight * imageAspectRatio;
+              if (finalWidth > frameR.width * 0.98) {
+                finalWidth = frameR.width * 0.98;
+                finalHeight = finalWidth / imageAspectRatio;
+              }
+            } else {
+              // No custom size - use responsive calculation
+              const maxWidth = frameR.width * 0.98;
+              const maxHeight = frameR.height * 0.98;
+              
+              if (imageAspectRatio > frameAspectRatio) {
+                // Landscape image - constrain by width
+                finalWidth = maxWidth;
+                finalHeight = finalWidth / imageAspectRatio;
+              } else {
+                // Portrait image - constrain by height
+                finalHeight = maxHeight;
+                finalWidth = finalHeight * imageAspectRatio;
+              }
+            }
+            
+            overlay.style.width = `${finalWidth}px`;
+            overlay.style.height = `${finalHeight}px`;
+            const newRect = overlay.getBoundingClientRect();
+            overlay.style.width = frameR.width + 'px';
+            overlay.style.height = frameR.height + 'px';
+            void overlay.offsetWidth;
+            overlay.style.transition = `left ${enlargeTransitionMs}ms ease, top ${enlargeTransitionMs}ms ease, width ${enlargeTransitionMs}ms ease, height ${enlargeTransitionMs}ms ease`;
+            const centeredLeft = frameR.left - mainR.left + (frameR.width - newRect.width) / 2;
+            const centeredTop = frameR.top - mainR.top + (frameR.height - newRect.height) / 2;
+            requestAnimationFrame(() => {
+              overlay.style.left = `${centeredLeft}px`;
+              overlay.style.top = `${centeredTop}px`;
+              overlay.style.width = `${finalWidth}px`;
+              overlay.style.height = `${finalHeight}px`;
+            });
+            const cleanupSecond = () => {
+              overlay.removeEventListener('transitionend', cleanupSecond as EventListener);
+              overlay.style.transition = prevTransition;
+            };
+            overlay.addEventListener('transitionend', cleanupSecond as EventListener, { once: true });
+          };
+          overlay.addEventListener('transitionend', onFirstEnd as EventListener);
+        } else {
+          // No custom size specified - make it responsive based on image aspect ratio
+          const onFirstEnd = (ev: TransitionEvent) => {
+            if (ev.propertyName !== 'transform') return;
+            overlay.removeEventListener('transitionend', onFirstEnd as EventListener);
+            const prevTransition = overlay.style.transition;
+            overlay.style.transition = 'none';
+            
+            const imageAspectRatio = imageDimensions.width / imageDimensions.height;
+            const frameAspectRatio = frameR.width / frameR.height;
+            const maxWidth = frameR.width * 1.25;
+            const maxHeight = frameR.height * 1.25;
+            
+            let finalWidth: number;
+            let finalHeight: number;
+            
+            if (imageAspectRatio > frameAspectRatio) {
+              // Landscape image - constrain by width
+              finalWidth = maxWidth;
+              finalHeight = finalWidth / imageAspectRatio;
+            } else {
+              // Portrait image - constrain by height
+              finalHeight = maxHeight;
+              finalWidth = finalHeight * imageAspectRatio;
+            }
+            
+            overlay.style.width = `${finalWidth}px`;
+            overlay.style.height = `${finalHeight}px`;
+            const newRect = overlay.getBoundingClientRect();
+            overlay.style.width = frameR.width + 'px';
+            overlay.style.height = frameR.height + 'px';
+            void overlay.offsetWidth;
+            overlay.style.transition = `left ${enlargeTransitionMs}ms ease, top ${enlargeTransitionMs}ms ease, width ${enlargeTransitionMs}ms ease, height ${enlargeTransitionMs}ms ease`;
+            const centeredLeft = frameR.left - mainR.left + (frameR.width - newRect.width) / 2;
+            const centeredTop = frameR.top - mainR.top + (frameR.height - newRect.height) / 2;
+            requestAnimationFrame(() => {
+              overlay.style.left = `${centeredLeft}px`;
+              overlay.style.top = `${centeredTop}px`;
+              overlay.style.width = `${finalWidth}px`;
+              overlay.style.height = `${finalHeight}px`;
+            });
+            const cleanupSecond = () => {
+              overlay.removeEventListener('transitionend', cleanupSecond as EventListener);
+              overlay.style.transition = prevTransition;
+            };
+            overlay.addEventListener('transitionend', cleanupSecond as EventListener, { once: true });
+          };
+          overlay.addEventListener('transitionend', onFirstEnd as EventListener);
+        }
+      });
     },
     [enlargeTransitionMs, lockScroll, openedImageHeight, openedImageWidth, currentSegments]
   );
