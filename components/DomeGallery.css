@@ -112,6 +112,10 @@ main.sphere-main {
   pointer-events: none;
   backface-visibility: hidden;
   filter: var(--image-filter, none);
+  /* Force browser to keep images loaded */
+  content-visibility: auto;
+  contain-intrinsic-size: 200px 200px;
+  will-change: contents;
 }
 
 .viewer {

@@ -4,10 +4,7 @@ import { Resend } from 'resend';
 
 // Initialize Resend (use empty string as fallback for build time)
 const primaryResend = new Resend(process.env.RESEND_API_KEY || '');
-const hmResend =
-  process.env.RESEND_API_KEY_HM && process.env.RESEND_API_KEY_HM.trim().length > 0
-    ? new Resend(process.env.RESEND_API_KEY_HM)
-    : primaryResend;
+const hmResend = primaryResend; // Use same instance since both emails are now the same
 
 // Store to track idempotency keys (in production, use Redis/DB)
 const processedOrders = new Set<string>();
@@ -168,19 +165,19 @@ export async function POST(request: NextRequest) {
       const sendResults = await Promise.allSettled([
         primaryResend.emails.send({
           from: 'Kasameri Orders <onboarding@resend.dev>',
-          to: 'aphtex@gmail.com',
+          to: 'teamkasameri@gmail.com',
           subject: `Нова поръчка #${orderId} от ${body.customer.fullName}`,
           text: emailBody,
         }),
         hmResend.emails.send({
           from: 'Kasameri Orders <onboarding@resend.dev>',
-          to: 'hm.websiteprovisioning@gmail.com',
+          to: 'teamkasameri@gmail.com',
           subject: `Нова поръчка #${orderId} от ${body.customer.fullName}`,
           text: emailBody,
         }),
       ]);
 
-      const recipients = ['aphtex@gmail.com', 'hm.websiteprovisioning@gmail.com'];
+      const recipients = ['teamkasameri@gmail.com', 'teamkasameri@gmail.com'];
       sendResults.forEach((result, index) => {
         const recipient = recipients[index];
         if (result.status === 'fulfilled') {

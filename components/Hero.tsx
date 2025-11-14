@@ -110,13 +110,13 @@ const Hero = () => {
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#7A0B18]/30 to-[#7A0B18]/60 z-10"></div>
             <div className="absolute inset-0">
               {/* Only render current and next images for smooth transitions */}
-              {[leftColumnIndex, getNextIndex(leftColumnIndex, heroSectionImages.length)].map((imageIndex) => (
+              {[leftColumnIndex, getNextIndex(leftColumnIndex, heroSectionImages.length)].map((imageIndex, mapIndex) => (
                 <Image
                   key={imageIndex}
                   src={heroSectionImages[imageIndex]}
                   alt={`Orchard ${imageIndex + 1}`}
                   fill
-                  priority={imageIndex === 0}
+                  priority={mapIndex === 0}
                   quality={85}
                   sizes="50vw"
                   className={`object-cover transition-opacity duration-1000 ease-in-out ${
@@ -132,13 +132,13 @@ const Hero = () => {
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#7A0B18]/30 to-[#7A0B18]/60 z-10"></div>
             <div className="absolute inset-0">
               {/* Only render current and next images for smooth transitions */}
-              {[rightColumnIndex, getNextIndex(rightColumnIndex, heroSectionImages.length)].map((imageIndex) => (
+              {[rightColumnIndex, getNextIndex(rightColumnIndex, heroSectionImages.length)].map((imageIndex, mapIndex) => (
                 <Image
                   key={imageIndex}
                   src={heroSectionImages[imageIndex]}
                   alt={`Orchard ${imageIndex + 1}`}
                   fill
-                  priority={imageIndex === 1}
+                  priority={mapIndex === 0}
                   quality={85}
                   sizes="50vw"
                   className={`object-cover transition-opacity duration-1000 ease-in-out ${
@@ -154,13 +154,13 @@ const Hero = () => {
         <div className="md:hidden absolute inset-0 w-full h-full">
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#7A0B18]/30 to-[#7A0B18]/60 z-10"></div>
           {/* Only render current and next images for smooth transitions */}
-          {[currentImageIndex, getNextIndex(currentImageIndex, images.length)].map((imageIndex) => (
+          {[currentImageIndex, getNextIndex(currentImageIndex, images.length)].map((imageIndex, mapIndex) => (
             <Image
               key={imageIndex}
               src={images[imageIndex]}
               alt={`Orchard ${imageIndex + 1}`}
               fill
-              priority={imageIndex === 0}
+              priority={mapIndex === 0}
               quality={85}
               sizes="100vw"
               className={`absolute inset-0 object-cover transition-opacity duration-1000 ease-in-out ${

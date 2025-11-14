@@ -4,10 +4,7 @@ import { Resend } from 'resend';
 
 // Initialize Resend (use empty string as fallback for build time)
 const primaryResend = new Resend(process.env.RESEND_API_KEY || '');
-const hmResend =
-  process.env.RESEND_API_KEY_HM && process.env.RESEND_API_KEY_HM.trim().length > 0
-    ? new Resend(process.env.RESEND_API_KEY_HM)
-    : primaryResend;
+const hmResend = primaryResend; // Use same instance since both emails are now the same
 
 export async function POST(request: NextRequest) {
   try {
@@ -62,19 +59,19 @@ export async function POST(request: NextRequest) {
     const sendResults = await Promise.allSettled([
       primaryResend.emails.send({
         from: 'Kasameri Distributors <onboarding@resend.dev>',
-        to: 'aphtex@gmail.com',
+        to: 'teamkasameri@gmail.com',
         subject: `Запитване за дистрибуция от ${body.company}`,
         text: emailBody
       }),
       hmResend.emails.send({
         from: 'Kasameri Distributors <onboarding@resend.dev>',
-        to: 'hm.websiteprovisioning@gmail.com',
+        to: 'teamkasameri@gmail.com',
         subject: `Запитване за дистрибуция от ${body.company}`,
         text: emailBody
       })
     ]);
 
-    const recipients = ['aphtex@gmail.com', 'hm.websiteprovisioning@gmail.com'];
+    const recipients = ['teamkasameri@gmail.com', 'teamkasameri@gmail.com'];
     sendResults.forEach((result, index) => {
       const recipient = recipients[index];
       if (result.status === 'fulfilled') {

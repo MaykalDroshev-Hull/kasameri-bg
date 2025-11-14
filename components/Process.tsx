@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { Heart } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -86,51 +86,72 @@ const Process = () => {
   const [currentLoveProcessImageIndex, setCurrentLoveProcessImageIndex] = useState(0);
   const [currentQualityControlImageIndex, setCurrentQualityControlImageIndex] = useState(0);
   const [isMounted, setIsMounted] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  const intervalsRef = useRef<NodeJS.Timeout[]>([]);
 
   useEffect(() => {
     setIsMounted(true);
     
-    // Interval for orchard images
-    const orchardInterval = setInterval(() => {
-      setCurrentOrchardImageIndex((prevIndex) => 
-        prevIndex === orchardImages.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 3000); // Change image every 3 seconds
+    // Intersection Observer to pause carousels when section is not visible
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          // Clear existing intervals first
+          intervalsRef.current.forEach(interval => clearInterval(interval));
+          intervalsRef.current = [];
+          
+          if (entry.isIntersecting) {
+            // Section is visible - start intervals
+            const orchardInterval = setInterval(() => {
+              setCurrentOrchardImageIndex((prevIndex) => 
+                prevIndex === orchardImages.length - 1 ? 0 : prevIndex + 1
+              );
+            }, 3000);
 
-    // Interval for hand picking images
-    const handPickingInterval = setInterval(() => {
-      setCurrentHandPickingImageIndex((prevIndex) => 
-        prevIndex === handPickingImages.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 3000); // Change image every 3 seconds
+            const handPickingInterval = setInterval(() => {
+              setCurrentHandPickingImageIndex((prevIndex) => 
+                prevIndex === handPickingImages.length - 1 ? 0 : prevIndex + 1
+              );
+            }, 3000);
 
-    // Interval for machinery images
-    const machineryInterval = setInterval(() => {
-      setCurrentMachineryImageIndex((prevIndex) => 
-        prevIndex === machineryImages.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 3000); // Change image every 3 seconds
+            const machineryInterval = setInterval(() => {
+              setCurrentMachineryImageIndex((prevIndex) => 
+                prevIndex === machineryImages.length - 1 ? 0 : prevIndex + 1
+              );
+            }, 3000);
 
-    // Interval for love process images
-    const loveProcessInterval = setInterval(() => {
-      setCurrentLoveProcessImageIndex((prevIndex) => 
-        prevIndex === loveProcessImages.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 3000); // Change image every 3 seconds
+            const loveProcessInterval = setInterval(() => {
+              setCurrentLoveProcessImageIndex((prevIndex) => 
+                prevIndex === loveProcessImages.length - 1 ? 0 : prevIndex + 1
+              );
+            }, 3000);
 
-    // Interval for quality control images
-    const qualityControlInterval = setInterval(() => {
-      setCurrentQualityControlImageIndex((prevIndex) => 
-        prevIndex === qualityControlImages.length - 1 ? 0 : prevIndex + 1
-      );
-    }, 3000); // Change image every 3 seconds
+            const qualityControlInterval = setInterval(() => {
+              setCurrentQualityControlImageIndex((prevIndex) => 
+                prevIndex === qualityControlImages.length - 1 ? 0 : prevIndex + 1
+              );
+            }, 3000);
+
+            intervalsRef.current = [
+              orchardInterval,
+              handPickingInterval,
+              machineryInterval,
+              loveProcessInterval,
+              qualityControlInterval
+            ];
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
 
     return () => {
-      clearInterval(orchardInterval);
-      clearInterval(handPickingInterval);
-      clearInterval(machineryInterval);
-      clearInterval(loveProcessInterval);
-      clearInterval(qualityControlInterval);
+      intervalsRef.current.forEach(interval => clearInterval(interval));
+      observer.disconnect();
     };
   }, []);
   
@@ -173,7 +194,7 @@ const Process = () => {
   ];
 
   return (
-    <section id="process" className="py-20 px-4 bg-gradient-to-b from-white to-[#FFF7ED]">
+    <section ref={sectionRef} id="process" className="py-20 px-4 bg-gradient-to-b from-white to-[#FFF7ED]">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <div className="text-[#4C8F3A] text-sm font-bold tracking-wider mb-3">{t('process.sectionTitle')}</div>
@@ -206,8 +227,7 @@ const Process = () => {
                                   src={orchardImages[imageIndex]}
                                   alt={`Orchard background ${imageIndex + 1}`}
                                   fill
-                                  priority={false}
-                                  loading="lazy"
+                                  priority={imageIndex === 0}
                                   quality={85}
                                   sizes="(max-width: 768px) 100vw, 50vw"
                                   style={{ objectFit: 'cover', filter: 'blur(20px)', transform: 'scale(1.1)' }}
@@ -219,8 +239,7 @@ const Process = () => {
                                   src={orchardImages[imageIndex]}
                                   alt={`Orchard ${imageIndex + 1}`}
                                   fill
-                                  priority={false}
-                                  loading="lazy"
+                                  priority={imageIndex === 0}
                                   quality={85}
                                   sizes="(max-width: 768px) 100vw, 50vw"
                                   style={{ objectFit: 'contain' }}
@@ -249,8 +268,7 @@ const Process = () => {
                                   src={handPickingImages[imageIndex]}
                                   alt={`Hand Picking background ${imageIndex + 1}`}
                                   fill
-                                  priority={false}
-                                  loading="lazy"
+                                  priority={imageIndex === 0}
                                   quality={85}
                                   sizes="(max-width: 768px) 100vw, 50vw"
                                   style={{ objectFit: 'cover', filter: 'blur(20px)', transform: 'scale(1.1)' }}
@@ -262,8 +280,7 @@ const Process = () => {
                                   src={handPickingImages[imageIndex]}
                                   alt={`Hand Picking ${imageIndex + 1}`}
                                   fill
-                                  priority={false}
-                                  loading="lazy"
+                                  priority={imageIndex === 0}
                                   quality={85}
                                   sizes="(max-width: 768px) 100vw, 50vw"
                                   style={{ objectFit: 'contain' }}
@@ -292,8 +309,7 @@ const Process = () => {
                                   src={machineryImages[imageIndex]}
                                   alt={`Modern Machinery background ${imageIndex + 1}`}
                                   fill
-                                  priority={false}
-                                  loading="lazy"
+                                  priority={imageIndex === 0}
                                   quality={85}
                                   sizes="(max-width: 768px) 100vw, 50vw"
                                   style={{ objectFit: 'cover', filter: 'blur(20px)', transform: 'scale(1.1)' }}
@@ -305,8 +321,7 @@ const Process = () => {
                                   src={machineryImages[imageIndex]}
                                   alt={`Modern Machinery ${imageIndex + 1}`}
                                   fill
-                                  priority={false}
-                                  loading="lazy"
+                                  priority={imageIndex === 0}
                                   quality={85}
                                   sizes="(max-width: 768px) 100vw, 50vw"
                                   style={{ objectFit: 'contain' }}
@@ -335,8 +350,7 @@ const Process = () => {
                                   src={loveProcessImages[imageIndex]}
                                   alt={`Love for the Process background ${imageIndex + 1}`}
                                   fill
-                                  priority={false}
-                                  loading="lazy"
+                                  priority={imageIndex === 0}
                                   quality={85}
                                   sizes="(max-width: 768px) 100vw, 50vw"
                                   style={{ objectFit: 'cover', filter: 'blur(20px)', transform: 'scale(1.1)' }}
@@ -348,8 +362,7 @@ const Process = () => {
                                   src={loveProcessImages[imageIndex]}
                                   alt={`Love for the Process ${imageIndex + 1}`}
                                   fill
-                                  priority={false}
-                                  loading="lazy"
+                                  priority={imageIndex === 0}
                                   quality={85}
                                   sizes="(max-width: 768px) 100vw, 50vw"
                                   style={{ objectFit: 'contain' }}
@@ -378,8 +391,7 @@ const Process = () => {
                                   src={qualityControlImages[imageIndex]}
                                   alt={`Quality Control background ${imageIndex + 1}`}
                                   fill
-                                  priority={false}
-                                  loading="lazy"
+                                  priority={imageIndex === 0}
                                   quality={85}
                                   sizes="(max-width: 768px) 100vw, 50vw"
                                   style={{ objectFit: 'cover', filter: 'blur(20px)', transform: 'scale(1.1)' }}
@@ -391,8 +403,7 @@ const Process = () => {
                                   src={qualityControlImages[imageIndex]}
                                   alt={`Quality Control ${imageIndex + 1}`}
                                   fill
-                                  priority={false}
-                                  loading="lazy"
+                                  priority={imageIndex === 0}
                                   quality={85}
                                   sizes="(max-width: 768px) 100vw, 50vw"
                                   style={{ objectFit: 'contain' }}
