@@ -1,48 +1,65 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { useLanguage } from '@/contexts/LanguageContext';
 import AddToCartModal from './AddToCartModal';
 import { products, getProductById } from '@/data/products';
 import { Product } from '@/types/product';
 
+// Mobile slideshow images
+const images = [
+  '/images2/viber_image_2025-10-08_20-47-50-758.jpg',
+  '/images2/viber_image_2025-10-08_20-48-05-160.jpg',
+  '/images2/viber_image_2025-10-08_20-48-05-466.jpg',
+  '/images2/viber_image_2025-10-08_20-48-06-048.jpg',
+  '/images2/viber_image_2025-10-08_20-48-06-306.jpg',
+  '/images2/viber_image_2025-10-08_20-48-07-135.jpg',
+  '/images2/viber_image_2025-10-08_20-48-08-204.jpg',
+  '/images2/viber_image_2025-10-08_20-48-09-148.jpg',
+  '/images2/viber_image_2025-10-08_21-15-26-512.jpg',
+  '/images2/viber_image_2025-10-08_21-25-23-282.jpg'
+];
+
+// Desktop hero section images - all available images
+const heroSectionImages = [
+  '/hero-section-images/viber_image_2025-10-26_09-24-55-363.jpg',
+  '/hero-section-images/viber_image_2025-10-26_09-25-00-329.jpg',
+  '/hero-section-images/viber_image_2025-10-26_09-25-00-563.jpg',
+  '/hero-section-images/viber_image_2025-10-26_09-25-00-800.jpg',
+  '/hero-section-images/viber_image_2025-10-26_09-25-01-058.jpg',
+  '/hero-section-images/viber_image_2025-10-26_09-25-01-283.jpg',
+  '/hero-section-images/viber_image_2025-10-26_09-25-01-502.jpg',
+  '/hero-section-images/viber_image_2025-10-26_09-25-01-705.jpg',
+  '/hero-section-images/viber_image_2025-10-26_09-25-01-960.jpg'
+];
+
+// Global image cache to prevent repeated requests
+const heroImageCache = new Map<string, HTMLImageElement>();
+
+// Preload all hero images once when module loads
+if (typeof window !== 'undefined') {
+  const allHeroImages = [...images, ...heroSectionImages];
+  allHeroImages.forEach((src) => {
+    if (!heroImageCache.has(src)) {
+      // Use window.Image to access native browser Image constructor (not Next.js Image component)
+      const img = new window.Image();
+      img.src = src;
+      heroImageCache.set(src, img);
+    }
+  });
+}
+
 const Hero = () => {
   const { t } = useLanguage();
   
-  // Mobile slideshow images
-  const images = [
-    '/images2/viber_image_2025-10-08_20-47-50-758.jpg',
-    '/images2/viber_image_2025-10-08_20-48-05-160.jpg',
-    '/images2/viber_image_2025-10-08_20-48-05-466.jpg',
-    '/images2/viber_image_2025-10-08_20-48-06-048.jpg',
-    '/images2/viber_image_2025-10-08_20-48-06-306.jpg',
-    '/images2/viber_image_2025-10-08_20-48-07-135.jpg',
-    '/images2/viber_image_2025-10-08_20-48-08-204.jpg',
-    '/images2/viber_image_2025-10-08_20-48-09-148.jpg',
-    '/images2/viber_image_2025-10-08_21-15-26-512.jpg',
-    '/images2/viber_image_2025-10-08_21-25-23-282.jpg'
-  ];
-
-  // Desktop hero section images - all available images
-  const heroSectionImages = [
-    '/hero-section-images/viber_image_2025-10-26_09-24-55-363.jpg',
-    '/hero-section-images/viber_image_2025-10-26_09-25-00-329.jpg',
-    '/hero-section-images/viber_image_2025-10-26_09-25-00-563.jpg',
-    '/hero-section-images/viber_image_2025-10-26_09-25-00-800.jpg',
-    '/hero-section-images/viber_image_2025-10-26_09-25-01-058.jpg',
-    '/hero-section-images/viber_image_2025-10-26_09-25-01-283.jpg',
-    '/hero-section-images/viber_image_2025-10-26_09-25-01-502.jpg',
-    '/hero-section-images/viber_image_2025-10-26_09-25-01-705.jpg',
-    '/hero-section-images/viber_image_2025-10-26_09-25-01-960.jpg'
-  ];
-
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [leftColumnIndex, setLeftColumnIndex] = useState(0);
   const [rightColumnIndex, setRightColumnIndex] = useState(1);
   const [isMounted, setIsMounted] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const imagesPreloadedRef = useRef(false);
 
   // Helper to get next index for preloading
   const getNextIndex = (current: number, total: number) => (current + 1) % total;
@@ -60,6 +77,23 @@ const Hero = () => {
     'tomatoes',
     'quinces'
   ];
+
+  // Preload all images on mount to ensure they're cached
+  useEffect(() => {
+    if (imagesPreloadedRef.current) return;
+    imagesPreloadedRef.current = true;
+
+    // Preload all images by creating Image objects - this ensures they're in browser cache
+    const allImages = [...images, ...heroSectionImages];
+    allImages.forEach((src) => {
+      if (!heroImageCache.has(src)) {
+        // Use window.Image to access native browser Image constructor (not Next.js Image component)
+        const img = new window.Image();
+        img.src = src;
+        heroImageCache.set(src, img);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     setIsMounted(true);
@@ -109,17 +143,17 @@ const Hero = () => {
           <div className="relative flex-1">
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#7A0B18]/30 to-[#7A0B18]/60 z-10"></div>
             <div className="absolute inset-0">
-              {/* Only render current and next images for smooth transitions */}
-              {[leftColumnIndex, getNextIndex(leftColumnIndex, heroSectionImages.length)].map((imageIndex, mapIndex) => (
+              {/* Render all images - they all load into browser cache on mount, preventing future requests */}
+              {heroSectionImages.map((src, imageIndex) => (
                 <Image
                   key={imageIndex}
-                  src={heroSectionImages[imageIndex]}
+                  src={src}
                   alt={`Orchard ${imageIndex + 1}`}
                   fill
-                  priority={mapIndex === 0}
+                  priority={imageIndex === 0}
                   quality={85}
                   sizes="50vw"
-                  className={`object-cover transition-opacity duration-1000 ease-in-out ${
+                  className={`object-cover transition-opacity duration-1000 ease-in-out pointer-events-none ${
                     imageIndex === leftColumnIndex ? 'opacity-100' : 'opacity-0'
                   }`}
                 />
@@ -131,17 +165,17 @@ const Hero = () => {
           <div className="relative flex-1">
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#7A0B18]/30 to-[#7A0B18]/60 z-10"></div>
             <div className="absolute inset-0">
-              {/* Only render current and next images for smooth transitions */}
-              {[rightColumnIndex, getNextIndex(rightColumnIndex, heroSectionImages.length)].map((imageIndex, mapIndex) => (
+              {/* Render all images - they all load into browser cache on mount, preventing future requests */}
+              {heroSectionImages.map((src, imageIndex) => (
                 <Image
                   key={imageIndex}
-                  src={heroSectionImages[imageIndex]}
+                  src={src}
                   alt={`Orchard ${imageIndex + 1}`}
                   fill
-                  priority={mapIndex === 0}
+                  priority={imageIndex === 1}
                   quality={85}
                   sizes="50vw"
-                  className={`object-cover transition-opacity duration-1000 ease-in-out ${
+                  className={`object-cover transition-opacity duration-1000 ease-in-out pointer-events-none ${
                     imageIndex === rightColumnIndex ? 'opacity-100' : 'opacity-0'
                   }`}
                 />
@@ -153,17 +187,17 @@ const Hero = () => {
         {/* Mobile: Slideshow with gradient overlay */}
         <div className="md:hidden absolute inset-0 w-full h-full">
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#7A0B18]/30 to-[#7A0B18]/60 z-10"></div>
-          {/* Only render current and next images for smooth transitions */}
-          {[currentImageIndex, getNextIndex(currentImageIndex, images.length)].map((imageIndex, mapIndex) => (
+          {/* Render all images - they all load into browser cache on mount, preventing future requests */}
+          {images.map((src, imageIndex) => (
             <Image
               key={imageIndex}
-              src={images[imageIndex]}
+              src={src}
               alt={`Orchard ${imageIndex + 1}`}
               fill
-              priority={mapIndex === 0}
+              priority={imageIndex === 0}
               quality={85}
               sizes="100vw"
-              className={`absolute inset-0 object-cover transition-opacity duration-1000 ease-in-out ${
+              className={`absolute inset-0 object-cover transition-opacity duration-1000 ease-in-out pointer-events-none ${
                 imageIndex === currentImageIndex ? 'opacity-100' : 'opacity-0'
               }`}
             />
