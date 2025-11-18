@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { LanguageProvider } from '@/contexts/LanguageContext'
 import CookieConsent from '@/components/CookieConsent'
 import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 export const metadata: Metadata = {
   title: 'КАСАМЕРИ ЕООД - Собствено производство в село Александрово',
@@ -32,6 +33,7 @@ export default function RootLayout({
           {children}
           <CookieConsent />
           <Analytics />
+          <SpeedInsights />
         </LanguageProvider>
       </body>
     </html>
