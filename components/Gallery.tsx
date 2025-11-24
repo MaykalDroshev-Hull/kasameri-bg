@@ -1,11 +1,11 @@
 'use client';
 
-import React, { useState, useRef, useEffect, useMemo } from 'react';
+import React from 'react';
 import { Heart } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import DomeGallery from './DomeGallery';
+import RowGallery from './RowGallery';
 
-// Gallery images - shared with DomeGallery
+// Gallery images - optimized for row-based gallery
 const GALLERY_IMAGES = [
   '/images/Compressed/2277eea7-a75b-412b-b94d-a20a68b9fefc.avif',
   '/images/Compressed/2cac514c-ec21-45f3-8754-157b9e345811.avif',
@@ -45,98 +45,13 @@ const GALLERY_IMAGES = [
   '/images/Compressed/IMG_9894.avif'
 ];
 
-// Global singleton to prevent garbage collection
-// This ensures images stay in memory for the entire app lifetime
-const globalImageCache = new Map<string, HTMLImageElement>();
-
-// Initialize global preloader once
-if (typeof window !== 'undefined' && globalImageCache.size === 0) {
-  GALLERY_IMAGES.forEach((src) => {
-    const img = new Image();
-    img.src = src;
-    globalImageCache.set(src, img);
-  });
-}
-
 const Gallery = () => {
   const { t } = useLanguage();
-  const [visibleImages, setVisibleImages] = useState<Set<string>>(new Set());
-  const observerRef = useRef<IntersectionObserver | null>(null);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    // Make images visible immediately on mount to prevent white space
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    // Intersection Observer for entrance animations
-    observerRef.current = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setVisibleImages((prev) => new Set(prev).add(entry.target.id));
-          }
-        });
-      },
-      { threshold: 0.1, rootMargin: '50px' }
-    );
-
-    return () => {
-      observerRef.current?.disconnect();
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!mounted) return;
-    
-    const imageElements = document.querySelectorAll('.gallery-image');
-    imageElements.forEach((el) => {
-      observerRef.current?.observe(el);
-    });
-
-    return () => {
-      imageElements.forEach((el) => {
-        observerRef.current?.unobserve(el);
-      });
-    };
-  }, [mounted]);
-
-  const uniqueImages = useMemo(() => Array.from(new Set(GALLERY_IMAGES)), []);
 
   return (
     <section className="py-20 px-4 bg-gradient-to-b from-[#FFF7ED] to-white">
-      {/* Off-screen pre-render layer - images are "visible" but positioned off-screen */}
-      <div 
-        style={{
-          position: 'fixed',
-          left: '-10000px',
-          top: '-10000px',
-          pointerEvents: 'none',
-          zIndex: -9999,
-          willChange: 'transform'
-        }}
-        aria-hidden="true"
-      >
-        {uniqueImages.map((src, idx) => (
-          <img
-            key={`global-prerender-${idx}`}
-            src={src}
-            alt=""
-            loading="eager"
-            decoding="async"
-            fetchPriority="high"
-            style={{ 
-              display: 'block', 
-              width: '10px', 
-              height: '10px',
-              willChange: 'transform'
-            }}
-          />
-        ))}
-      </div>
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
+        <div className="text-center mb-12">
           <div className="flex items-center justify-center gap-3 mb-4">
             <Heart className="text-[#C4312E] fill-current" size={36} />
             <h2 className="font-serif text-4xl md:text-5xl text-[#7A0B18]">{t('gallery.title')}</h2>
@@ -145,15 +60,12 @@ const Gallery = () => {
           <p className="text-[#6B4423] text-lg">{t('gallery.subtitle')}</p>
         </div>
 
-        {/* Dome Gallery */}
-        <div style={{ width: '100%', height: '80vh', minHeight: '600px' }}>
-          <DomeGallery 
-            overlayBlurColor="#FFF7ED"
-            imageBorderRadius="20px"
-            openedImageBorderRadius="20px"
-            grayscale={false}
-          />
-        </div>
+        {/* Row Gallery - Lightweight and Efficient */}
+        <RowGallery 
+          images={GALLERY_IMAGES}
+          imagesPerRow={5}
+          mobileImagesPerRow={4}
+        />
       </div>
     </section>
   );
